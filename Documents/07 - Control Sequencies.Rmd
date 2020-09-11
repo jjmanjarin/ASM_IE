@@ -1,0 +1,335 @@
+---
+title: "Control Sequences"
+subtitle: "PFE I: Sessions X and XI"
+author: "Prof. Dr. Juanjo Manjarín"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+    df_print: kable    
+    theme: cerulean
+    fig_caption: true
+    number_sections: yes
+  html_notebook: 
+    fig_caption: true
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
+  # pdf_document: 
+  #   toc: true
+---
+
+# Controlling the Code
+
+As in any other programming language, there is a series of instructions that allow you to control the code by looping variables or performing conditional executions. Later we will see that in R it is highly non recommendable relying on loops since there are vectorized built-in functions (see the apply family later) that are both, more efficient and readable. In any case, since you can see these structures mostly everywhere, let's spend some time understanding them
+
+## Loops
+
+Here we can find the usual functions `for`, `while` and `repeat`
+
+### For
+
+This takes the form
+
+```{r, eval = FALSE}
+for ( variable in  set ){
+  do something for each value
+  }
+```
+
+for example, if we want to find all the square roots of the numbers from 1 to 5, we could do
+
+```{r}
+for (i in 1:5){
+  print(sqrt(i))
+}
+```
+
+It is important (as your can see in the section for *efficient programming*) that if we are going to store the output of the loop in a high dimensional variable (vector, matrix, data frame or any other), we define that varible with the right size **before** the loop, for the code before this would be
+
+```{r}
+sqrts <- vector(mode = "numeric", length = 5)
+for (i in 1:5){
+  sqrts[i] <- print(sqrt(i))
+}
+```
+
+then `sqrts` is a numeric vector whose entrances are the square roots of the first ten numbers.
+
+### While
+
+This loop takes the form
+
+```{r, eval = FALSE}
+while ( condition is true ) {
+  do something for each value
+  }
+```
+
+following the example above, let's find the square roots of some integer numbers until the next number is greater than 5. The idea is that now we need a previously defined variable
+
+```{r}
+i <- 1
+while (i <= 5){
+  print(sqrt(i))
+  i <- i + 1
+  }
+```
+
+see that we print the value before adding a unit to the variable. 
+
+### Repeat
+
+This last loop takes the form
+
+
+```{r, eval = FALSE}
+repeat {
+  code to repeat
+  break
+  }
+```
+
+the **break** instruction is used to get out of the loop when some condition is fulfilled. We can write the same code of the example above
+
+```{r}
+i <- 1
+repeat{
+  print(sqrt(i))
+  i <- i + 1
+  if (i > 5){
+    break
+  }
+}
+```
+
+So this loop requires a conditional execution that will be checked each with each turn of the loop.
+
+## Conditional Execution
+
+In the above loops we have already found conditional executions in both, the **while*}}** and the **repeat** instructions. In fact, the last one required the use of an **if**. Here we can find the usual functions **if** (with its variations) and **switch**.
+
+### If
+
+In this case, we have the possibility to choose among different pieces of code when certain conditions are satisfied. If simplest form is
+
+```{r, eval = FALSE}
+if (condition is true){
+  do something
+  }
+```
+
+You may need not just one condition but a whole ladder of them, then we do
+
+```{r,eval = FALSE}
+if (condition 1 is true){
+  do something
+  } else if (condition 2 is true) {
+    do something
+  } else if (condition 3 is true) {
+    do something
+  } else {
+    do something
+  }
+```
+
+Finally, we may also need intersection of conditionals, and then we can nest different options
+
+```{r, eval = FALSE}
+if (condition 1 is true){
+  if (condition 1.1 is true){
+    do something
+  } else {
+    do something
+  }
+} else if (condition 2 is true){
+  do something
+} else {
+    do something
+}
+```
+
+
+Let's use this conditional execution to choose, in a function between different statistical computations: mean, median and standard deviation of a data set built from the random uniform distribution (the `set.seed` has been included for reproducibility)
+
+```{r}
+set.seed(101)
+mydata <- runif(100)
+computations <- function(x, type){
+  if (type == "mean"){
+   mean(x) 
+  } else if (type == "median"){
+    median(x)
+  } else if (type == "sd"){
+    sd(x)
+  } else {
+    cat("Unkown Operation")
+  }
+}
+
+computations(mydata,"mean")
+computations(mydata,"median")
+computations(mydata,"sd")
+```
+
+There is a **vectorized** function version of this loop:
+
+```{r, eval = FALSE}
+ifelse( condition, true, false )  
+```
+
+i.e. it evaluates one condition and if it is true, returns the operations in the second argument, and the ones in the third if false. Let's write a function for the factorial of a number
+
+```{r}
+factorial <- function(x){
+  ifelse(x == 0, 1, prod(1:x))
+}
+
+factorial(0)
+factorial(10)
+```
+
+In the tidyverse we have a version of this function as
+
+```{r, eval = FALSE}
+dplyr::if_else( condition, true, false)
+```
+
+which can be slightly faster than `ifelse` but only in certain circumstances.
+
+
+### Switch
+
+This conditional execution lets you choose among different options, usually inside a function, and takes the general form
+
+```{r, eval = FALSE}
+switch (
+  data, cases
+  )
+```
+
+let's use it to write the same function as before
+
+```{r}
+computations.2 <- function(x, type) {
+  switch(type,
+         mean = {
+           mean(x, na.rm = TRUE)
+           },
+         median = {
+           median(x)
+           },
+         sd = {
+           sd(x, na.rm = TRUE)
+           }
+  )
+  }
+```
+
+You can check that it produces the same results as before
+
+# Examples:
+
+## Example: Finding Prime Numbers. 
+
+Let's determine which natural numbers in the range from 1 to 100 are prime numbers. For that we remember that a number is a primer number if it has no other positive divisors other than 1 and itself. We seek for conditions such that when we divide the number x by all the numbers smaller that itself, the remainder is not 0. Fortunately, we do not have to use all the numbers, but only half of them.
+
+We can come with a function as the following one
+
+```{r}
+is.prime <- function(x){
+  if(x == 1){
+    return(FALSE)
+  } else if(x %% 2 == 0) {
+    if (x == 2){
+      return(TRUE)
+    } else {
+      return(FALSE)
+    }
+  } else if (x >= 3) {
+    if (x == 3){
+      return(TRUE)
+    } else if ( x %% 5 == 0) {
+      if (x == 5){
+        return(TRUE)
+      } else {
+        return(FALSE)
+      }
+    } else {
+      sequence <- seq(3, x/2, 2)
+      
+      for(i in sequence){
+        if (x %% i == 0){
+          return(FALSE)
+        } else {
+          return(TRUE)
+        }
+      }
+    }
+  }
+}
+```
+
+This function is obviously too long and can be made shorter in different ways (DO IT!! and then check your function and microbenchmark to compare the execution times) but has been built to show the whole rationale behind the function in most obvious way.
+
+Now we can use a `for` loop to check primality as
+
+```{r}
+numbers <- 1:100
+output <- vector(mode = "logical", 100)
+
+for (i in numbers){
+  output[i] <- is.prime(i)
+  }
+```
+
+you can check that it gives the right results in the output vector.
+  
+## Example: Numerical Integration.
+
+Let's use the Composite Trapezoidal Rule to approximate the definite integral of $x^2-x$ between 1 and 10. This rule says that if we divide the interval from $a$ to $b$ in $k$ subintervals we can approximate any integral as a sum of the areas of the rectangles around each point $x_k$ with width $\Delta x_k=x_{k-1}-x_k$, then
+
+\begin{equation}
+\int_a^b f(x)\, dx = \sum_{k=1}^N\frac{f(x_{k-1})+f(x_k)}{2}\Delta x_k
+\end{equation}
+
+if the intervals in which we split the region are homogeneous, then we can write the integral as
+
+\begin{equation}
+\int_a^b f(x)\,dx = \frac{\Delta x}{2}\left( f(a)+f(b)+2\sum_{i=1}^N f(x_i)\right)
+\end{equation}
+
+where $\Delta x=(b-a)N$. With this we can write the following function
+
+```{r}
+trapezoidal <- function(f, a, b, N){
+  if (!is.function(f)){
+    stop("f must be a one dimensional function")
+  }
+
+  Delta <- (b-a)/N
+  M <- matrix(0,1,N)
+
+  for (i in 1:N-1){
+    x <- a + Delta * i
+    M[1,i] <- f(x)
+  }
+
+  integral <- Delta *((f(a)+f(b)) + 2 * apply(M,1,sum))/2
+  return(integral)
+}
+```
+
+
+then the integral will be (compare with the value of the function `integral` of R)
+
+```{r}
+trapezoidal(function(x) (x^2-x), 1, 10, 10)
+trapezoidal(function(x) (x^2-x), 1, 10, 100)
+trapezoidal(function(x) (x^2-x), 1, 10, 1000)
+```
+
+we see that the result seems to be converging to 283.5 as we increase the number of subintervals. In this case it is easy to compare our approximation with the exact one, which turns out to be 283.5.
+  
+Since the implementation we have done is not the only possible, you should try a different function and check two things: the execution time and the precision of the answer.

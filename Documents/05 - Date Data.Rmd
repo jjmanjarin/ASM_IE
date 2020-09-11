@@ -1,0 +1,493 @@
+---
+title: "Date Data"
+subtitle: "PFE I: Session VIII"
+author: "Prof. Dr. Juanjo Manjarín"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+    df_print: kable    
+    theme: cerulean
+    fig_caption: true
+    number_sections: yes
+  html_notebook: 
+    fig_caption: true
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
+  # pdf_document: 
+  #   toc: true
+---
+
+
+# Introduction
+
+When we work with dates we must make a small but important difference: there are **dates**, **times** and then there are **date-times**. These structures go from easier to more difficult to handle. In fact, R does not have a really good class built for *times* and we will probably have to use external packages to deal with them.
+
+Considering this, there is a general rule when we work with times, if we can use a simpler structure, then we must use it. This means that if we may use *date* or *date-time* for a dataset, we should use *date* (and this *should* is probably a *must*)
+
+What is the difference? Let's use the system date and time functions. For the date we have
+
+```{r}
+Sys.Date()
+```
+
+while for the date-time
+
+```{r}
+Sys.time()
+```
+
+The difference between these two objects is more than just a longer string with the hour and the time zone. They are, in fact, different types of objects: while the date is
+
+```{r}
+class(Sys.Date())
+```
+
+a **Date** object, the date-time
+
+```{r}
+class(Sys.time())
+```
+
+is a **POSIXct** inherited from **POSIXt**.
+
+As a general comment, although date/time data looks like something easy it is, in fact, not straightforward so be very careful with all the different parts we will explain.
+
+# Classes
+
+## Dates
+
+Let's take a look at dates first. We can use the constructor **as.Date** to easily generate a date 
+
+```{r}
+as.Date("2001/07/23")
+```
+
+as we see from the example, there is a slight format missmatch between what we have written and what is actually displayed. In fact things could be even more different and we should be explicit with the format in which we want to display dates. There is a set of symbols we can use for this that we can see in the following table
+
+
+| Interval | Symbol |          Meaning          | Example |
+|-------|:--------:|---------------------------|:---------:|
+| Days  |   %d   | day as a number (0-31)    | 12      |
+|       |   %a   | abbreviated weekday       | Mon     |
+|       |   %A   | unabbreviated weekday     | Monday  |
+| Months|   %m   | month as a number (00-12) | 06      |
+|       |   %b   | abbreviated month         | Jan     |
+|       |   %B   | unabbreviated month       | January |
+| Years |   %y   | year (2-digits)           | 75      |
+|       |   %Y   | year (4-digits)           | 1975    |
+
+then, for example
+
+```{r}
+as.Date("12/23/01", format = "%m/%d/%y")
+```
+
+## POSIX
+
+The POSIX (Portable Operating System Interface) is a general standard created to guarantee the portability bewteen operational systems. In R we have a general POSIXt class whose properties are inherited by two data types:
+
+ * **POSIXct**, which is the number of seconds since January 1st, 1970, This is known as the UNIX time or Epoch time. 
+ * **POSIXlt**, which is a list with different information stored in it (now it is not the usual list, and so we cannot use some methods with it)
+
+Part of the difficulty with time data types is that R prints them out in a way that is different from how it stores them internally. On the other hand note that in any data frame you should only use POSIXct variables!!
+
+### POSIXct
+
+The `ct` in the name mean **calendar time**. Let's consider the system time
+
+```{r}
+sys_time <- Sys.time()
+sys_time
+```
+
+to actually see the interval value of this time we need `cat`
+
+```{r}
+cat(sys_time)
+```
+
+You can check that this number is the number of seconds in UNIX time.
+
+We can, just as for *dates*, coerce a string into a POSIXct date-time. However, if we want to add times we must complete the previous table with extra encondings for times, i.e.
+
+| Interval  | Symbol |          Meaning          | Example |
+|-----------|:--------:|---------------------------|:---------:|
+| Hours     |   %H   | Hour in 24 format                             | 12      |
+|           |   %I   | Hour in 12 format (must go with %p indicator) | 11      |
+|           |   %p   | a.m./p.m. indicator                           | PM      |
+| Minutes   |   %M   | Minutes                                       | 42      |
+| Seconds   |   %S   | Seconds                                       | 32      |
+|           |   %OS  | Integer Seconds                               | 32      |
+| Time Zone |   %Z   | Standard IANA time zones                      | Europe/Madrid |
+|           |   %z   | offset of UTC                                 | +0800         |
+
+```{r}
+as.POSIXct("20/12/04 10:15:54 PM", format = "%y/%m/%d %I:%M:%S %p")
+```
+
+
+### POSIXlt
+
+Now we have a list with different pieces of information. Let's coerce the time into this format
+
+```{r}
+list_time <- as.POSIXlt(sys_time)
+```
+
+if we try to use `cat(list_time)` we will obtain an error. However, since it is a list, we can access its elements in the usual way
+
+```{r}
+list_time$sec
+```
+
+In fact, to see the different elements in the list we can `unclass` the object
+
+```{r}
+unclass(list_time)
+```
+
+what we find is
+
+ * **sec**: seconds
+ * **min**: minutes
+ * **hour**: hours
+ * **mday**: day of the month, from 1 to 31
+ * **mon**: month of the year, from 0 to 11
+ * **year**: number of years since 1900
+ * **wday**: day of the week, from 0 to 6 where 0 is Sunday
+ * **yday**: day of the year from 0 to 365
+ * **isdst**: Daylight savings indicator. It is positive if it is daylight savings
+ * **zone**: Time zone, CE(S)T is Central European (Summer) Time
+ * **gmtoff**: The offset in seconds from GMT: positive values are East of the meridian (in our case it is exactly 1 hour, the +1 of Europe/Madrid with respect to UTC)
+
+
+
+## Working with Dates
+
+### `strftime` and `strptime`
+
+These are somewhat complementary functions:
+
+ * `strftime` takes a date-time and turns it into a string
+ * `strptime` takes a string and turns it into a date-time
+
+in both cases we have to say explicitely the format we want to use if it is not in the standard form. Then, for example, note the difference between
+
+```{r}
+strftime(sys_time)
+strftime(sys_time, "%d/%m/%y %I:%M:%S %p %z")
+```
+
+The function `strptime` is important when we want to make computations with the time variable (See exercise 3 in the Time Series Exercises document for a deeper analysis). Then for example
+
+
+```{r}
+times <- c("2012-05-12", "2019-01-12")
+times_dt <- strptime(times, "%Y-%d-%m")
+
+# Now we can obtain the result in different computations
+mean(times_dt)
+difftime(times_dt[1], times_dt[2], units = "hours")
+```
+
+### `difftime`
+
+One of the most common operations with time variables is finding differences of time intervals. Once we have defined the date, this can be done by directly substracting the values:
+
+```{r}
+before <- Sys.time()
+after <- Sys.time() # I've just let the time go by
+
+after - before
+```
+
+or if you have larger intervals of time you may obtain the difference with another set of units.
+
+```{r}
+past <- strptime("1975/05/12", "%Y/%d/%m")
+future <- strptime("2025/05/12", "%Y/%d/%m")
+
+future - past
+```
+
+Note, however, that there is no chance that we can change the units in which the difference is measured. For this we may be interested in in using `difftime` which finds the difference and also let us specify the measurment units.
+
+```{r}
+difftime(after, before, units = "hours")
+# difftime(future, past, units = "weeks")
+```
+
+We can use this function to create a type of data: the difference date, which can be later used to add or substract fixed amounts to another date
+
+```{r}
+diff_time <- as.difftime("00:15:00", format = "%H:%M:%S", units = "hours")
+sys_time + diff_time
+```
+
+### Date-Time Sequences
+
+If we want to generate a sequence of date-time data, we can also use the `seq` function we used to generate sequences of vectors. In this case we have the functions `seq.Date` and `seq.POSIXt`.
+
+In both cases we need some arguments:
+
+ * A **Starting** date
+ * An **Ending** date or a **Length** of the vector
+ * A condition to jump between steps. This can be a **number in seconds**, a **difftime** object or a character with the usual time abbreviations
+
+```{r}
+seq(from = sys_time, to = future, by = "+2 quarters")
+```
+
+Note that we directly use `seq` since it uses the proper methods to understand the input object.
+
+# Package `lubridate`
+
+There are many different packages that let us work with date-time variables in a somewhat more efficient way. Oe of them is `lubridate`, a package that contains a whole set of functions to work with times in a somewhat straightforward way. It belongs to the `tidyverse` but it is not loaded with it since we do not always work with times, then it must be loaded individually
+
+```{r}
+library(tidyverse)
+library(lubridate)
+```
+
+We will see most of its capabilities working directly with a dataset, but let's see how to generate a date-time variable in lubridate.
+
+## Creation of Date/Time data
+
+### From Strings
+
+The most basic functions in `lubridate` also take characters as inputs and return different types of dates:
+
+ * The `ymd`, `mdy` and `dmy` functions take a string with the order given by the abbreviations in the name of the function and returns a **Date** with the usual ISO8601
+ 
+```{r}
+# Year-Month-Day
+ymd("2019/12/05")
+
+# Month-Day-Year
+mdy("January 2nd, 1923")
+
+# Day-Month-Year
+dmy("2nd/Jan/1923")
+```
+ 
+ * All the previous functions have some extensions to add times: `_h`, `_hm` and `_hms` which add the corresponding part of a time information
+ 
+```{r}
+# Month-Day-Year Hour
+mdy_h("January 2nd, 1923 12")
+
+# Month-Day-Year Hour-Minute
+mdy_hm("January 2nd, 1923 12:23")
+
+# Month-Day-Year Hour-Minute-Second
+mdy_hms("January 2nd, 1923 12:23:31")
+```
+
+### From Individual Components
+
+There are cases in which we have stored as different columns in a data frame the components of a date-time variable and we may want to join them into one single element. In this case we can use the `make_datetime` or `make_date` functions.
+
+```{r}
+mydata <- data.frame(Year = c(rep(2015, 6), rep(2016, 6)),
+                     Month = c(seq(1,12,2), seq(1,12,2)),
+                     Day = rep(1, 12))
+
+mydata %>% 
+  mutate(Date = make_date(Year, Month, Day))
+```
+
+Note that the tibble directly represents the variable as the type of object it is, in this case a **Date**
+
+### From Other Types
+
+In this case we speak about coercion to date-time data type. This goes withthe `as_datetime` and `as_date` functions.
+
+```{r}
+# A Date Type can be coerced to Date/Time
+as_datetime(today())
+
+# A Date/Time can be coerced to Date
+as_date(now())
+```
+
+## Extracting Components
+
+Just as we made a date-time data from components, we can extract these components from a date-time variable. This is done with the functions `year`, `month`, `yday`, `mday`, `wday`, `hour`, `minute` and `second`. Take the following date-time
+
+```{r}
+datetime <- mdy_hms("January 2nd, 1923 12:23:31")
+```
+
+now we can extract the different components
+
+```{r}
+year(datetime) # year of the date-time
+month(datetime) # month of the date-time
+hour(datetime) # hour of the date-time
+minute(datetime) # minute of the date-time
+second(datetime) # second of the date-time
+
+yday(datetime) # day of the year of the date-time
+mday(datetime) # day of the month of the date-time
+wday(datetime) # day of the week of the date-time
+```
+
+usually these components are used to group the data-time variable by them, for example, by years.
+
+Of course we can use these functions as the destination of an assignment and then we can set the value of the component, for example
+
+```{r}
+year(datetime) <- 2023
+datetime
+```
+
+## Time Spans
+
+In the base library we found the `difftime` to find time spans for specified units of measure. In `lubridate` we find several functioni for this task. The idea in this case is to determine three different types of time spans:
+
+ * **Durations**, as the number of seconds of a time interval
+ * **Periods**, as the units in which we can measure a time interval
+ * **Intervals**, as a range with starting and ending points in time
+
+### Durations
+
+Durations are exact number of seconds of a time span. This is good and bad at the same time. In the good side we have that it is rather predictable, on the other hand it does not consider DST (daylight saving time) and then sometimes may give strange results (for example when we consider leap years)
+
+Here we have different constructors: `dseconds`, `dminutes`, `dhours`, `ddays`, `dweeks` and `dyears`
+
+```{r}
+dminutes(10)
+```
+
+### Periods
+
+These durations can be used to add or substract time spans to date-time values. One problem may arise, as we have mentioned, with leap years
+
+```{r}
+leap_year(2016)
+
+ymd("2016-01-01") + years(1)
+ymd("2016-01-01") + dyears(1)
+```
+
+these are different because `dyears` is *always* 365 days, no matter what. But this also happens with DST days, i.e. those days with 23 or 25 hours.
+
+Periods are time spans without a fixed duration and the constructors we find are `seconds`, `minutes`, `hours`, `days`, `weeks`, `months` and `years` (this last has been used in the previous code chunk). This is why the previous chunk works better with the period than with the duration
+
+### Intervals
+
+Considering the previous arguments, we may say that there is going to be a difference in the result when we compare `dyears(1)` and `ddays(365)` or `years(1)` and `days(365)` since it is going to depend on whether the year is a lapse year or not.
+```{r}
+dyears(1)/ddays(365) # The result is 1
+years(1)/days(365) # The result is not 1
+```
+
+ Here is where we may need the **intervals** which come with a binary operator. Suppose we want to find the time lapse between a day in 2016 and today, then
+ 
+```{r}
+past_day <- ymd("2016-12-05")
+interval <- past_day %--% today()
+```
+
+Now both give the same results
+
+```{r}
+identical(interval/ddays(365), interval/days(365))
+```
+
+Note, however, that the division we are doing can return a sort of strange number, since remainders of months are not a clear quantity. Then in this case it is probably a better idea to make the comparision using modulo  or integer division
+
+```{r}
+interval %/% ddays(365)
+as.period(interval %% ddays(365))
+```
+
+then, both together give that the interval is 2 years, 11 months and 17 days long (now exactly the same if we use `days` instead)
+
+
+# Date/Time in Time Series
+
+One of the main purposes of a date-time data type is dealing with time series. This is a deep field that we do not try to explore here, but we can see some of the rudiments needed to prepare a dataset before performing the actual analysis.
+
+For this there are many different possibilities coming from different packages: `tseries`, `TSA`, `aTSA` or `xts` are some of them. We are going to see `xts` just for the indexing properties it gives
+
+## Package `xts`
+
+The `xts` package is sometimes considered as an extension of `zoo` and, in fact, it is a dependency we will see once we load it
+
+```{r}
+library(xts)
+```
+
+Let's generate a random time series
+
+```{r}
+my_timeseries <- xts(rnorm(100), seq(as.POSIXct("1928/12/01"), length.out = 100, by = "week"))
+head(my_timeseries)
+```
+
+see that the dates are not a variable, but a sort of index. In fact, we can identify both, the index and the values of the series by using `index` and `coredata`
+
+```{r, eval = FALSE}
+index(my_timeseries)
+coredata(my_timeseries)
+```
+
+If we try to identify the type of data that we have, we inmediately see that it is something different to any of the basic data types we have used up to this point
+
+```{r}
+print(c(class(my_timeseries), mode(my_timeseries), storage.mode(my_timeseries), typeof(my_timeseries)))
+```
+
+An if we plot it R understands the type of data as a time series
+
+```{r}
+plot(my_timeseries)
+```
+
+This data structure comes with some nice methods for subsetting, for example, if we want to take only one year, we may simply do
+
+```{r}
+my_timeseries["1928"]
+```
+In the same way, if just want one month of one year we can do
+
+```{r}
+my_timeseries["1929-01"]
+```
+
+This means that `xts` reads the underlying structure of the date-time index and filters accordingly. It also comes with an operator that let us filter a range of variables: the slash "/", then if we want to filter from January to February of 1930 we will do
+
+```{r}
+my_timeseries["1930-01/1930-02"]
+```
+
+note that both extremes of the interval are included in the selection!
+
+## Package `tseries`
+
+Usually one package is used together with some others. In this case, we can use `tseries` to, for example, grab data from Yahoo Finance using the `get.hist.quote` function.
+
+```{r}
+library(tseries)
+```
+
+Then if, for example, we are interested in the EUR/USD currencies, we can do
+
+```{r}
+eurusd <- na.approx(as.xts(get.hist.quote("EURUSD=X", 
+                                          start = "2019-01-01",
+                                          quote = c("Open", "High", "Low", "Close"))))
+                 
+```
+
+Now we can plot all the series in the dataset as follows
+
+```{r}
+plot(eurusd, main = "EUR/USD - Close")
+```
+
+

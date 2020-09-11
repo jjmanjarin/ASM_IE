@@ -1,0 +1,300 @@
+---
+title: "The Graphical Library"
+subtitle: "PFE I: Sessions XIII and XIV"
+author: "Prof. Dr. Juanjo Manjarín"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+    df_print: kable    
+    theme: cerulean
+    fig_caption: true
+    number_sections: yes
+  html_notebook: 
+    fig_caption: true
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
+  # pdf_document: 
+  #   toc: true
+---
+
+# The Graphical Library
+
+Here we cannot explain in detail all the different procedures that will lead you to plot the data the way you want, but at least we will give an idea of how they work. Please, refer to the official documentation for further insights and a full reference of the different commands. The base library for plots can be divided into three great groups:
+
+ * **High-level functions: These are functions designed to generate full complete graphics from your data. They need few to none arguments to generate the plot, in fact functions as `plot` are able to decide the ``most appropiate'' plot for the input you use, usually in the form of a scatterplot, but will depend on the type of object you use as input. Other functions include `hist`, `qqnorm`, `qqplot` and many other.
+
+ If we are going to plot multivariate data, functions as `pairs` or`coplot` are perfect since they use a panel as output of the plot, for example, if we are to make a scatterplot of two variables depending on a third, for example we may want to see one scatterplot per gender, then we may do
+
+```{r, eval = FALSE}
+coplot(var1 ~ var2 | fac1)
+```
+
+take the `starwars` data set in `dplyr`
+
+```{r}
+library(dplyr)
+data(starwars)
+```
+
+which is dataset coming in a tibble structure with 13 variables. Now we can do
+
+```{r}
+coplot(mass ~ height | gender, 
+       starwars[!starwars$name %in% c("Jabba Desilijic Tiure", "IG-88", "BB8"),],
+       col = c("red", "blue", "green", "yellow"))
+```
+
+
+  you may use two different variables and then split the plot in all the possible cases by using (in this case the plot is too large to be shown)
+
+```{r, eval = FALSE}
+coplot(mass ~ height | gender + species,
+       starwars[!starwars$name %in% c("Jabba Desilijic Tiure", "IG-88", "BB8"),],
+       col = c("red", "blue", "green", "yellow"))
+```
+  
+  Other approaches may lead you to use libraries as `lattice`, however, later we will focus on ggplot2 since it has become a sort of standard in R.
+
+ * **Low-level functions**: as you can see from the previous figure, the high-level functions make a plot but do not care too much about the final look. This is the role of low-level functions, designed to complete or give to the plot the final look you may require. These functions include adding text with `text` (check the *Hershey library* to add mathematical symbols to the plots), adding legends with `legend` or adding lines with `abline` for example. If we run any of these functions, the graphical engine does not create a new instance, but plots whatever we needed on top of the previous graph. This is nice and at the same time we may end up with a complete mess and then have to re-run the high-level function.
+
+ * **Interactive plots**: You may want to determine which is one particular point in a graph, for this purpose there are two functions we may use: `locator` and `identify`. These open an interactive mode that will give you the results only once you click on the Finish button in the Plot tab
+
+## Saving Plots
+
+If we want to save whatever plot we have done, we can follow (as usual) different strategies. In R-Studio we may use the Export option in the plot tab, where we obtain the usual interactive window. But we may also want to skip the interaction and request our code to go creating files as we generate them. In order to do this, R has some Device drives to use (type `help(Devices)` to see the help on them), as `postscript`, `jpeg` or `pdf`.
+
+Suppose we want to generate a plot and save it as `rplot.ps`, then we run the following commands
+
+```{r, eval = FALSE}
+postscript("rplot.ps")
+hist(x)
+dev.off()
+```
+
+what is doing the first command is sending the output of the next graphics to a file with the name given in the working directory (see it with `getwd`. Then we generate the plot and finally we have to close the device for a clean finish. Explore the options of the different devices to generate complete graphs.
+
+# Graphs With ggplot2
+
+The `gggplot2` library represents a new approach to graph your data that is both, powerful and easy to use. 
+
+```{r}
+library(ggplot2)
+```
+
+The general template of the code of any plot can be written as
+
+```{r, eval = FALSE}
+ggplot(data = yourdataset) +
+  geom_function(
+            mapping = aes(mappings)
+            other_options
+            ) +
+  coordinate_function() +
+  facet_function() +
+  theme()
+```
+
+now we will explain the general meaning with some examples, but see that after we create an instance of ggplot, we just have to declare the type of plot through the geometric or statistical function (points, bars or lines), the type of coordinates we will use (cartesian, polar or a map), then the facets (how to split the graph) and then the theme we want to use.
+
+As an observation, it is important to say that only the geometry is mandatory, the other options are just that: options. Also, take into account that a common source of errors is changing the ``+'' sign of line which would be wrong or not understood, i.e. this code
+
+```{r, eval = FALSE}
+starwars %>%
+  ggplot() +
+  geom_histogram(aes(x = height), binwidth = 20) +
+  coord_polar()
+```
+
+produces the plot with a polar histogram, while this code
+
+```{r}
+# unccomment the last line to see the actual effect
+starwars %>%
+  ggplot() +
+  geom_histogram(aes(x = height), binwidth = 20)
+  # + coord_polar()
+```
+
+produces the usual histogram since the last line is not understood as part of the ggplot. In any case, in this basic example, we can see how the basic template works and what is the effect of a coordinate function. 
+
+Let's make three different graphs: one for a single categorical variable (bar chart), one for a single numerical variable (boxplot) and one for a bidimensional numerical distribution (scatterplot). 
+
+Also, in the end of each code you will find the theme functions. However, you may consider the posibility of setting the theme by means of `theme\_set()`.
+
+For the following graphs we will have to load the `RColorBrewer` package
+
+```{r}
+library(RColorBrewer)
+```
+
+## Categorical Variable
+
+Categorical variables can be represented with bar charts, pie charts or similar types of graphs. For this example we are going to use the geometry of columns
+
+
+```{r}
+starwars %>%
+  count(homeworld, sort = TRUE) %>%
+  filter(n > 1) %>%
+  ggplot(aes(x = homeworld, y = n))+
+  geom_col(fill = brewer.pal(10, "Spectral")) +
+  geom_text(aes(label = n,
+                y = 0.8*n)) +
+  coord_flip() +
+  theme_bw() +
+  ggtitle("Homeworlds") +
+  labs(x = "Homeworld", y = "Count") +
+  theme(axis.title = element_text("Serif", 14),
+        axis.text = element_text("Serif", 12),
+        plot.title = element_text("Serif",16, hjust = 0.5)
+  )
+```
+
+Let explain the code:
+
+ * First we have taken some steps to find the total frequency of each homeworld and then filter to keep just those frequencies greater than 1
+ * Now we call the ggplot with the geometry of columns (check how things may/should change if we use bars instead). The aesthetics is defined in the ggplot call because it is going to be used by all the other layers. On the other hand, we have used a color system based on the `RBrewerColor` package.
+ * In the next layer we add the text corresponding to the frequencies at a height defined as 0.8 times the length of the column.
+ * Just to see the effect of the coordinate system, we have flipped the axis and then the columns run horizontally
+ * Next we find the theme functions. First we set as default theme the black and white one to have a white background instead of the lightgray default
+ * We give a name to the title and axis labels
+ * Finally we decide the font type and size of all the elements in the graph (not for the legend) and displace the title to the center of the plot since by default it appears on the top left corner.
+\end{itemize}  
+
+
+## Numerical Variable
+
+The graph we are oing to produce is for the numerical variable *height* using the following code
+
+```{r}
+starwars %>%
+  ggplot(aes(x = height)) +
+  geom_histogram(aes(y = ..density..),
+                 bins = 8,
+                 color = "Darkblue",
+                 fill = "Blue") +
+  stat_bin(bins = 8,
+           geom = "text",
+           aes(label = round(..density..,4),
+               y = 0.7*(..density..)
+               ),
+           color = "black") +
+  stat_function(fun = dnorm,
+                args = list(mean = mean(starwars$height, na.rm = TRUE),
+                         sd = sd(starwars$height, na.rm = TRUE)
+                         ),
+                col = "DarkBlue") +
+  theme_bw() +
+  ggtitle("Height Histogram") +
+  labs(x = "Height", y = "Density") +
+  theme(axis.title = element_text("Serif", 14),
+        axis.text = element_text("Serif", 12),
+        plot.title = element_text("Serif",16, hjust = 0.5)
+  )
+```
+
+
+After we pipe the database to the ggplot function we take the following steps
+
+ * We use as overall aesthetics the value of height in the ggplot function call and then use the histogram geometry with its theme options. In this case we use the density value for the $y$ coordinate instead of the default which are the frequencies.
+ * In the next step, we let the values of the densities appear in the bins (is there any difference with respect to the previous example?)
+ * the next instruction allow us to plot the theoretical normal distribution that may correspond with a normally distributed set with mean and variance equal to those of the Height variable.
+ * Next we find the theme functions. First we set as default theme the black and white one to have a white background instead of the lightgray default
+ * We give a name to the title and axis labels
+ * Finally we decide the font type and size of all the elements in the graph (not for the legend) and displace the title to the center of the plot since by default it appears on the top left corner.
+
+
+A note about the `..density..` argument may clarify some points. As an intermediate step of any ggplot graph, there is a call to the stat\_functions in order to make a summary. For example, in the case at hand, the code finds the frequency distribution and then it needs the number of observations, the range, the binwidth, the frequencies in each bin and the relative frequencies. These summary values are found, in this case, in the output of the stat\_bin function call made by the histogram geometry, where we have used `..density..` instead of the default `..count..`. Check the general ggplot2 reference document to see which values may be used.
+
+
+## Bidimensional Distribution
+
+When we have a joint distribution, one of the most powerful strategies in order to see if there is any kind of relationship between them is a scatterplot. We are going to use the height and weight of the characters in the films, using weight as independent variable and height as dependent
+
+```{r}
+starwars %>%
+  filter(mass < 1000) %>%
+  ggplot(aes(x = height, y = mass)) +
+  geom_point(aes(color = gender)) +
+  geom_smooth(method = "loess",
+               alpha = 0.3,
+               color = "red") + 
+  scale_color_brewer(palette = "Blues", 
+                     direction = -1) +
+  theme_bw() +
+  ggtitle("Mass vs. Height") +
+  labs(x = "Height", y = "Mass") +
+  theme(axis.title = element_text("Serif", 14),
+        axis.text = element_text("Serif", 12),
+        plot.title = element_text("Serif",16, hjust = 0.5)
+  )
+```
+
+The structure of the plot is: first we have filtered a value with huge mass that was an outlier although not really influential. This has been done using the pipe in the tidyverse together with the filter function (see tibbles and pipes sections). Then we go with the plot itself:
+
+ * We place the $x$ and $y$ variables in the `ggplot2` function since there are no other variables we may use for aesthetics.
+ * We choose a point geometry and use the categorical variable `gender`to split the `color` (or `colour`) of our points with respect to the different cateogories in the variable (other options are `fill`, `shape`, `size` or `alpha`, try them!)
+ * Next we plot a linear model on top of the points. We have chosen a LOESS model with opacity set to 0.3 in the alpha channel and a red line color
+ * Then we decide to use a reversed (direction = -1) Brewer Palette with blue colors as the points palette (you can easily choose among other palettes, just take a look at the documentation)
+ * Next we find the theme functions. First we set as default theme the black and white one to have a white background instead of the lightgray default
+ * We give a name to the title and axis labels
+ * Finally we decide the font type and size of all the elements in the graph (not for the legend) and displace the title to the center of the plot since by default it appears on the top left corner.
+
+One may think that this plot is not clear enough and then may prefer to split the plot in different genders, then the following code
+
+
+```{r}
+starwars %>%
+  filter(mass < 1000 & !gender == "none") %>%
+  ggplot(aes(x = height, y = mass)) +
+  geom_point() +
+  geom_smooth(method = "loess",
+              alpha = 0.3, color = "red") + 
+  scale_color_brewer(palette = "Blues", 
+                     direction = -1) +
+  facet_wrap(~gender, ncol = 1) +
+  theme_bw() +
+  ggtitle("Mass vs. Height") +
+  labs(x = "Height", y = "Mass") +
+  theme(axis.title = element_text("Serif", 14),
+        axis.text = element_text("Serif", 12),
+        plot.title = element_text("Serif",16, hjust = 0.5)
+  )
+```
+
+which adds an extra filtering condition and a facet\_wrap with respect to the variable gender.
+
+
+## Extensions of `ggplot2`
+
+There are many different extensions of the base ggplot2 library with new geometries: `ggRadomForest`, `ggraph` or `ggridges` are some examples that we will use. Here, let's just see how some of these libraries work and let you make even nicer plots.
+
+After you install theggrides library, load the dataset for the Temperatures in Lincoln NE, then with the following code
+
+```{r}
+library(ggridges)
+data("lincoln_weather")
+attach(lincoln_weather)
+theme_set(theme_bw())
+
+lincoln_weather %>%
+  mutate(tempC = (`Mean Temperature [F]`-32)*5/9) %>%
+  ggplot(aes(x = tempC, y = Month)) + 
+  geom_density_ridges_gradient(aes(fill = ..x..), 
+                               scale = 3,
+                               size = 0.3) +
+  scale_fill_gradientn(colours = rev(brewer.pal(10, "Spectral")),
+                       name = "Temp. [C]") +
+  labs(title = "Temperatures in Lincoln NE",
+       x = "Mean Temperature [C]") +
+  theme(axis.text = element_text("Serif", 14),
+        axis.title = element_text("Serif", 15),
+        plot.title = element_text("Serif", 17, hjust = 0.5))
+```
+
+which makes use of a facet layer in the same plot! This allow you to superimpose the graphs and obtain a clearer representation of the evolution of the temperatures in Lincoln (much better that a time series plot or a facet\_wrap).
+
+With respect to the code answer the following questions: why have we used the {\tt{mutate}} function? Where comes the ``..x..'' come from? Why have we used the {\tt{rev}} function? What is the meaning of the 10 in the {\tt{brewer.pal}} function? What other palettes may you use? There are other {\tt{scale\_fill\_gradient}} functions, can you use them?

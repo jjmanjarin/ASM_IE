@@ -1,0 +1,445 @@
+---
+title: "Arrays I"
+subtitle: "PFE I: Session VI"
+author: "Prof. Dr. Juanjo Manjarín"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    df_print: kable    
+    theme: cerulean
+    fig_caption: true
+    number_sections: yes
+  html_notebook: 
+      # pandoc_args: [
+      #    "--number-offset", "1,0" 
+      # ]
+    fig_caption: true
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
+  # pdf_document: 
+  #   toc: true
+---
+
+
+Once we move from singularities to pluralities we can only define them making use of the constructors. We are going to find the following structures
+
+ * Matrices and Arrays
+ * Lists
+ * Data Frames
+
+Also, in the tidyverse we can find Tibbles and Tribbles which are data frames with some extra structure.
+
+## Matrices
+
+The constructor is just the function **matrix** which, by default creates a column vector with the input data
+
+```{r}
+matrix(1:4)
+```
+
+if we want something more specific we must specify the number of rows and columns
+
+```{r}
+matrix(1:6, nrow = 2)
+```
+
+note that the recycling rule also works with this constructor, i.e. if the number of elements does not match the number of input data, the constructor will complete the matrix by recycling the values
+
+```{r}
+matrix(1:6, nrow = 2, ncol = 6)
+```
+
+which is also true if the number of input values is larger than the number of possible matrix elements: it will just cut when all the slots are filled.
+
+Another option to consider is the **byrow**, see the difference between the first matrix and the following one
+
+```{r}
+matrix(1:6, nrow = 2, byrow = TRUE)
+```
+
+with this option, the values are displaced using the rows first instead of the columns
+
+### Dimension and Length
+
+Let's define and store a matrix in the global environment
+
+```{r}
+mymatrix <- matrix(1:6, nrow = 2)
+```
+
+There are two relevant quantities associated with this structure and related to its dimensions. On one hand we have the **length** which, as for atomic vectors, returns the number of components, no matter how they are arranged in the matrix
+
+```{r}
+length(mymatrix)
+```
+
+on the other, we have **dim**, the dimensions of the matrix, which returns the number of rows and columns (remember that for any structure we will **always** have first the rows then the columns)
+
+```{r}
+dim(mymatrix)
+```
+
+This *dim* function can be used to turn an atomic vector into a matrix
+
+```{r}
+v1 <- 1:6
+dim(v1) <- c(2, 3)
+v1
+```
+
+### Subsetting
+
+How do we select a particular element in a matrix? Let's use the *mymatrix* defined above, then any subset can be found making use of the brackets in exactly the same way we did for atomic vectors
+
+```{r}
+mymatrix[3]
+```
+
+what this actually makes is consider all the elements of the matrix (by columns) and detect which is the third element. 
+
+We could, however, specify the matrix element we want by using the combination **[row, column]**, then in order to select the element in the second row, second columnd we do
+
+```{r}
+mymatrix[2, 2]
+```
+
+see that if we choose a wrong number of row or of column we will obtain the message *"subscript out of bounds"*, an error more common than one may like.
+
+We can also subset by selecting a whole row or column, then the third column is
+
+```{r}
+mymatrix[ ,3]
+```
+
+and the first row
+
+```{r}
+mymatrix[1, ]
+```
+
+we can also use the combination function or the sequences to select more than one row or column (or more than one matrix element)
+
+```{r}
+mymatrix[, 2:3]
+```
+
+### Names
+
+Just as we did for vectors, we can also give names to the rows and columns of a matrix, in this case we use specific functions for each of them, then 
+```{r}
+rownames(mymatrix) <- c("a", "b")
+colnames(mymatrix) <- c("1st", "2nd", "3rd")
+```
+
+Now we can call for the matrix and see that it has the requested names
+
+```{r}
+mymatrix
+```
+
+this can be used for subsetting, then remembering that the names are strings and must be used with quotes
+
+```{r}
+mymatrix[, "1st"]
+```
+
+### Adding rows and/or columns
+
+In many situations we may want to add a new row or column to our matrix or we may want to bind the output of different computations in the same standard structures. In these situations there are two functions that are very helpful: **rbind**, for *row bind*, and **cbind**, for *column bind*. Then the first will bind the inputs along the rows, while the second will bind them as new columns.
+
+Of course, the only requirement is that the number of elements must match, i.e. we cannot bind a vector with three components as a new row if the matrix does not have three columns.
+
+The following code will bind a new column vector to the matrix
+
+```{r}
+cbind(mymatrix, c(20, 30))
+```
+
+while the folloing one will add a new row to the matrix
+
+```{r}
+rbind(mymatrix, c(20, 30, 40))
+```
+
+of course, in this named matrix, we are adding an unnamed vector which should be homogeneized in the new matrix.
+
+### Arithmetic: Binary operators
+
+#### Sum
+
+We have already seen how the common sum and multiplication operations work in R. The most straightforward one is the sum, where we just add (substract) element by element of the matrix in the same locations, then
+
+\begin{equation}
+\pmatrix{ a & b \\ c & d} \pm \pmatrix{\alpha & \beta \\ \gamma & \delta} =
+\pmatrix{ a\pm\alpha & b\pm\beta \\ c\pm\gamma & d\pm\delta}
+\end{equation}
+
+then if we define the following matrices
+
+```{r}
+A <- matrix(c(1, 0, 2, -1), nrow = 2)
+B <- matrix(c(2, 1, 0, 4), nrow = 2)
+```
+
+we obtain
+
+```{r}
+A + B
+```
+
+and 
+
+```{r}
+A-B
+```
+
+#### Vectorized product
+
+Remember that the vectorized product just takes the elements in the corresponding positions and just multiply them. This is **not** a matrix multiplication! This is simply an in-location product
+
+\begin{equation}
+\pmatrix{ a & b \\ c & d} \cdot \pmatrix{\alpha & \beta \\ \gamma & \delta} =
+\pmatrix{ a\cdot\alpha & b\cdot\beta \\ c\cdot\gamma & d\cdot\delta}
+\end{equation}
+
+then
+
+```{r}
+A * B
+```
+
+To make this multiplication we need that both matrices have the same dimensions
+
+\begin{equation}
+A_{m,n}\cdot B_{m,n} = C_{m,n}
+\end{equation}
+
+#### Matrix Multiplication
+
+In case we want to perform the usual matrix multiplication, we need the binary operator %*%, then
+
+```{r}
+A %*% B
+```
+
+and remember that for the usual matrix multiplication we need that the number of columns of the first matrix is the same as the number of rows of the second giving as result a matrix with the number of rows of the first matrix and the number of columns of the second
+
+\begin{equation}
+A_{m,n}\cdot B_{n,r} = C_{m,r}
+\end{equation}
+
+### Systems of equations
+
+As we know, one of the main applications of matrices is in the solution of the **systems of linear equations**. In this context we find three main functions to use:
+
+ * The **transposed** matrix: the matrix we obtain by interchanging rows and columns
+
+```{r}
+t(A)
+```
+
+ * The **determinant** of a matrix: the scalar found by using the completely antisymmetric form of the matrix
+ 
+```{r}
+det(A)
+```
+
+ * The **inverse** matrix: the matrix such that when multiplied times the *original* returns the identity matrix
+
+\begin{equation}
+A^{-1}\cdot A = A\cdot A^{-1} = \mathcal{I}
+\end{equation}
+
+then
+
+```{r}
+solve(A)
+```
+
+and it is such that we can matrix-multiply it as
+
+```{r}
+A %*% solve(A)
+```
+
+and
+
+```{r}
+solve(A) %*% A
+```
+
+to obtain the identity matrix.
+
+Now, if we can write a system of equations as a matrix equation, i.e. it is linear, and the determinant of the matrix of coefficients is not zero then we have a consistent determined system of equations, i.e. it has a unique solution. 
+
+The function **solve** can be used to find the solution in this case since it accepts as second argument the vector of the inhomogeneous part of the system of equations, then suppose we have the following system of equations
+
+\begin{equation}
+\left\{
+\begin{array}{rcl}
+x + y -z & = & 1 \\
+2x + y & = & 0 \\
+3x -y -2z & = & -1
+\end{array}
+\right.
+\end{equation}
+
+we can write it as
+
+```{r}
+A <- matrix(c(1, 1, -1, 2, 1, 0, 3, -1, -2), byrow = TRUE, nrow = 3)
+b <- c(1, 0, -1)
+```
+
+then we can find the solution by just doing
+
+```{r}
+solve(A, b)
+```
+
+see that this is completely equivalent to multiplying the inverse matrix times the inhomogeneous vector
+
+```{r}
+solve(A) %*% b
+```
+
+
+## Arrays
+
+An array is nothing more than a multidimensional matrix. We create the structure using the constructor **array**, where we can determine the dimensions and properties of the structure
+
+```{r}
+array(1:16, dim = c(2, 2, 4))
+```
+
+In this example we have used as dimensions a vector (2, 2, 4), which means that we have an array of four 2x2 different matrices, where the values are added by rows. 
+
+See that you can add as many directions as you want, then you can have four, five or ten dimensions where to store the data.
+
+## Lists
+
+Lists are the first inhomogeneous data structure we can find in R. In fact it is just a collection of different atomic vectors which can have different lengths and types. The general constructor is the function **list** which receives as arguments the different inputs
+```{r}
+mylist <- list(a = 1:5,
+               b = letters)
+```
+note that we cannot have a matrix with different types and/or lengths. However, in the list we have created we find a character vector with 26 elements and a numeric vector with 5 elements.
+
+### Subsetting
+
+In this type of complex structures we can use three different types of subsettings: 
+
+ * The **brackets**, "$[\,]$"
+ * The **double brackets**, "$[[\,]]$"
+ * The **dollar**, "$"
+
+As for vectors and matrices, the brackets work, by default, with the number of the element we look for, while we need the logical operators to identify by name. Then we have three equivalent subsettings with single brackets
+
+```{r}
+mylist[mylist = "a"]
+mylist["a"]
+mylist[1]
+```
+All of them extract the first element of the list which is a list on its own
+
+```{r}
+class(mylist[1])
+```
+
+On its hand, the double bracket, extract the first element of the list as a vector, not as a list
+
+```{r}
+mylist[[1]]
+```
+
+```{r}
+class(mylist[[1]])
+```
+
+therefore, this removes the higher structure leaving only the contents of the list. These doule brackets are equivalent to subsetting with the "$", where we use directly the name of the component 
+
+```{r}
+mylist$a
+```
+
+which returns the vector, not the list
+
+```{r}
+class(mylist$a)
+```
+
+Finally, we can use all these methods to obtain the elements of the any of the atomic vectors which compose the list. The notation in this case can be confusing but clear once one understands it.
+
+The first element of the first atomic vector in the list is
+
+```{r}
+mylist[[1]][[1]]
+```
+
+with all the corresponding possible variations
+
+```{r}
+mylist[["a"]][[1]]
+mylist$a[[1]]
+```
+
+#### Difference between "$" and "[]"
+
+The explanations of the different methods for subsetting seems to imply that the use of the double brackets and the dollar is exactly the same. There is, however, a case in which they are not the same: the **partial matching**.
+
+Suppose the following named list
+
+```{r}
+A <- list(abc = 1:5, cad = 10:20)
+```
+
+if we subset with the single or double brackets using just the letter "a" we obtain NA
+
+```{r}
+A["a"]; A[["a"]]
+```
+simply because there is no element in the list named just "a". However, if we use the same with the dollar
+
+```{r}
+A$a
+```
+
+we do receive the first element in the list because it begins with "a" and the dollar just needs a partial match of the name to retrieve the input. If we want the same behavior with the double bracket we need the option **exact** set to FALSE
+
+```{r}
+A[["a", exact = FALSE]]
+```
+
+### Adding/Removing elements
+
+In the previous list we may want to add a third element. We can do it in many different ways:
+
+ * Using the **combination** function with the previous list and the new list
+ 
+```{r}
+A <- c(A,
+       list(id = seq(1, 5, 0.5)))
+```
+
+ * Making use of the **double bracket** by using the next number slot. After that we may want to reassign names to the list
+ 
+```{r}
+A[[3]] <- seq(1, 5, 0.5)
+```
+
+ * Using the **single bracket** notation to add a new list to the list
+ 
+```{r}
+A[3] <- list(id = seq(1, 5, 0.5))
+```
+ 
+In both last cases we may need to reassign names to the elements of the list. A usual mistake is mixing both these last possibilities in something as
+
+```{r}
+A[3] <- seq(1, 5, 0.5)
+```
+The problem here is with the type of elements we are trying to assign: while on the left hand side we have a list, the right hand side is just an atomic vector. See that R will just through a warning and continue with the operation, creating the third list with one single element
+

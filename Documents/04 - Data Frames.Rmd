@@ -1,0 +1,484 @@
+---
+title: "Arrays II"
+subtitle: "PFE I: Session VII"
+author: "Prof. Dr. Juanjo Manjarín"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    df_print: kable    
+    theme: cerulean
+    fig_caption: true
+    number_sections: yes
+  html_notebook: 
+    fig_caption: true
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
+  # pdf_document: 
+  #   toc: true
+---
+
+# Data Frames
+
+Lists are a very powerful structure. However, they do not let us perform some of the basic operations in data analytics since there is no way to say that the first element, for example, of the different components correspond to the same observation unit (in fact they do not!). To deal with this and other taks we introduce the most common data structure, the **data frame**, whose constructor is the function **data.frame**
+
+There is probably one single restriction for a data frame: the number of elements of each variable must be the same. This implies that we may fill with NAs whenever needed to fill the gaps.
+
+Let's create a data set with two random variables: a standard normal distribution and a Poisson distribution 
+
+```{r}
+mydata <- data.frame(A = c(rnorm(100)),
+                     B = rpois(100, 1))
+```
+
+## Adding new variables
+
+In case we need to add a new variable, we can always use the **cbind** function (or the **rbind** if its a set of new observations), but the most straightforward way is using precisely what we could not use for lists.
+
+Suppose we want to append a third variable to our data set which is a factor with two levels and periodicity three. We would then simply do
+
+```{r}
+mydata[3] <- gl(2, 3, 100 , labels = c("male", "female"))
+```
+
+Now, if we want to impose a name to the variable, either we use **names** or **colnames** or we append a data frame. Let's see it by appending a new factor for a hypothetical education level
+
+```{r}
+mydata[4] <- data.frame(educ = gl(3, 2, 100 , labels = c("doctor", "master", "graduate")))
+```
+
+## Subsetting
+
+We have the usual selection of row or column using the squared brackets, then the first row is 
+
+```{r}
+mydata[1, ]
+```
+
+while the first column is (only the first 5 elements)
+
+```{r}
+head(mydata[, 1])
+```
+
+Remember that for lists this way of subsetting kept a list even for one single element, what is the element we have now? It's a vector (this is in fact the reason why the previous addition of elements worked!)
+
+```{r}
+class(mydata[,1])
+```
+
+There are extra subsettings we can and will have to do many times: since now each row will correspond to different measured properties of one statistical unit, we can subset based on certain conditions, for example, that the observation is *female* or *doctor* or the variable *B* is greater than 2.
+
+Then if we want all the rows such that the *educ* variable is *doctor* we can do the following
+
+```{r, echo = TRUE}
+head(mydata[mydata$educ == "doctor", ])
+```
+completely equivalent to *mydata[mydata["educ"] == "doctor", ]*
+
+If we now want to use two different conditions, for example: we want all females that have a master's degree, which implies using an intersection of the conditions, we can do (remember the difference between the shorter and longer forms of AND)
+
+```{r}
+head(mydata[mydata$educ == "master" & mydata$V3 == "female", ])
+```
+
+# Tidyverse
+
+All we have seen up to this point are the data structures that R accepts natively. However, some packages let us have some other types that will show helpful under some conditions. Two of these are the **tibbles** and **tribbles** from the **tidyverse**.
+
+The best way going through this section is installing and loading this package
+
+```{r}
+# install.packages("tidyverse")
+library(tidyverse)
+```
+
+This package loads eight other packages that we will use extensively (one of them the **readr** we have already seen). By now just see that there is a package named **tibble**. This is the package that contains the basic functions for these data structures, as well as some other like the **lst** a tidy version of the lists.
+
+But what is exactly the meaning of *tidy*? It is merely a reference to the fact that it contains more information for the user and that it can be used in any function of the tidyverse. Particularly, tibbles and tribbles are data frames but as we will see, the output looks somewhat different. To actually see the difference you must go out of the markdown document and use it in your scripting window.
+
+The following function was the equivalent to the data frame in th first versions of the tidyverse. However, this will be removed sooner or later
+
+```{r}
+mytidy <- data_frame(A = rnorm(100),
+                     B = rpois(100, 1))
+```
+
+This **data_frame** function contains, however, some of the basic syntatics of this package, the underscore: in the tidyverse all the functions use the underscore for separated words, in contrast with the use in the basic library where the prefered option is the full stop. This has been chosen to make contact with the usual object oriented programming option of using the full stops for the call of methods and never for names.
+
+Then, since this function will be removed, we'd better use 
+
+```{r}
+mytidy <- tibble(A = rnorm(100),
+                 B = rpois(100, 1))
+head(mytidy)
+```
+
+Or, if we want to coerce another date frame into a tibble, we use **as_tibble**. 
+
+The other structure, the **tribbles** do not differ in the output but in the way we introduce the data: it's done in rows and not in columns:
+
+```{r}
+mytidy2 <- tribble(
+  ~A, ~B, ~C,
+  10, "female", 2,
+  15, "male", 3
+)
+head(mytidy2)
+```
+
+## Subsetting Tibbles
+
+The tidyverse allows the usual subsetting methods, but it also comes with some built functions with names that make clear the different uses. Here we are going to deal with 
+
+ * **Filter** to filter the whole data set under given conditions
+ * **Select** to select different variables
+ 
+Let's create our whole tibble first
+
+```{r}
+mytidy <- tibble(normal = rnorm(100),
+                 poisson = rpois(100, 1),
+                 gender = gl(2, 4, 100 , labels = c("male", "female")),
+                 educ = gl(3, 2, 100 , labels = c("doctor", "master", "graduate")))
+```
+
+the filter function is a useful way to keep or remove sets of **rows** that satisfy a condition. For example, if we want to keep only the *doctors* we may do
+
+```{r}
+head(filter(mytidy, educ == "doctor"))
+```
+on the other hand, if we want to keep or remove **columns** then we may use **select**. In case we may want to keep the *normal* and *poisson* variables we may do
+
+```{r}
+head(select(mytidy, c(normal, poisson)))
+```
+
+## Adding new Variables
+
+Apart from the methods seen for data frames, in the tidyverse there exists another general two functions that lets you manipulate variables: 
+
+  * The **mutate** function, which keeps the previous variables
+  * The **transmute** function, which removes previously existing variables
+
+let's say that we want to add a column for expertise in our data set. The following code generates a set of rounded to units numerical values ranging from 0 to 10
+
+```{r}
+head(mutate(mytidy, exper = round(runif(100, 0, 10))))
+```
+
+see that all the revious structure in *mytidy* has been kept. On the other hand, if we use **transmute**
+
+```{r}
+head(transmute(mytidy, exper = round(runif(100, 0, 10))))
+```
+
+we just keep the newly generated dataset. In a sense we are overwritting the whole data transmuting it in what we generate.
+ 
+ 
+##  Pipes in the tidyverse
+
+The tidyverse offers an option to perform sequential application of different functions without the need to store or overwrite the intermediate steps: the **pipe**. This procedure is somewhat difficult to understand at the beginning but once you get used to it, it is fairly intuitive.
+
+Consider the following steps in a completely generic process:
+
+\begin{center}
+take a data set --> 
+  group by gender value -->  
+  find the proportion of each --> 
+  display the grouped values in a data frame
+\end{center}
+
+We may want to do it in a single step which may mean that we do not use the same sequence of steps as we have written above, since we may need to create the data frame and then perform the operations inside. This could be done as
+
+```{r}
+data.frame(gender = levels(mytidy$gender),
+           proportion = c(nrow(mytidy[mytidy$gender == "male", ])/nrow(mytidy),
+                          nrow(mytidy[mytidy$gender == "female", ])/nrow(mytidy)
+))
+```
+once we go deeper into the course we will see how to make this same process using other techniques as **loops** or, much better, using the **apply** functions. The point now is that even though this can be done, it may not be the most interesting way. 
+
+If we want to use the tidyverse functions we can do the following piece of code
+
+```{r}
+summarise(group_by(mytidy, gender), proportion = n()/nrow(mytidy))
+```
+
+where we are using the usual composition of functions of mathematics:
+
+\begin{equation}
+A\stackrel{f}{\rightarrow} B \stackrel{g}{\rightarrow} C
+\end{equation}
+
+which means that in going from $A$ to $C$ we should apply the function $g$ to the output of $f$, i.e. 
+
+\begin{equation}
+A\stackrel{g(f(x))}{\longrightarrow} C
+\end{equation}
+
+so, by the end of the day we must read the sequence of operations in a bottom-top way.
+
+The **pipe**, \%$>$\% offers a more intuitive way, since it will allow us to read the sequence of operations in a top-bottom way using the functions in the order we require. The previous steps will just be
+
+```{r}
+mytidy %>%
+  group_by(gender) %>%
+  summarise(proportion = n()/nrow(mytidy))
+```
+
+the only thing we must think of is that in the chain of functions, the pipe lets you use the output of **all** the previous steps as the **first** argument in the next application.
+
+The fact that some functions do not have the input as their first argument disqualifies them as candidates to be used in pipes and is one of the reasons why all the functions in the tidyverse have this property.
+
+### Subsetting with the pipes
+
+We can rewrite the previous example of filtering with the *doctor*condition as
+
+```{r}
+head(mytidy %>%
+       filter(educ == "doctor"))
+```
+
+and the selection of the *normal* and *poisson* variables as
+
+```{r}
+head(mytidy %>%
+       select(c(normal, poisson)))
+```
+
+## Tidying Data
+
+One of the longest and more problematic tasks when we work with data is tidying a dataset. The problem is that usually datasets come in different shapes, with different encodings, with redundant values and with missing values. Then working on it before we can actually do anything is mandatory. In the `tidyverse` the package `tidy` contains the functions that will allow us to perform these manipulations
+
+### Spreading (pivot)
+
+This is the case in which the same observations are spreaded in multiple rows. Take a look at the following data
+
+```{r}
+tidyr::table2
+```
+ we see that the count is in two rows by `cases` and `population`, then we can do
+ 
+```{r}
+spread(tidyr::table2, key = type, value = count)
+```
+ 
+in order to create two variables, one for each value of `type`
+
+### Gather (unpivot)
+
+This is the oposite operation to spreading. In this case we find that some variable names are in fact values of a variable, as for example in
+
+```{r}
+tidyr::table4a
+```
+
+where the years are actually a variable that we may use, then we can do
+
+```{r}
+gather(tidyr::table4a, "1999", "2000", key = "year", value = "cases")
+```
+
+### Separate
+
+In some cases we will find that one variable stores different values as in 
+
+```{r}
+tidyr::table3
+```
+
+where `rate` does not contain the result of the division but the division itself. In this case we can separate both values as
+
+```{r}
+separate(tidyr::table3, rate, 
+         into = c("cases", "population"), 
+         sep = "/", 
+         convert = TRUE)
+```
+
+### Unite
+
+The inverse operation to separate. Suppose that we have the year splited as follows
+
+```{r}
+t3 <- separate(tidyr::table3, year, 
+               into = c("century", "year"),
+               sep = 2, 
+               convert = TRUE)
+t3
+```
+
+where the separation of 2 indicates the position of the separation. If we now want to unite both parts we do
+
+```{r}
+unite(t3, Year, century, year, sep = "")
+```
+
+
+
+# Data Tables
+
+Another package extension in R is the **data.table** package.
+
+```{r}
+library(data.table)
+```
+
+This package is aimed to perform fast manipulations of large amounts of data. From the **internals** point of view the main difference between the tidyverse and data.table is that while the first is coded in $C$++, the second is coded in $C$.
+
+We may say that tidyverse aim towards consistency lacks some focus on efficiency. In fact you may need to go through the use of databases (as MySQL for example) to let the tidyverse be as efficient (in memory consumption and speed) as data.table, although to be honest this is something you may only see if the number of groups to be used is greater than 100K. However, this last is not as clean (syntactically) as the tidyverse (some may object to this point), however, it is true that it keeps the main brackets structure of R so some may find it more intuitive (forgetting about some shortcuts and new operators that we may have to learn)
+
+You can look for different benchmarks and deep discussions concerning the use of one or the other in the web (and I highly recommend you to take a look at them)
+
+## Constructors
+
+The basic constructor of a data.table is, precisely, the **data.table** function
+
+```{r}
+mydt <- data.table(normal = rnorm(100),
+                   poisson = rpois(100, 1),
+                   gender = gl(2, 3, 100 , labels = c("male", "female")),
+                   educ = gl(3, 2, 100 , labels = c("doctor", "master", "graduate")))
+```
+
+see that this object's class is
+
+```{r}
+class(mydt)
+```
+
+which means that it inherits the properties of the usual data.frame.
+
+Now, the main form of the syntax in data.table is the following
+
+\begin{equation}
+DT[\text{i},\,\text{j},\,\text{by}]
+\end{equation}
+
+where:
+
+ * **i** represents the rows
+ * **j** represents the operation to perform
+ * **by** represents the grouping operation
+
+then if we would like to find the proportion with respect to the *gender* in our data
+
+```{r}
+mydt[ , .N/nrow(mydt), by = gender]
+```
+
+Data.Table has a very special syntax that you begin to see with this small example: the uses of full stops, brackets, braces, some special shortcuts as *.SD* or the very important operator ":=". Here we are going to explain a few of them only.
+
+Before that, let's comment on how to perform the subsetting in this case. In fact this is the easiest of all the operations since it uses the same basic operators as in any other case with minor changes.
+
+If we want to select any **row** we just do DT[row number]:
+
+```{r}
+mydt[1]
+```
+
+note that we do not need the comma to specify the usual row/column combination (we can write it and the output will not change). However, to select a column we do it the usual way
+
+```{r}
+head(mydt[, 1])
+```
+
+However, there are two *more data.table* ways: one is using the full stop syntax (see below) and the other is using the double brackets
+
+```{r}
+head(mydt[[1]])
+```
+
+which removes the data.table structure and returns a vector.
+
+If we want to subset using a conditional, say for example that education level is master, then
+
+```{r}
+head(mydt[educ == "master"])
+```
+
+note that we have not used the expected *mydt[mydt$educ == "master"])* but if we did the result would be the same. Then if we want to compound logical conditions we would do it in exactly the same way, for example, let's look for females with a master's degree
+
+```{r}
+head(mydt[gender == "female" & educ == "master"])
+```
+
+## Data.table fast subsetting
+
+We have seen that we may actually use our previous knowledge to subset in data.table. However, there is a specific way of doing it that uses the potentials of this package
+
+```{r}
+head(mydt["master", on = "educ"])
+```
+
+in fact, the usual *gender == "female"* condition is internally optimized to use this binary search! See that now we need the quotes for the column name, although there is a workaround for this that we will see in a moment.
+
+The problem is that to compose different conditionals now we need to use the specific notations in data.table, i.e. we cannot do somethig as *mydt[c("female", "master"), on = c("gender", "educ")]*
+
+## Special Characters in data.table
+
+Let's now describe some of the specific notations in data.table:
+
+  * The **.()** notation is a shortcut for **list()**. This is important because the subsetting of columns are lists
+  
+```{r}
+typeof(mydt[, 1])
+```
+  
+  then we can do
+  
+```{r}
+head(mydt[, .(normal)])
+```
+
+ this notation is important if we want to be returned a data.table instead of a vector when we perform some computations, for example with the following code
+ 
+```{r}
+mydt[ , sum(normal)]
+```
+ 
+ we are returned a numeric vector resulting from the sum of the variable *normal*, while with the following one
+ 
+```{r}
+mydt[, .(sum(normal))]
+```
+
+  we are returned a data.table whose input is one single variable with automated name *V1* (this default can be changed) with value the sum of the variable *normal*. In the same way we can find the sum of the *normal* and the *poisson* variables
+
+```{r}
+mydt[ , .(normal = sum(normal), poisson = sum(poisson))]
+```
+
+  this list notation is what we must use if we want to compound logical operators
+  
+```{r}
+head(mydt[.("female", "master"), on = .(gender, educ)])
+```
+  
+  and now we can expand this by adding an operation, for example, if we want to add the values in the *poisson* variable corresponding to females with a master's degree we can do
+  
+```{r}
+head(mydt[.("female", "master"), sum(poisson), on = .(gender, educ)])
+```
+  
+  Can you write the equivalent code in the tidyverse? And in the base R?
+  
+  * The special **read only** symbols. Here we find five different cases which are only used in the *j* part of the data.table
+    * The **.SD** symbol for subsetting
+    * The **.BY** symbol as a reference to **by**
+    * The **.N** symbol for the number of rows in a group
+    * The **.I** symbol for **seq_len(nrow(x))**
+    * The **.GRP** symbol for a group counter
+
+Let's see how to use them with some examples:
+
+```{r}
+mydt[, .SD[1]]
+```
+
+    
+  <!-- * The **:=** identification -->
+  

@@ -1,0 +1,673 @@
+---
+title: "First Steps in R"
+subtitle: "PFE I: Sessions I to III"
+author: "Prof. Dr. Juanjo Manjarín"
+# date: "2 August 2019"
+output:
+  html_document:
+    toc: true
+    df_print: kable
+    theme: cerulean
+  pdf_document:
+    toc: true
+    df_print: kable
+  html_notebook: default
+---
+
+# Object Oriented Programming
+
+Object Oriented Programming (OOP) is a type of coding in which we follow the philosophy of reutilization and efficiency. Then, in contrast with the classical **structured programming**, where we had *procedures* and *data*, in **OOP** we only have *objects*.
+
+The main components of any OOP code are: **classes**, **objects**, **methods**, **messages** and **subclasses**. Let's see what they are
+
+ * A **CLASS** is the most fundamental component since it represents the abstractions we need in any code
+ * An **OBJECT** is a particular case of a class. They contain **atributes** and **behaviours**
+ * A **METHOD** is a function that describes the behaviour of the object
+ * A **MESSAGE** is the way the different objects communicate with each other
+ * A **SUBCLASS** is a class in a hierarchical tree whose properties are inherited from its mother class
+
+## Characteristics
+
+Any OOP language has three main characteristics **Inheritance**, **Polymorphism** and **Encapsulation**
+
+ * **Encapsulation**: Under this property we define an object in such a way that any other object does not need to know them all. In this sense objects are like black boxes that allow us to treat the as individual units
+ * **Inheritance**: This is the property under which we do not have to be explicit with most of the prperties of an object since there is a hierarchy from which these are obtained, for example, once we define what a mammal (class) is we do have to repeat its general properties to define a dog or a cat (subclasses). Inheritance may be multiple, i.e. a class may inherit from more than one class.
+ * **Polymorphism**: This is the characteristics that allow us to define different ways in which a method is going to act on different objects. In this context we have the function `plot` which, although it has as a default a *scatter plot*, it will *decide* depending on the input
+ 
+## Classes and Objects in R
+
+One of the main differences we inmediately see in R with respect to other languages such as C++ or C# is that we do not have to create an instance for each new object. This is done by the interpreter at any moment in which we use a constructor for that object.
+
+There are some functions we can use to determine the type of class and the properties of an object:
+
+  * First we have the function `class`, which returns the general class to which the object belongs
+  * Second we find the `mode` function, which returns what type of data is storeaged in the object
+  * Third we have `storage.mode` is a more efficient version of `mode` where we obtain the fine structure of the storaged data
+  * Finally we have the `typeof` function (used by the two previous functions), which returns the internal type of storaged data. This will be the same as the `mode` except for when `typeof` returns *integer* and *double*, in which case `mode` returns *numeric* and when it returns *special* and *builtin*, where `mode` returns *function*
+
+Let's see this with some examples:
+
+ * The **Number** 1:
+
+```{r}
+print(c(class(1), mode(1), storage.mode(1), typeof(1)))
+```
+
+see that any number (even the integers) are double precision floating point objects. We will see later the implications of this.
+
+ * A **Vector**:
+ 
+```{r}
+my_vector <- 1:4
+print(c(class(my_vector), mode(my_vector), storage.mode(my_vector), typeof(my_vector)))
+```
+
+ * A **Data Frame**:
+
+```{r}
+my_df <- data.frame(v = 1:4) 
+print(c(class(my_df), mode(my_df), storage.mode(my_df), typeof(my_df)))
+```
+
+ * A **Function**
+
+```{r}
+my_func <- ls
+print(c(class(my_func), mode(my_func), storage.mode(my_func), typeof(my_func)))
+```
+
+## Prebuilt Objects
+
+Apart from general classes and methods, we have a set of interesting pre-built-in objects. These are the following:
+
+ * The **Number PI**
+ 
+```{r}
+pi
+```
+
+ * The alphabet in **lower** and **upper** cases
+ 
+```{r}
+letters
+LETTERS
+```
+
+ * The names of the **months** both, in full length and abbreviated
+ 
+```{r}
+month.name
+month.abb
+```
+
+# R as a Calculator
+
+One of the main properties of R as an interpreted language is that it can be directly used as a calculator. You can try different basic operations
+
+```{r}
+1 + 2
+pi + 1
+```
+
+# Assignments
+
+When we want to assign a name to a function, a value to a variable or any other similar action in R, there are two different ways that are somewhat confusing for beginners in this language. The native form is by means of the back-arrow “< −”, inheritted from the APL language (in APL keyboards there was a key for this symbol) to distinguish between equality and assignment. But since 2001 the equality symbol “=” can also be used for the assignment.
+
+There are two main reasons for this: first, to make contact with languages as C or C++
+where this is the usual asignment operator. Second that this equality assignment was a typo so common among programmers coming from other languages that it was finally accepted.
+
+If we want to assign a value to a variable we may, in principle use
+
+```{r}
+x = 1
+x <- 1
+```
+
+In both cases the assignment is from right to left, i.e. it is a leftwards assignment, and then
+we read it as assigning the value 1 to the variable x. However, the arrow can be reversed as
+
+```{r}
+1 -> x
+```
+
+which is read the other way around (rightwards assignment) and the assignment is from left to right.
+
+Then, appart from the reversal property, the two methods seem to be equivalent (or even the same). There is, however, an important difference: when we call for a function the equality means that we evaluate the function at that precise point, so for example
+
+```{r}
+(function(x) x)(x = 1)
+```
+
+means that we call the function in the particular case in which x is 1. Implicitely we assume that x is a paramenter already defined for the function, not in the global user environment, and we just impose a value for it. However, it may occur that we want to call a function declaring the variables in the call itself, the only way to do it is with the arrow since
+
+```{r, eval = FALSE}
+(function(x,y) x - y)(a = 3, b = 2)
+```
+
+(remove the tag to run the code and see the error) while
+
+```{r}
+(function(x,y) x - y)(a <- 3, b <- 2)
+```
+
+and, this second, creates two new variables denoted a and b as can be seen in the global environment and treats them in the order of the definition of the function. It is obvious, however, that if we were using the same names of the variables used in the definition of the function, we could use one or the other.
+
+So, as a conclusion, even though in most of the situations the use of one or the other is irrelevant, it is not always the case, so for R it is a better choice using the native form “<-”. This is, in fact, the common choice in any style guide you can see.
+
+# Null Characters
+
+All the datasets have values that are incomplete in one or other way, for example, we may have incomplete observations or we may have made a transformation into logs or square roots and negative values produce errors. In R we have four different types of null characters which are, in fact, completely different objects:
+
+ * **NULL** is an object and is returned when an expression or function results in an undefined value. In R language, NULL (capital letters) is a reserved word and can also be the product of importing data with unknown data type.
+
+```{r}
+x <- NULL
+print(c(class(x), mode(x), storage.mode(x), typeof(x)))
+```
+
+ * **NA** is a logical constant of length 1 and is an indicator for a missing value.NA (capital letters) is a reserved word and can be coerced to any other data type vector (except raw) and can also be a product when importing data. NA and “NA” (as presented as string) are not interchangeable. NA stands for Not Available.
+ 
+```{r}
+x <- NA
+print(c(class(x), mode(x), storage.mode(x), typeof(x)))
+```
+
+ * **NaN** stands for Not A Number and is a logical vector of a length 1 and applies to numerical values, as well as real and imaginary parts of complex values, but not to values of integer vector. NaN is a reserved word.
+
+
+```{r}
+x <- NaN
+print(c(class(x), mode(x), storage.mode(x), typeof(x)))
+```
+
+ * **Inf** and **-Inf** stands for infinity (or negative infinity) and is a result of storing  either a large number or a product that is a result of division by zero. Inf is a reserved word and is – in most cases – product of computations in R language and therefore very rarely a product of data import. Infinite also tells you that the value is not missing and a number!
+
+```{r}
+x <- Inf
+print(c(class(x), mode(x), storage.mode(x), typeof(x)))
+```
+
+# Efficient Programming
+
+Efficiency will mean for us not just that our code does what it is supposed to do, but that it does it in the least consuming way. Many notions are involved here, from algorithmic efficiency where we refer to how fast a computer runs a code, to programmer efficiency where we talk about the speed of a person in writing a working code.
+
+One of the main properties of R is that it is an incredibly flexible language so it may be used in many different ways to perform the same task. Then, even though coding needs a lot of time and study to be done properly, you will never end learning new methods and ways to compute the same quentities in a more efficient way, sometimes due to new packages but sometimes with the old ones. This freedom sometimes will work aginst us, since we may find a way to solve a problem, but tnot the way (in the sense of the most efficient). In any case we will say that efficient R programming relies on the consistent implementation of the right practices, and for that we need to understand the language.
+
+In the following we will use **benchmarking** and **profiling** to understand what we mean with efficiency. Benchmarking is the process of testing the performance of our code. Functions as `system.time()`, which returns the execution time of any code, are commonly used for this
+task. We will work with the microbenchmark package which gives a nice summary of the
+efficiency, for example. Suppose that we want to find the sum of two numbers and we want
+to do it in three diffeernt ways: defining a function for the sum, defining a pair of variables
+and then adding them or adding directly the numbers
+
+```{r}
+suma <- function (a,b){a + b}
+a <- 2
+b <- 3
+ggplot2::autoplot(microbenchmark::microbenchmark (a + b, 2 + 3, suma(a,b)))
+```
+
+
+before interpreting the output, let’s make a plot of it. We may generate it with the`ggplot2::autoplot` or with our own `ggplot2` function
+
+```{r}
+ggplot2::autoplot(microbenchmark::microbenchmark (a + b, 2 + 3, suma(a,b)))
+```
+
+The microbenchmark function computes by default 100 iterations and obtains a frequency
+distribution of the execution times which is what we see in both the table and the plot. This
+implies that each time we run the simulation we will obtain a different set of values. 
+
+Overall the worst method is the use of the function `suma(a,b)` and the other are more or less the same but somewhat better the direct sum of the numbers. This is basically because the core of R is coded in C and Fortran mostly and the sooner we call for these underlying routines, the better, i.e. the code will be more efficient with a lower number of calls to these functions.
+
+We can say that there are five common tips or recommendations for an efficient R programming
+
+  * **Never grow vectors**: This is a problem with memory allocation and the idea is that we should define the vectors we are going to use with the proper size from the beginning. We are going to compare two methods to create a vector of size n. In one we use the `seq` function which will create the vector with its size in one step and in other we will create a vector of `NULL` size and then increase its size to n
+  
+```{r}
+method1 <- function (n) seq_len(n)
+method2 <- function (n){
+  vec <- c()
+  for (i in seq_len (n)){
+    vec <- c(vec, i)}
+  vec
+  }
+ggplot2::autoplot(microbenchmark::microbenchmark(dont_grow = method1(100), grow = method2(100)))
+```
+
+we can see that the time the second method consumes in way larger than that of the first and this is because it has to read the whole vector each time and then add a new element along the for loop, while the first method creates the vector of lenght n in one single step.
+
+ * **Vectorize your code**: The idea of vectorization is the main one in R and it is that functions in R work exactly the same in vector of any length, so instead of using loops we should use the R-way whenever it is possible. This will reduce the number of function calls we may usually perform in other languages. Then, suppose we have a vector of size n and we want to find the logarithm of each component and then their sum. Let’s compare a vectorized and a non-vectorized methods
+ 
+```{r}
+lsum <- c() 
+v <- runif(1e5)
+ggplot2::autoplot(microbenchmark::microbenchmark(vector = sum(log(v)), not_vector = for(i in 1: length(v)){lsum <- lsum +log(v[i])}))
+```
+
+ * **Use factors**: We use factors to store categorical variables and as we mentioned before, these type of vectors are, in fact, integers, not characters, that describe the belonging to one category or another. We have to be careful with the nature of the vector we have, since even though these are described by integers and the categories may even have a natural order, we cannot by any means compute quantitative information from them, for example, we cannot compute the mean value of the factor. However, we can (and will) compute proportions. These type of data is of fundamental importance in the analysis of social networks. Let’s see what we mean by saying that a factor is an integer vector
+
+```{r}
+v <- 3:5
+v
+```
+
+```{r}
+c(factor(v))
+```
+
+```{r}
+factor(v)
+```
+
+as we see, once we transform the vector into categories, R interprets them as integer numbers. That is exactly the same as with a vector of strings:
+
+```{r}
+cats <- c(" male "," female ")
+cats
+```
+
+```{r}
+c(factor(cats))
+```
+```{r}
+factor(cats)
+```
+
+This last example is crucial to understand the difference between a vector of strings and a factor (commonly confused and identified as the same object)
+
+ * **Cach your variables**: Caching your variables in the global environment allow you to call them any time you need them in contrast with the idea of having to create them each time. Obviously this is something to consider only when we are going to use the same variable a repeated number of times. 
+ Consider the following case in which we want to find the vector of relative frequencies
+of a given distribution. In this case, the total sample size is a constant that will be used
+to find each element of the new vector. We may decide to cach it or define it in our
+function:
+
+```{r}
+v <- round(runif(100, 1, 15))
+n <- sum(v)
+
+proportion <- function(x) {
+  n <- sum(x)
+  vec <- numeric(n)
+  for (i in 1:length(x)) {
+    vec [i] <- x[i] / n
+  }
+  vec
+}
+
+ggplot2::autoplot(microbenchmark::microbenchmark(v / n,
+                                                 round(runif(100, 1, 15)) / sum(v),
+                                                 proportion(v),
+                                                 sapply(v, function(i) i / sum(v))))
+```
+
+we see that even for a relatively small sample size (100 elements) there is a highly significant difference between the four methods, and that the fastest is the one in which we cach the variables in use.
+
+ * **Byte compile your packages**: Even though R is an interpreted language, we can compile some of our functions (or even the whole code) in order to gain efficiency. To do it we can just invoque the `compiler` library.
+ 
+```{r}
+library(compiler)
+```
+
+ Let’s see an application of this compilation with the inneficient proportion function we just made for our previous example
+ 
+```{r}
+prop_comp <- cmpfun(proportion)
+```
+
+# Code Style in R
+
+Here we are going to give a set of basic rules that may render your R code consistent, easy to read and shareable. There is an addin to R-Studio that supports the Hadley Wickham’s Style Guide, the styler library, and that may be installed by just doing
+
+```{r, eval = FALSE}
+install.packages("styler")
+```
+
+we may also install other addins with
+
+```{r, eval = FALSE}
+devtools::install_github("rstudio/addinexamples", type = "source")
+```
+
+where we can find the `formatR` library. Then you may define a shortcut or execute them from he addin menu (in R-Studio you can always reformat your code with `Ctrl-Shift-A`). The convenctions we will follow are:
+
+ * **File names**: the names of the files in your project should be meaningful and self descriptive with a .R extension. Then file names as *classification-models.R* are prefered to *0012.R*, and if you need to enumerate a sequence of files, then use a prefix with the numbers.
+
+ * **Variable names**: variable names should be lowercase, concise and meaningful (try to avoid long descriptive names). If there are different words in the name, use the underscore (_) or the period (.) to separate them. The use of the **period** has historical precedence in R but can be confusing due to its object-oriented connotations, however it is the prefered one in the Google’s Style Guide. On the other hand, the **underscore** is a common convenction in many other programming languages (as Python) and is the one used in the new `tidyverse` libraries and so, recommended in the Hadley Wickham’s Style Guide. Whichever you choose, you must be consistent with it along the code (and try to be so with the libraries you use), then we prefer day one or `day.one` to `the first day of the project`. You should also be careful with one key feature: do not choose names already taken by R, for example, you may also name a variable as `c`, but that will be problematic since that is the combination function in the base library.
+
+ * **Functions**: there are different features that should be considered:
+   * **Name**: it be a verb representing the action of the function that satisfies what we
+have already mentioned for variables.
+   * **Arguments**: you should always write first the required ones, then those optional with prefixed values. You can only break the lines between assignments and in case you have logical assignments, use “TRUE/FALSE” instead of “T/F” for readability. 
+   * **Documentation**: Inmediately after the definition of the function you should include a comments section in which you explain in one sentence the purpose of the function, then include two sections: “Args:” to explain the arguments of the function and “Return:” to explain its output
+
+ * **Comments**: These greatly improve the efficiency (mostly in collaborative projects) but should be handled with care. The main problem you can find is that any update of your code will imply an update of all the relevant comments, then you should try to be as concise as posible. General rules are
+   * Avoid verbose language to explain the code
+   * Provide context with the comments
+   * Explain the intention of the code
+  
+  Apart from that remember that each line of a comment must be preceded by one "#", the combination "##" should be left for an output. If you end you comment with four dashes (−−−−) this will enable R-Studio to fold your code into small readable parts.
+
+ * **Syntax** Here we must consider the use of spacings and brackets
+   * **Spacing**: you should place a space in both sides of all the infix operators (+, −, <, ...), the only exception being the combinations ":", "::" and ":::", then you should write 
+    
+```{r, eval = FALSE}
+1 + 3
+microbenchmark::microbenchmark
+```
+
+   and not
+    
+```{r, eval = FALSE}
+1+3
+microbenchmark :: microbenchmark
+```
+    
+   In this case this is not only a matter of style, but it can also avoid bugs in the code, since
+  
+```{r, eval = FALSE}
+data[x <- 1]
+```
+    
+   assigns the value 1 to x in the data, while 
+
+```{r, eval = FALSE}
+data[x < -1]
+```
+   
+   subsets data to all the values of x smaller than -1. You should also place a space only on the left side of all the left parenthesis except in a function call, where there should be no space, then it is OK to write
+    
+```{r, eval = FALSE}
+for (i %in% 1:10)
+mean(data)
+```
+
+   but not to write
+
+```{r, eval = FALSE}
+for(i %in% 1:10)
+mean (data)
+```
+    
+   You may even break the lines in any case in which that provides extra readability of he code
+
+```{r, eval = FALSE}
+data.frame (A = 1:10,
+            B = seq (1, 5.5, 0.5),
+            D = letters[1:10])
+```
+  
+  
+   * **Brackets**: Use the brakets to fold the code and think that the open bracket should never go on its own line while the closing should. The exception are the `if...else` statements, where the else part should go amid close and open brackets.
+   Do not forget to always indent the code inside the brackets being careful with the depth of the code inside them
+
+```{r, eval = FALSE}
+y <- -2:2
+   
+for (i in y) {
+  if (i <0) {
+    message ("Y is negative")
+  } else {
+    message ("Y is not negative")
+  }
+}
+```
+  
+
+ * **Assignment**: Use “<-” instead of = (see later) 
+ * **Libraries**: The call for the needed libraries should be at the top of you scripts. If the package is essential use `library`, if not use `require`. There is however, a small subtlety in the call: both `library("dplyr")` and `library(dplyr)` evaluate correctly and both load the dplyr library. However, the second is one example of a non-standard evaluation (too common and sometimes confusing in R).
+
+# Environments
+
+In R we will be continously using environments, defined as sets of frames and pointers where we can store different objects. The **Global Environment**, `.GlobalEnv`, is also known as the user's workspace. 
+
+Although we will not move among different environments in this course, it is interesting to know that we can always store different objects in different environments so that they *live* in different spaces and later use methods to let them interact.
+
+## Listing
+
+The elements in the Global Environment can be directly seen using the `ls` function (listing)
+
+
+```{r}
+ls()
+```
+
+But if we want to see the main properties of these objects we should use
+
+```{r}
+ls.str()
+```
+
+In R-Studio this can be directly seen in the Environment window
+
+## Deleting
+
+If we want to remove an object from the list (and do not want to use the `clear` button in the Environment window) we use the following syntax
+
+```{r}
+rm(list = 'objects')
+```
+
+where the word object is either:
+
+ * One single object, then we simply put its name
+ * A set of objects, then we use `c(object1, object2,...)`
+ * All the elements, then we use `ls()`
+
+
+# File System Management
+
+## The Working Directory
+
+Getting and setting
+
+```{r, eval = FALSE}
+getwd()
+setwd("/home/asilkris/Documentos/Trabajo/Instituto de Empresa - IE/Universidad/R Programming/Class Sessions/R")
+```
+
+
+# Working with External Data
+
+You will be working with files coming from different sources (other projects or internet, for example) and in different formats (native R, Excel, SPSS, Stata, Plain text or CSV files to mention some) and you should be able to load them efficiently. In the base library there is a number of different functions that allow you to do the work, as could be `scan()`, `read.csv()`, `read.table()` or `readLines()`. However, even though we recommend that you take a look at them, here we are going to explore two other libraries that save a significant time: `rio` and `readr`.
+
+## CSV and Text files 
+
+### The `rio` library
+
+`Rio` is a package with the aim to give a consistent framework to import and export files into any R project. For this it provides, mainly, two functions import and export that not only do the whole loading job, but they also give a consistent output format. In this case, a data frame, without the need to specify the file extension or any other details. This approach is based on the data.table package and its fread function, mainly used for plain text data. The general structure will be
+
+```{r, eval = FALSE}
+import("file name")
+export(data set, "file name")
+```
+
+### The `readr` library
+
+When we have .csv or .txt files we may follow different approaches too 
+
+ * For **csv** files we may use the base function `read.csv`, the `data.table` function `fread` or the `readr` function `read_csv`. Tests related with the overall size of the file to load imply that `fread` and `read_csv` are 5 times faster than the base functions, which is irrelevant for small size files, but becomes really important with files of the order of GBs since the RAM consumed becomes a real problem (of course, we can also use the rio functions).
+ * For **txt** files we may use the the base funciton `readLines`, the `data.table` function `fread` or the `readr` function `read_lines`. Then again, the utility of the new functions is relevant when the size of the files increases significantly.
+ 
+We must take into account that, for small files, the base functions are actually faster than any of these new functions. Therefore, for small data sets we should probably use the base functions, however, when the size of the files increase we must consider these other options. 
+
+There are, however, differences other than time execution for these libraries, the most relevant of these being that the functions decide on their own and based on a small sample of the data what type of data you have on the loaded variables. This means that, even if that is on its own a good practise, you should always check the type of data you have imported to your data sets.
+
+```{r, eval = FALSE}
+microbenchmark::autoplot.microbenchmark(
+  microbenchmark::microbenchmark(
+    base = read.csv("../Input/database.csv", header = TRUE, sep = ","),
+    rio = rio::import("../Input/database.csv", fill = TRUE, header = TRUE),
+    readr = readr::read_csv("../Input/database.csv"),
+    data.table = data.table::fread("../Input/database.csv", header = TRUE)))
+```
+
+
+## Excel Files
+
+For Excel files we have also different alternatives (one is always export it to a .csv and use the previous functions): `readxl` and `xlsx`. Both give the same functionalities, although probably the second is more commonly used. However, we may find some conflicts among R and Java which may produce an error on its load. 
+
+Once installed we load them with the usual call
+
+```{r, eval = FALSE}
+library(readxl)
+library(xlsx)
+```
+
+Now we just use
+
+```{r, eval = FALSE}
+readxl::read_excel('excel file', sheet = 'sheet number', col_names = TRUE)
+xlsx::read_xlsx('excel file', 'sheet index', header = TRUE)
+```
+
+## Web Files
+
+Many times we will have to download a file from a webpage, for example, we may want to
+download a whole data base or the speech of the previous example. In this case we may first
+define the URL and the download the file
+
+```{r, eval = FALSE}
+url <- "http://mlr.cs.umass.edu/ml/machine-learning-databases/abalone/abalone.data"
+download.file(url, "../Input/abalone.data")
+mydata <- read.table("../Input/abalone.data", sep = ",")
+```
+
+if for any reason the file were a zip file, then after the previous lines do
+
+```{r, eval = FALSE}
+unzip (" file name ", exfir = " directory ")
+```
+
+A particular and interesting case for text analysis is the Project Gutenberg, which stores books from many different authors and topics. In this case we can use
+
+```{r, eval = FALSE}
+library(guntebergr)
+books <- gutenberg_download(c('combination of books'), meta_fields = "author")
+```
+
+where the `meta_fields` can be changed to different options.
+
+# Direct Output
+
+In many situations we require a prompt that let us now the result of a computation or the application of a function. The most basic functions for this direct output are:
+
+ * `print()`: this function **prints** in the console the string we give as argument
+ * `cat()`: this function **interprets** and **prints** in the console the string we give as argument
+
+In some cases we will want to use these functions together with some others that may give a format to the text as can be `format` or `sprintf`
+
+## `print` vs. `cat`
+
+The main difference bewteen these two functions is the part where `cat` makes an **interpretation** of the string passed as argument. To understand what this means, consider the following examples
+
+```{r}
+print("Hello \n World")
+```
+```{r}
+cat("Hello \n World")
+```
+
+in the string that we use as argument there is a sequence of characters: "\n" that is interpreted in the `cat` function as "new line". Can you say what are the following instructions doing?
+
+```{r, eval = FALSE}
+cat("Hello \rWorld")
+cat("Hello \tWorld")
+```
+
+These special characters are **regular expressions**, a particular standard language to deal with texts in any environment or programming language. We will not deal with them too much in this course but they are in most real world applications: from web search engines to search/replace texts in any text processor.
+
+## Format and Sprintf
+
+This function is a wrap of the `sprintf` of C and allows us to give some format to the text, for example
+
+```{r}
+sprintf('Hello %10s', 'Juan')
+```
+
+uses a "%" to denote the literal which is substituted by the element after the comma. . The 10 denotes the number of characters used and "s" denotes that we are using a string. We could do this with a double floating point number and then use an "f":
+
+```{r}
+sprintf('The value of the square root of 2 is %4.3f', sqrt(2))
+```
+
+where we use a space of four characters and a precision of 3 decimal numbers.
+
+You can combine these functions in different forms to obtain the desired output, for example
+
+```{r}
+cat(sprintf("ME: Do you know the answer?\nYOU: Yes, it is %4.3f", sqrt(3)))
+```
+
+# Direct Input
+
+Sometimes (not too many in R) we will require the input of a user directly from the console. This is done using the 
+
+```{r}
+name = readline(prompt = 'Write your name')
+cat('Hello', name)
+```
+
+## Basic Operators
+
+Before going into the specific properties of the operators with respect to their function, we should mention that with respect to the objects in which they act, the operators can be **unary** or **binary**
+
+ * A **unary** operator is one that acts in one single object, for example, the negation operator (!) or the minus sign (-), which returns the negative of a number.
+
+ * A **binary** operator is one that acts on two objects at the same time, for example, the vectorized product (*) or the substraction (-) 
+
+Let's now move on to the types of operators. Try to use them all to see their differences!
+
+### Arithmetical operators
+
+These provide us with the basic **arithmetical operations**
+
+| Operator | Function |
+|----------|----------|
+| + | sum |
+| - | substraction |
+| * | product |
+| / | quotient |
+| ^ | exponentiation |
+| %*% | matrix multiplication |
+| %% | modulus |
+| %/% | integer division |
+| %o% | outter product |
+| %x% | Kronecker product |
+
+### Relational Operators
+
+These operators are used to **compare objects**
+
+| Operator | Function |
+|----------|----------|
+| < | less than |
+| > | greater than |
+| <= | smaller or equal to |
+| >= | greater or equal to |
+| == | equal to |
+| != | not equal to |
+
+### Logical Operators
+
+These operators are used to carry **boolean operations** on objects
+
+| Operator | Function |
+|----------|----------|
+| ! | logical NOT |
+| \| | Element-wise logical OR |
+| \|\| | logical OR |
+| & | Element-wise logical AND |
+| && | logical AND |
+
+### Other Operators
+
+In general we will have other operators and we can define our own. Here we are going to mention only a few other
+
+| Operator | Function |
+|----------|----------|
+| ? | Help |
+| ?? | Help on vague topic |
+| : | Sequence (Interactions in formulas) |
+| %in% | Matching (Nesting in formulas) |
+| $ | List Subset |
+

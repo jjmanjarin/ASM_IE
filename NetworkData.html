@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Prof. Dr. Juanjo Manjarín" />
+
+
+<title>Networks and their Data Sets</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Social Media Analytics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Social Media Analytics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit I</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="NetworkData.html">Networks and their Data Sets</a>
+        </li>
+        <li>
+          <a href="MathNet.html">Mathematical Description of Networks</a>
+        </li>
+        <li>
+          <a href="Measures.html">Measures in Networks</a>
+        </li>
+        <li>
+          <a href="Basics.html">Basics of `igraph`</a>
+        </li>
+        <li>
+          <a href="Ex_Unit_I.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit II</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="RNets.html">Random Networks</a>
+        </li>
+        <li>
+          <a href="SFNets.html">Scale-Free Networks</a>
+        </li>
+        <li>
+          <a href="ReNets.html">Real Networks</a>
+        </li>
+        <li>
+          <a href="ModelR.html">Modelling Networks in R</a>
+        </li>
+        <li>
+          <a href="Ex_Unit_II.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit III</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="DegCor.html">Degree Correlation</a>
+        </li>
+        <li>
+          <a href="Assort.html">Assortativity</a>
+        </li>
+        <li>
+          <a href="ComNet.html">Introduction to Communities</a>
+        </li>
+        <li>
+          <a href="MAAlg.html">Machine Learning Algorithms in R</a>
+        </li>
+        <li>
+          <a href="Ex_Unit_III.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit IV</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="SprePhen.html">Spreading Phenomena</a>
+        </li>
+        <li>
+          <a href="CEMod.html">Classical Epidemics Models</a>
+        </li>
+        <li>
+          <a href="NetEpi.html">Network Epidemics</a>
+        </li>
+        <li>
+          <a href="NetDif.html">Network Diffusion</a>
+        </li>
+        <li>
+          <a href="Ex_Unit_IV.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li>
+  <a href="IntroR.html">R Course</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Networks and their Data Sets</h1>
+<h4 class="author">Prof. Dr. Juanjo Manjarín</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#social-network"><span class="toc-section-number">1</span> Social Network</a><ul>
+<li><a href="#actors"><span class="toc-section-number">1.1</span> Actors</a></li>
+<li><a href="#relational-tie"><span class="toc-section-number">1.2</span> Relational Tie</a></li>
+<li><a href="#dyads-and-triads"><span class="toc-section-number">1.3</span> Dyads and Triads</a></li>
+<li><a href="#subgroups-and-groups"><span class="toc-section-number">1.4</span> Subgroups and Groups</a></li>
+<li><a href="#relation"><span class="toc-section-number">1.5</span> Relation</a></li>
+<li><a href="#social-network-1"><span class="toc-section-number">1.6</span> Social Network</a></li>
+</ul></li>
+<li><a href="#network-data"><span class="toc-section-number">2</span> Network Data</a><ul>
+<li><a href="#types-of-variables"><span class="toc-section-number">2.1</span> Types of Variables</a></li>
+</ul></li>
+<li><a href="#types-of-networks"><span class="toc-section-number">3</span> Types of Networks</a><ul>
+<li><a href="#one-mode-networks"><span class="toc-section-number">3.1</span> One-Mode Networks</a><ul>
+<li><a href="#ego-network"><span class="toc-section-number">3.1.1</span> Ego Network</a></li>
+</ul></li>
+<li><a href="#two-mode-networks"><span class="toc-section-number">3.2</span> Two-mode networks</a><ul>
+<li><a href="#affiliation-network"><span class="toc-section-number">3.2.1</span> Affiliation Network</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#data-sets"><span class="toc-section-number">4</span> Data Sets</a></li>
+</ul>
+</div>
+
+<hr />
+<p>In this document we are going to set the basic concepts in Networks. Since networks can appear in almost any context, the ideas and definitions we propose here must be rather general in the sense that they cannot be constrained to be domain dependent, but rather they must be domain agnostic.</p>
+<p>The <strong>learning objectives</strong> of this document are:</p>
+<ul>
+<li>Define what a <strong>social network</strong> is from its basic components</li>
+<li>Define what the <strong>network data</strong> is like and what makes it different from any other statistical data</li>
+<li>With the previous tools, we are going to see specific <strong>types of networks</strong> that may appear</li>
+<li>Finally we are going to see some <strong>data sets</strong> that will be used as examples along the course.</li>
+</ul>
+<!-- social network -->
+<div id="social-network" class="section level1">
+<h1><span class="header-section-number">1</span> Social Network</h1>
+<p>The key concepts in a social network are: actor, relational tie, dyad, triad, subgroup, group, relation and network. Let’s see what each of them means in order to construct the basic idea of what a social network is.</p>
+<div id="actors" class="section level2">
+<h2><span class="header-section-number">1.1</span> Actors</h2>
+<p>Intuitively, we understand a network as a connection between different objects. Whatever its nature, we call them <strong>actors</strong>. Then, formally, we can say that the actors are <em>the social entities in any social network</em>.</p>
+<p>Social Network applications focus on collections of actors that are all of the same type: People, Cities, Countries, Firms, Words,… However, note that this does not limit a network to have only one type of actors, i.e. we may have a network made from firms and customers, for example.</p>
+<p><a href="#">Back to top</a></p>
+<!-- relational data -->
+</div>
+<div id="relational-tie" class="section level2">
+<h2><span class="header-section-number">1.2</span> Relational Tie</h2>
+<p>It is through the linkage between the actors that we create a social network. These links receive many names: connections, ties, relational ties, edges or simply links.</p>
+<p>The defining property of a <strong>relational tie</strong> is that it establishes a linkage between a pair of actors:</p>
+<ul>
+<li>Evaluation of one person by another (friendship, liking,…)</li>
+<li>Physical connections (rivers, bridges, wires,…)</li>
+<li>Association or affiliation (joining social events,…)</li>
+<li>Biological relationships (kinship, proteins cycles,…)</li>
+</ul>
+<p>Of course, just as we could have multiple sets of actors, we can have multiple relational ties forming a <strong>multinetwork</strong>, joining the same set of actors, or we may have different types of ties connecting actors of different sets and actors in the same sets, this can be used in <strong>recommendation systems</strong> for example.</p>
+<p><a href="#">Back to top</a></p>
+<!-- dyads and triads -->
+</div>
+<div id="dyads-and-triads" class="section level2">
+<h2><span class="header-section-number">1.3</span> Dyads and Triads</h2>
+<p>Each tie in any network connects at most two actors, this means that there may be closed links going out from one actor onto itself, but we have links between two actors as the most common situation. There will never be a connection between more than two actors.</p>
+<p>In this context, a <strong>dyad</strong> is the most basic linkage between two actors. The tie is an inherent property of the pair and not of the isolated individuals. The <strong>Dyadic Analysis</strong>, then, focuses on studying properties of pairwise relationships: friendship, follower or followee, are some examples.</p>
+<p>A <strong>Triad</strong> is a subset of three actors and the possible ties among them. Then in a triad we will have, at least two links and three actors. In this context, <strong>transitive triads</strong> are very important: <em>If A likes B and B likes C, then A likes C</em>.</p>
+<p><a href="#">Back to top</a></p>
+<!-- groups and subgroups -->
+</div>
+<div id="subgroups-and-groups" class="section level2">
+<h2><span class="header-section-number">1.4</span> Subgroups and Groups</h2>
+<p>A generalization in the hierarchical family of dyads and triads is to generate connections between an arbitrary number of actors. This is precisely a <strong>Subgroup</strong>: any subset of actors and all the ties among them.</p>
+<p>Finding and classifying local subgroups under specific criteria is basic in social analysis. This includes:</p>
+<ul>
+<li>Clusters</li>
+<li>Communities</li>
+<li>Trees and Forests,…</li>
+</ul>
+<p>On the other hand, and growing the number of actor, we define a <strong>Group</strong> as the collection of <em>all</em> the actors on which ties are to be measured. We must say that <em>all</em> may be large, but not infinity, then a group is a <strong>finite set</strong> of actors.</p>
+<p>Since, formally, we work with sets we should be able to be explicit with the conditions under which an actor belongs to them, and this is not an easy task since we need to give the boundary of this set and how the sampling may be performed in it once we decide to gather the network data.</p>
+<p>Then again, a network may contain different groups corresponding to different types of actors. Then we will denote as <strong>actor set</strong> the complete collection of actors in a network.</p>
+<p><a href="#">Back to top</a></p>
+<!-- relation -->
+</div>
+<div id="relation" class="section level2">
+<h2><span class="header-section-number">1.5</span> Relation</h2>
+<p>Just as we have a group and an actor set, we may do the same with the relational ties. Then the <strong>collection of ties</strong> of a specific kind among members of a group is called a <strong>relation</strong></p>
+<ul>
+<li>Friendship among students in a class</li>
+<li>Trade ties among countries…</li>
+</ul>
+<p>It is important to consider that the ties themselves only exist between specific pairs of actors while the relation is the abstract connection between all the actors. We may have many different types of relational ties and then we can have a set of relations.</p>
+<p><a href="#">Back to top</a></p>
+<!-- social network -->
+</div>
+<div id="social-network-1" class="section level2">
+<h2><span class="header-section-number">1.6</span> Social Network</h2>
+<p>With all the previous ideas, we can finally define a social network as a <strong>finite set of actors and the relations defined on them</strong>.</p>
+<p>It is clear that only a set of actors would make this the usual statistical analysis and that it is the existence of relational information which is critical in the definition of social network.</p>
+<p><a href="#">Back to top</a></p>
+<!-- network data -->
+</div>
+</div>
+<div id="network-data" class="section level1">
+<h1><span class="header-section-number">2</span> Network Data</h1>
+<p>As we have already concluded, Social Data consists on at least one structural variable measured on a set of actors.</p>
+<p>It is the theory behind a study which should give us the motivations to determine which variables to measure and often which techniques are more suitable for a study, for example, gathering data through a questionnaire or using a census. Also, the nature of the relational ties and connections determines the analytic methods to use</p>
+<p><a href="#">Back to top</a></p>
+<!-- types of variables-->
+<div id="types-of-variables" class="section level2">
+<h2><span class="header-section-number">2.1</span> Types of Variables</h2>
+<p>From the point of view of networks, we find:</p>
+<ul>
+<li><strong>Composition Variables</strong>: measured on the level of individual actors. These are the actor attributes (the usual cross-sectional, time series or panel data for statistical analysis).</li>
+</ul>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="right">Node</th>
+<th align="right">Age</th>
+<th align="left">Gender</th>
+<th align="right">Income</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">18</td>
+<td align="left">F</td>
+<td align="right">156</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">23</td>
+<td align="left">M</td>
+<td align="right">254</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">19</td>
+<td align="left">F</td>
+<td align="right">132</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">25</td>
+<td align="left">M</td>
+<td align="right">101</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">22</td>
+<td align="left">M</td>
+<td align="right">312</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">21</td>
+<td align="left">F</td>
+<td align="right">200</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><strong>Structural Variables</strong>: measured on pairs of actors, are the cornerstone of a social network dataset. These measure the ties of a specific type between pairs of actors.</li>
+</ul>
+<p>Suppose that our previous dataset is for coworkers and we propose a connection based on the number of emails sent between any two actors then we may have the following dataset</p>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="left">from</th>
+<th align="left">to</th>
+<th align="right">weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">2</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">1</td>
+<td align="left">4</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">2</td>
+<td align="left">3</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">6</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">4</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">3</td>
+<td align="left">6</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">4</td>
+<td align="left">5</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">5</td>
+<td align="left">6</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>then we can see this network as follows (the links are blue and the numbers in them are the weights, i.e. the number of emails sent)</p>
+<p><img src="NetworkData_files/figure-html/unnamed-chunk-3-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p><a href="#">Back to top</a></p>
+<!-- types of networks -->
+</div>
+</div>
+<div id="types-of-networks" class="section level1">
+<h1><span class="header-section-number">3</span> Types of Networks</h1>
+<p>There are many types of networks, however, in this case we are going to classify them with respect to the different sets of actors that appear in them. We use the term <strong>mode</strong> to denote the distinct set of entities on which the structural variables are measured.</p>
+<p><a href="#">Back to top</a></p>
+<!-- one.mode -->
+<div id="one-mode-networks" class="section level2">
+<h2><span class="header-section-number">3.1</span> One-Mode Networks</h2>
+<p>A one-mode network is the most common type of network, where all the <strong>actors</strong> come from one single set:</p>
+<ul>
+<li>People</li>
+<li>Firms</li>
+<li>Countries (…)</li>
+</ul>
+<p>The <strong>relational ties</strong> measured in this type of networks is typically viewed as a representation of a particular and specific connection bewteen the nodes:</p>
+<ul>
+<li>Friendship, Sentimental status, Liking,…</li>
+<li>Transactions, Movements,…</li>
+<li>Kinship,…</li>
+</ul>
+<p>We are not restricted to measure only one type of tie, we are just restricted to measure in one group of actors.</p>
+<p><a href="#">Back to top</a></p>
+<!-- ego network -->
+<div id="ego-network" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Ego Network</h3>
+<p>The <strong>Egocentric Networks</strong> are the social networks of a particular actor. In its most basic form it is just the usual <em>star network</em> with a central node and all the others directyl connected to it (as could be a graph of all my followers in Twitter), however, if we increase the depth of the network by allowing an increased number of levels of connections we find structures relevant to study the surroundings of an individual.</p>
+<p>In these networks, the central actor is known as <strong>ego</strong> and all the others as <strong>alter</strong>, however, once we make the graphical representation it is usually interesting to remove the ego node and assume it implicitely.</p>
+<p>To make the following graphs we have randomly generated a network and then select the node with the highest number of connections, a <strong>hub</strong>, then we have generated the different networks by allowing an increased distance from this hub (level)</p>
+<p><img src="NetworkData_files/figure-html/unnamed-chunk-4-1.png" width="110%" style="display: block; margin: auto;" /></p>
+<p>By the end we can consider a social network as the union of different ego networks.</p>
+<p><a href="#">Back to top</a></p>
+<!-- two.mode -->
+</div>
+</div>
+<div id="two-mode-networks" class="section level2">
+<h2><span class="header-section-number">3.2</span> Two-mode networks</h2>
+<p>Two-mode networks involve measurements in two different sets of actors, people and firms with recommendations, trades and consumers activity. In this case, the relational ties, can be of different kinds: from actors of one set to another or between subsets of actors in the same set.</p>
+<p>If the relations measure ties between the actors in one set to actors in another set, we call this a <strong>dyadic two-mode network</strong>. If a network is bimodal, at least one of the ties measured must be of this kind.</p>
+<!-- affiliation network -->
+<div id="affiliation-network" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Affiliation Network</h3>
+<p>An <strong>Affiliation network</strong> is a special type of two-mode network in which there is only one set of actors and a second set of <strong>events</strong>, then the relational tie connecting both sets can be denoted as <strong>participation</strong> or <strong>belonging</strong>.</p>
+<p>The events are not defined on pairs of actors, i.e. they are not the relational tie, but on subgroups of any size of actors of the first mode.</p>
+<p>Examples of this type of network are</p>
+<ul>
+<li>Users in Facebook groups or pages,</li>
+<li>Tweeple retweeting,</li>
+<li>Attendance to social events,</li>
+<li>Actors appearing in films,</li>
+<li>Words in topics of a conversation,…</li>
+</ul>
+<p>A common strategy in the study of these networks is the <strong>projection</strong> into one of the modes which converts the affiliation in two effective one mode networks.</p>
+<p><a href="#">Back to top</a></p>
+<!-- data sets -->
+</div>
+</div>
+</div>
+<div id="data-sets" class="section level1">
+<h1><span class="header-section-number">4</span> Data Sets</h1>
+<p>Along the course we will work with different datasets collected in different R packages so it is a good idea installing them. Some of them come from the <code>igraphdata</code> package. Uset</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">data</span>(<span class="dt">package=</span><span class="st">&quot;igraphdata&quot;</span>)</a></code></pre></div>
+<p>To see the datasets included.</p>
+<p>Other package we will use is <code>sand</code>, which is the companion package to the R-book of the course, then in it you will find the datasets to use along the book lectures (it also contains the codes of each chapter). Use</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">data</span>(<span class="dt">package=</span><span class="st">&quot;sand&quot;</span>)</a></code></pre></div>
+<p>to see the datasets it includes.</p>
+<p><a href="#">Back to top</a></p>
+</div>
+
+<footer>
+  <div id="rbmvFooter" class="footer">
+    <div class="footerContent">
+    
+    <p>Copyright &copy; 2020 Juanjo Manjarín, IE University. All rights reserved.</p>
+    
+    </div>
+  </div>
+</footer>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

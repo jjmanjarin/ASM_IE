@@ -1,0 +1,474 @@
+---
+title: "Functional Programming"
+subtitle: "PFE I: Session IX"
+author: "Prof. Dr. Juanjo Manjarín"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+    df_print: kable    
+    theme: cerulean
+    fig_caption: true
+    number_sections: yes
+  html_notebook: 
+    fig_caption: true
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
+  # pdf_document: 
+  #   toc: true
+---
+
+# Functions
+
+One of the main properties of any object oriented programming language is the possibility of writing your own functions (these are objects of mode *function*) either making reference to prebuilt functions or from scratch. The general syntaxis of a function in R is
+
+```{r, eval = FALSE}
+function_name <- function( arguments ) { operations }
+```
+
+where the **arguments** are the set of inputs of the function and the **operations** are the function itself, i.e. the set of processes until we receive the output.
+
+Note that there are two concepts that are usually used as if they were synonyms while thery are not. These are *argument* and *parameter*
+
+ * An **argument** is the data we pass to the function
+ * A **parameter** is a value assigned when the function is called
+
+
+## Definition of a Function
+
+The first thing we should consider is if our code merits a function for a certain operation. This will be the case if we are repeating the same computation several times along the code applied to different data sets which may produce bugs from the typos in the copy/paste process.
+
+Now, being true that writing good functions becomes a life-long task, there is a couple of ideas that one should follow:
+
+ * First, try to use a **flow chart** which will let you identify the different situations you may find. This means that you should have a properly desing functionality *before* trying to write the function itself.
+ * Second, and related to the previous one, but more down to earth, only write your function once you have completely figured out how it works. This 
+ * Third, when coding it is a general good idea to follow the **K.I.S.S. principle**: ``Keep It Simple, Stupid!'', which means that you should write small pieces of code that do one and only one thing but they do it right, instead of huge pieces of code that can be used for many different tasks. This is a good idea from different perspectives: from debugging to updating it is always easier with small functions than with big ones.
+
+### Example: Our First Function
+
+Let's now use the following data set
+
+```{r}
+library(dplyr)
+
+mydata <- tibble(
+  a = rnorm(200),
+  b = rnorm(200),
+  c = rnorm(200))
+```
+
+and let's use it to write a function that returns a vector with the coefficients of variation of each variable.
+
+Let's first remember that the coefficient of variation of a numerical variable is its standard deviation divided by its mean, times 100 if we want a percentage, i.e.
+
+\begin{equation}
+CV = \frac{sd(x)}{\bar x}\,(\,\cdot\, 100\%)
+\end{equation}
+
+If we were not using a function, we should compute each mean and standard deviation and then divide them and arrange them into a vector, something as
+
+
+```{r}
+# First Variable: Mean, Stdev ad CV
+m.1 <- mean(mydata$a)
+sd.1 <- sd(mydata$a)
+cv.1 <- sd.1/m.1
+
+# Second Variable: Mean, Stdev ad CV
+m.2 <- mean(mydata$b)
+sd.2 <- sd(mydata$b)
+cv.2 <- sd.2/m.2
+
+# Third Variable: Mean, Stdev ad CV
+m.3 <- mean(mydata$c)
+sd.3 <- sd(mydata$c)
+cv.3 <- sd.3/m.3
+
+# Coeffient of Variations
+cv <- c(cv.1,cv.2,cv.3)
+names(cv) <- c("Coeff. Var. A", "Coeff. Var. B", "Coeff. Var. C")
+cv
+```
+
+In this type of computations we always run into the problems of making a mistake by "copy and paste"...and forgetting to change something. This is a type of mistake which is very difficiult to trace!
+
+Then, suppose we build a function named coeff.var that will give as output not only the 
+coefficient of variation but also the mean and the standard deviation 
+
+
+```{r}
+coeff.variation <- function(x){
+  sdev <- sd(x, na.rm = TRUE)
+  m <- mean(x, na.rm = TRUE)
+  cv <- sdev/m
+  output <- c(m, sdev, cv)
+  names(output) <- c("mean", "st. dev.", "Coeff. Var.")
+  return(output)
+  }
+```
+
+In R there is a family of functions, the apply family (see later in the course), that can be used to make this computation even easier by avoiding the use of loops. In this case we may use
+
+
+```{r}
+sapply(mydata,coeff.variation)
+```
+
+## Components of a function
+
+Once we have decided to write a function, we should know that it will have three main components:
+
+ * The **environment**: it is the location map where the function and the variables are defined
+
+```{r}
+environment(coeff.variation)
+```
+
+ * The **formals*}}**: these are the set of arguments that the function may take:
+
+```{r}
+formals(coeff.variation)
+```
+
+ * The **body**: it is the code that contains the logic of the function
+
+```{r}
+body(coeff.variation)
+```
+
+There is, however, a special class of functions of the base package, the **primitive functions** that do not contain any R code in them and call to C code directly, for example, the `sum` function:
+
+```{r}
+sum
+```
+
+it is through the `.Primitive()` that they call for the C code and, in fact, these functions do not have any environment, body or formals we may see
+
+There are some technicalities related to the environments and the lexical scopes of the functions that lie somewhat far from the topics of these course, but if you are interested in understanding the inner parts of R, take a look at the official documentation. Sometimes knowing these technicalities can save a lot of time when one is stuck with errors when running a code.
+
+
+## Dots
+
+Many times we will find functions defined with the argument ``...'' used when we want to pass arguments to the function from other functions but without specifying the names. A prototypical example is the function `plot`, defined as
+
+```{r}
+plot
+```
+
+where the dots make reference to the `par` function, i.e. to any graphical parameter we may need. The `par` function, is itself defined as
+
+```{r}
+formals(par)
+```
+
+When used in the global environment, this function is used to access and modify the list of graphical parameters in the graphical device, for example
+
+
+```{r}
+par(mfrow = c(1,2))
+```
+
+forces that the graphics will be displayed in a 1x2 grid, i.e. one row and two columns. If, however, it is called from the arguments of another plot function, it will only make a temporary effect. In this sense we may pass temporary arguments as the axis labels and names or the main title of the plot. To obtain a list of all the possible graphical parameters, refer to the original documentation in the R project (*An introduction to R*).
+
+```{r}
+par(mfrow = c(1,2))
+hist(mydata$a, col = "blue", main = "Histogram of A", xlab = "A")
+hist(mydata$b, col = "red", main = "Histogram of B", xlab = "B")
+```
+
+## Lazy Evaluation
+
+Once of the basic properties of the arguments of a function in R is that of **lazy evaluation** which means that any argument of the function that is not used in the definition of the function will not cause any warning or error. For example
+
+```{r}
+three <- function(x){
+    3
+}
+
+three(5)
+three(stop("Variable x is not used"))
+```
+
+the way to go around this situation is a call `force`, which forces the evaluation of the corresponding variable and is no longer lazy
+
+\begin{bxlist}
+```{r}
+three <- function(x){
+    force(x)
+    3
+}
+
+three(5)
+#three(stop("Variable x is not used"))
+```
+
+In the end, the idea is that we should be very careful when we write functions since we may run into this kind of situations which will render an undesired and wrong result. Take a look at the source code of `force` in order to understand what it actually does.
+
+## Anonymous Functions
+
+We will use anonymous functions when we do not have any need to give them a name. The usual way to call for these functions is via enclosing them in brackets. If for example we just want to add three to a number but do not think we should store this as a function we would have a function as
+
+```{r}
+(function(x) x + 3)(3)
+```
+
+See that we define the function and pass the arguments at once.
+
+Obviously, the function we have just built is way too much for a function, but these type of anonyous structures will be a common feature of our codes since we usually will pass these functions as arguments to other functions, for example, to compute the coefficient of variations
+
+```{r}
+sapply(mydata, function(x) {sd(x, na.rm = TRUE)/mean(x, na.rm = TRUE)})
+```
+
+The functions that take other functions as arguments are known as **functionals** and are the basic element in **functional programming**. In this case we use the `sapply` functional and we are passing as argument an anonymous function for the coefficient of variation.
+
+There are situations in which non-anonymous functions act as if they were simply because we have built them **wrongly**. Suppose that we want to give a name to our ``adding 3'' function and we write
+
+```{r}
+sum.three <- function(x){
+  x <- x + 3
+}
+```
+
+when we call it, we will not obtain anything even though the type of the function and its class are right:
+
+```{r}
+sum.three(3)
+
+
+typeof(sum.three(3))
+class(sum.three(3))
+```
+
+so R knows that it is a double numeric entity. Then, what is going wrong? The problem is the assignment inside the function which seems to store the value, and since the assignment visibility is set to false we do not see the output
+
+```{r}
+withVisible(sum.three(3))
+```
+
+then in some sense this function acts as if it were anonymous: no data is stored in the environment. There are four different ways to sort this out: 
+
+ * First, by calling the function as if it were **anonymous**:
+ 
+```{r}
+(sum.three(3))
+```
+
+ * Second, making a explicit return in the function (remember, that R functions return their last statement by default), then
+
+```{r}
+sum.three <- function(x){
+  x <- x + 3
+  x
+}
+
+sum.three(3)
+```
+
+ * Third, just removing the assignment inside the function.
+
+```{r}
+sum.three <- function(x){
+  x + 3
+}
+
+sum.three(3)
+```
+ 
+ * Fourth, using the **superassignment** operator, "<<-"
+
+```{r}
+sum.three <- function(x){
+  x <<- x + 3
+}
+
+sum.three(3)
+```
+
+ in this last case, the function runs silently in the sense that nothing is printed in the ouput, but in contrast with the first version, a new variable x with value 6 is created and stored in the global environment.
+
+
+# Pipes
+
+In many situations we will want to apply different processes to a data set, for example, in the sentiment analysis of a text we may want to tokenize, then count the words, then order, then summarise them in a sort of usual processing pipe.
+
+There are different ways to face this pipe. The first and most common is to just apply function after function step by step caching the output of each different step
+
+```{r, eval = FALSE}
+text.1 <- tokeinze(text)
+text.2 <- count(text.1)
+text.3 <- order(text.2)
+text.4 <- summarise(text.3)
+```
+
+or maybe overwriting the text
+
+```{r, eval = FALSE}
+text <- tokeinze(text)
+text <- count(text)
+text <- order(text)
+text <- summarise(text)
+```
+
+Another option is to build you own composite function
+
+```{r, eval = FALSE}
+summarise(
+  order(
+    count(
+      tokenize(text)
+    )
+  )
+)
+```
+
+in which we must pay attention to the order of the application of the functions in this composition!
+
+However, in the **tidyverse** we have another option and is that of using the pipe, "%>%" (originally in the `magrittr` package). Using this binary operator would imply a code as
+
+```{r, eval = FALSE}
+text %>%
+  tokenize() %>%
+  count() %>%
+  order() %>%
+  summarise()
+```
+
+there is a clear advantage with respect to the previous composition of functions and it is that it is way more readable. We can see that the pipe is doing the composition
+
+\begin{equation}
+x \rightarrow f(x) \rightarrow g(f(x)) 
+\end{equation}
+
+by implicitely assuming the arguments that the functions take. Then the way the pipe works is by reasembling the code in a function that overwrites the intermediate objects.
+
+### When Not
+
+Pipes are a nice and straightforward to write a code, however, we cannot use them anytime we want. Since the pipe overwrites the intermediate objects, it cannot be used with functions that use the current environment, for example the assignment by means of `assign`
+
+```{r}
+assign("var", 3)
+
+# Before running the following piece of code, you should empty the environment in order to see the error
+"var" %>% assign(9)
+x
+```
+
+you should declare explicitely the environment in which the variable is assigned
+
+```{r}
+# In contrast with the previous code, once we make the environment explicit, the code runs smoothly
+env <- environment()
+"v" %>% assign(9, envir = env)
+```
+
+
+# Functional Programming
+
+The possibility of creating functions opens the door to another programming level, that of functional programming. To understand what we mean by this we should go to the mathematics from where this name is taken. Formally, a functional is a correspondence which assigns a definite number to each function belonging to some class. This may not mean too much for the non mathematicians, then we may better say that a functional is just a function of a function. Examples of functionals are the area of a curve or the velocity of a particle as a function of all the possible trajectories.
+
+For us functionals will be functions that may take other functions as one of the arguments, in the explicit context of social media, we can think of many different cases in which we should use functionals, for example in the cleaning and preparation of our data in order to give consistency to (possibly) different the NA values, summarize properties or find frequencies.
+
+### Example: Star Wars dataset
+
+Use the StarWars data set on dplyr and find the mean of the numeric variables in it.
+
+```{r}
+data("starwars")
+starwars2 <- starwars[, unlist(lapply(starwars, is.numeric))]
+vapply(starwars2, function(x){mean(x, na.rm = TRUE)}, numeric(1))
+```
+
+In this example we have used two different functionals the first one to subset in the whole data frame using the lapply functional and then we have used another functional to find the mean.
+
+In the first case the lapply functional takes the `is.numeric` function as argument and returns a list of logical values one for each variable in the data frame. Then we have to unlist it to obtain the corresponding logcal vector. Finally we use this vector as the condition for the subsetting. In the second case, we use the vapply functional where we had to define the function in the argument of the functional since there are NA values in the data set and we need to give arguments to the argument function. In case we do not do this, we could find ourselves in trouble
+
+```{r}
+vapply(starwars2, mean, numeric(1))
+```
+
+Note that we could have done everything in one single step without caching the dataset of numerical variables or even, if this procedure is something that will occur several times along our code, we may define a functional that takes care of the whole process by means of anonimous functionals. In the tidyverse, we can pipe the whole process as:
+
+```{r}
+starwars %>%
+  select(which(sapply(., is.numeric))) %>%
+  summarise_all(funs(mean(., na.rm = TRUE)))
+```
+
+in the `purrr` library you may use
+
+```{r}
+library(purrr)
+
+starwars %>%
+  keep(is.numeric) %>%
+  summarise_all(funs(mean(., na.rm = TRUE)))
+  # mutate_if(is.numeric, format, 4)
+```
+
+you can benchmark the three methods and find that the most efficient is the first one, however, the other two offer clarity and an easy to read code. As a comment, if we want to obtain a different number of significant digits in the answer of he pipe, we can add the last line in the pipe where the last parameter is precisely the number of significant digits in the answer.
+
+## The superassignment
+
+We have already met this operator, but let's explain it with some detail. The special operator "<<-" is used inside functions to create a global variable to which the value at the right of it is assigned. We already know that if we want to create a global variable from inside a function, we must use this assignment and that the function will not show any output, as for example the function
+
+```{r}
+deposit_2 <- function(total, amount){
+  total <<- total + amount
+}
+```
+
+However, the difference between assignment and superassignment is slightly hidden if the superassignment is inside a **closure**, for short, a function inside the function. 
+
+## Closures
+
+**Closures** are an advance feature of functional programming that we will only mention since it can be seen as a way of caching variables. In object oriented programming we usually build objects that contain functions, from this perspective we can think of a closure as a function that encloses data. 
+
+Suppose the previous example function with the deposit but with some extra functionalities
+
+```{r}
+account <- function(total){
+  list(
+    deposit = function(amount){
+      if(amount <= 0){
+        cat("The deposit must be positive")
+      } else {
+        total <<- total + amount
+        cat(amount, " deposited. Your balance is ", total, "\n\n")
+      }
+    },
+    withdraw = function(amount){
+      if(amount > total){
+        cat("You do not have hat amount of money")
+      } else {
+        total <<- total - amount
+        cat(amount, " withdrawn. Your balance is ", total,"\n\n")
+      }
+    },
+    balance = function(){
+      cat("Your balance is ", total, "\n\n")
+    }
+  )
+}
+```
+
+This function is created and stored in the **global environment**, however, it contains three functions inside which are not stored in that environment, but in the environment created in the function call. To see it, we just have to call the function with no arguments. 
+
+```{r}
+account()
+```
+
+Note that each function returs the hex direction of the exectution environment. The functions in the list: *deposit*, *withdraw* and *balance*, belong to this environment not to the global one. 
+
+This type of functions out of the global environment are known as **function closures** and their environment as the **enclosing environment**.
+
+```{r}
+base_account <- account(100)
+
+base_account$deposit(20)
+base_account$balance()
+```
+
+Closures represent an advanced way of caching variables since the values are stored between function calls. However, we should dig into the way R deals with environments to fully understand what goes on and then we leave it here.
