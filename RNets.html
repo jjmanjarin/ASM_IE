@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Prof. Dr. Juanjo Manjarín" />
+
+
+<title>Random Networks</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Social Media Analytics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Social Media Analytics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit I</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="NetworkData.html">Networks and their Data Sets</a>
+        </li>
+        <li>
+          <a href="MathNet.html">Mathematical Description of Networks</a>
+        </li>
+        <li>
+          <a href="Measures.html">Measures in Networks</a>
+        </li>
+        <li>
+          <a href="Basics.html">Basics of `igraph`</a>
+        </li>
+        <li>
+          <a href="Ex_Unit_I.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit II</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="RNets.html">Random Networks</a>
+        </li>
+        <li>
+          <a href="SFNets.html">Scale-Free Networks</a>
+        </li>
+        <li>
+          <a href="ReNets.html">Real Networks</a>
+        </li>
+        <li>
+          <a href="ModelR.html">Modelling Networks in R</a>
+        </li>
+        <li>
+          <a href="Ex_Unit_II.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit III</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="DegCor.html">Degree Correlation</a>
+        </li>
+        <li>
+          <a href="Assort.html">Assortativity</a>
+        </li>
+        <li>
+          <a href="ComNet.html">Introduction to Communities</a>
+        </li>
+        <li>
+          <a href="MAAlg.html">Machine Learning Algorithms in R</a>
+        </li>
+        <li>
+          <a href="Ex_Unit_III.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit IV</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="SprePhen.html">Spreading Phenomena</a>
+        </li>
+        <li>
+          <a href="CEMod.html">Classical Epidemics Models</a>
+        </li>
+        <li>
+          <a href="NetEpi.html">Network Epidemics</a>
+        </li>
+        <li>
+          <a href="NetDif.html">Network Diffusion</a>
+        </li>
+        <li>
+          <a href="Ex_Unit_IV.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li>
+  <a href="IntroR.html">R Course</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Random Networks</h1>
+<h4 class="author">Prof. Dr. Juanjo Manjarín</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#the-random-network"><span class="toc-section-number">1</span> The Random Network</a></li>
+<li><a href="#degree-distribution"><span class="toc-section-number">2</span> Degree Distribution</a><ul>
+<li><a href="#clustering-coefficient-and-average-path-length"><span class="toc-section-number">2.1</span> Clustering Coefficient and Average Path Length</a></li>
+<li><a href="#comparison-with-real-networks"><span class="toc-section-number">2.2</span> Comparison with Real Networks</a></li>
+</ul></li>
+<li><a href="#maximum-and-minimum-degrees"><span class="toc-section-number">3</span> Maximum and Minimum Degrees</a></li>
+<li><a href="#evolution-of-random-networks"><span class="toc-section-number">4</span> Evolution of Random Networks</a><ul>
+<li><a href="#subcritical-regime"><span class="toc-section-number">4.1</span> Subcritical Regime</a></li>
+<li><a href="#critical-regime"><span class="toc-section-number">4.2</span> Critical Regime</a></li>
+<li><a href="#supercritical-regime"><span class="toc-section-number">4.3</span> Supercritical Regime</a></li>
+<li><a href="#connected-regime"><span class="toc-section-number">4.4</span> Connected Regime</a></li>
+<li><a href="#summary"><span class="toc-section-number">4.5</span> Summary</a></li>
+</ul></li>
+<li><a href="#analysis-of-a-random-network"><span class="toc-section-number">5</span> Analysis of a Random Network</a></li>
+<li><a href="#small-worlds"><span class="toc-section-number">6</span> Small Worlds</a><ul>
+<li><a href="#watts-strogratz-model"><span class="toc-section-number">6.1</span> Watts-Strogratz Model</a></li>
+<li><a href="#the-problems-of-random-networks"><span class="toc-section-number">6.2</span> The Problems of Random Networks</a></li>
+</ul></li>
+</ul>
+</div>
+
+<hr />
+<!-- er model -->
+<div id="the-random-network" class="section level1">
+<h1><span class="header-section-number">1</span> The Random Network</h1>
+<p>Let’s begin with a series of models that, although not fully realistic, let us take the first steps into the mathematical description on how are networks created. We wil use a very simplified notion on the nature of the connections, namely, that the <strong>connections between the different actors in a network are formed randomly</strong>. We obviously know that this is not right for real life networks but, however, it will return accurate predictions for some f the relevant network measures.</p>
+<p>These models can be classified in two main families which are completely equivalent and only differ in the way we describe the structures</p>
+<ul>
+<li><strong>The <span class="math inline">\(G(N,L)\)</span> model</strong>: In this case we consider a fixed number of nodes and <span class="math inline">\(L\)</span> links placed randomly between them. This is the <strong>Erdös-Renyí model</strong> (ER) developed in their 1959 seminal paper <em>On random graphs</em>.</li>
+<li><strong>The <span class="math inline">\(G(N,p)\)</span> model</strong>: In this case we consider a fixed number of nodes and a probability <span class="math inline">\(p\)</span> of place a link between any two of them. This is the <strong>Solomonoff-Rapoport model</strong> (SR) developed in their 1951 paper <em>Connectivity of Random Nets</em>. And, independently, by Gilbert in 1959 in the paper <em>Random Graphs</em>.</li>
+</ul>
+<p>Both models describe the same type of network connectivity but in each of them the computation of some properties is easier than in the other. In any case, since the ER implies that the number of links is fixed while in the SR this is not the case since what is fixed is the probability of a link, we will always use this second model for our formulations.</p>
+<p>In <code>igraph</code> both models are considered under the same function <code>random.graph.game()</code> where the second and third argument will return one model or the other, for example, if we want to define a ER model <span class="math inline">\(G(N,L) = G(100, 125)\)</span> we would write</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">random.graph.game</span>(<span class="dv">100</span>, <span class="dv">125</span>, <span class="dt">type =</span> <span class="st">&quot;gnm&quot;</span>)</a></code></pre></div>
+<p>and the 125 links would be placed randomly between the 100 nodes. If, on the other hand we want to define a SR-model <span class="math inline">\(G(N,p)=G(100, 0.3)\)</span>, we may do</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">random.graph.game</span>(<span class="dv">100</span>, <span class="fl">0.3</span>, <span class="dt">type =</span> <span class="st">&quot;gnp&quot;</span>)</a></code></pre></div>
+<p>and know we do not have a fixed number of links, just the probability that each link may be formed with a 0.3 of probability.</p>
+<p>Note that in the literature this class of models are generally known as the Erdös-Renyí model since they fully developed them in a complete series of papers. Then in <code>igraph</code> we can the previous function as the <code>erdos.renyi.game()</code> function with the same options.</p>
+<p><a href="#">Back to top</a></p>
+<!-- degree distribution -->
+</div>
+<div id="degree-distribution" class="section level1">
+<h1><span class="header-section-number">2</span> Degree Distribution</h1>
+<p>Remember that the degree distribution is the probability distribution that returns the probability that a given actor has <span class="math inline">\(k\)</span> connections. In order to find it we need the following data:</p>
+<ul>
+<li>The order of the graph: <span class="math inline">\(N\)</span></li>
+<li>The degree of a particular node: <span class="math inline">\(k\)</span></li>
+<li>The probability that any two nodes are connected: <span class="math inline">\(p\)</span></li>
+</ul>
+<p>We also know that the maximum degree that any node can have is <span class="math inline">\(N-1\)</span>, always assuming that there are no loops. Now, take any node, say the <span class="math inline">\(i\)</span>th one, and consider its connections to all the other links. Let’s write a <span class="math inline">\(1\)</span> if there exists a connection and <span class="math inline">\(0\)</span> if it does not, then we may find the following sequence</p>
+<p><span class="math display">\[\begin{equation}
+\underbrace{\begin{array}{ccccc} 1 &amp; 0 &amp; 0 &amp; \dots &amp; 1\end{array}}_{N-1}
+\end{equation}\]</span></p>
+<p>since the order in which we read the network nodes is irrelevant, we may consider all the connected nodes at the beginning and all the not-connected nodes at the end of the sequence, having the following structure</p>
+<p><span class="math display">\[\begin{equation}
+\underbrace{
+\underbrace{\begin{array}{cccc} 1 &amp; 1 &amp; \dots &amp; 1\end{array}}_{k}%
+\underbrace{\begin{array}{cccc} 0 &amp; 0 &amp; \dots &amp; 0\end{array}}_{N-1-k}}_{N-1}
+\end{equation}\]</span></p>
+<p>since the existence of one each link is independent of all the others and it is created with probability <span class="math inline">\(p\)</span>, the probability of the previous sequence is <span class="math inline">\(p^k(1-p)^{N-1-k}\)</span>. On the other hand, we can also see that there will be <span class="math inline">\(\begin{pmatrix} N-1 \\ k \end{pmatrix}\)</span> of these sequences, then we can write the <strong>degree distribution</strong> as</p>
+<p><span class="math display">\[\begin{equation}
+P(K=k)=\begin{pmatrix} N-1 \\ k \end{pmatrix}p^k(1-p)^{(N-1-k)}
+\end{equation}\]</span></p>
+<p>which is nothing more than the usual <em>binomial distribution</em>. Let’s see the histograms of the degree distributions for a link probability of 0.25 and network orders 20, 100 and 1000</p>
+<p><img src="RNets_files/figure-html/unnamed-chunk-3-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Therefore we expect the usual behavior for the distribution, namely, if <span class="math inline">\(p\)</span> is close to 0 or 1, we will have a left (right) skewed distribution while if <span class="math inline">\(p\)</span> is around 0.5, the distribution will be symmetric. To this we must add a modification with respect to the number of nodes: no matter the probability, if <span class="math inline">\(N\)</span> is large enough, the distribution will be symmetric. In particular, if <span class="math inline">\(N\)</span> is large <em>and</em> <span class="math inline">\(p\)</span> is small, so that the product <span class="math inline">\(Np\)</span> remains constant and small, we can approximate the binomial by a Poisson distribution.</p>
+<p>This approximation implies that the probability of connection <span class="math inline">\(p\)</span> is small or, if you prefer, when <span class="math inline">\(&lt;k&gt;\ll N\)</span>, which is ok since real networks are sparse. Of course, this approximation would not be right in a dense network! In this situation we can write</p>
+<p><span class="math display">\[\begin{equation}
+P(K = k) = e^{-&lt;k&gt;}\frac{&lt;k&gt;^k}{k!}
+\end{equation}\]</span></p>
+<p>remember that in a Poisson distribution the parameter is the mean of the distribution. In this case this corresponds to the product <span class="math inline">\((N-1)p=&lt;k&gt;\)</span>, the usual expected value for the binomial distribution.</p>
+<p>The fact that we can work with a Poisson distribution in certain limits makes the computation of some quantities rather straightforward, then for example</p>
+<p><br></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Measure</th>
+<th align="center">Binomial Distribution</th>
+<th align="center">Poisson Distribution</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Mean</td>
+<td align="center"><span class="math inline">\((N-1)p\)</span></td>
+<td align="center"><span class="math inline">\(&lt;k&gt;\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">Variance</td>
+<td align="center"><span class="math inline">\((N-1)p(1-p)\)</span></td>
+<td align="center"><span class="math inline">\(&lt;k&gt;\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">Standard Deviation</td>
+<td align="center"><span class="math inline">\(\sqrt{(N-1)p(1-p)}\)</span></td>
+<td align="center"><span class="math inline">\(\sqrt{&lt;k&gt;}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>and, even better, the Poisson distribution does not depend on the order of the network, <span class="math inline">\(N\)</span>, and so its functional form is blind to the fine grain details of the network!</p>
+<p><a href="#">Back to top</a></p>
+<!-- cc and avl -->
+<div id="clustering-coefficient-and-average-path-length" class="section level2">
+<h2><span class="header-section-number">2.1</span> Clustering Coefficient and Average Path Length</h2>
+<p>As a first step in this section, let’s find the average number of links of any node in a random network. Remember that in an undirected network the sum of the degrees is twice the number of links, then we can just write that</p>
+<p><span class="math display">\[\begin{equation}
+&lt;k&gt;=\frac{2&lt;L&gt;}{N}
+\end{equation}\]</span></p>
+<p>since the average degree is just <span class="math inline">\(p(N-1)\)</span> we find</p>
+<p><span class="math display">\[\begin{equation}
+&lt;L&gt;=\frac{pN(N-1)}{2}=pL_{max}
+\end{equation}\]</span></p>
+<p>Now, if we remember that the local clustering coefficient is the number of links of each node divided by the maximum number of links, we can find the <strong>average clustering coefficient</strong> as</p>
+<p><span class="math display">\[\begin{equation}
+&lt;C&gt;=\frac{&lt;L&gt;}{L_{max}}=\frac{pL_{max}}{L_{max}} = p
+\end{equation}\]</span></p>
+<p>this result is general for any random network: <em>the average clustering coefficient is equal to the linking probability</em>. And even more, this is true for the global clustering coefficient.</p>
+<p>The expression for the <strong>average path length</strong> can also be obtained analytically, however, the proof is not as straightoforward. In this case we can write</p>
+<p><span class="math display">\[\begin{equation}
+&lt;d&gt;=\frac{\log N - \gamma}{\log &lt;k&gt;}+\frac{1}{2}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\gamma\)</span> is the Euler’s Constant (do not confuse it with the Euler’s number <span class="math inline">\(e\)</span>!!)</p>
+<p><a href="#">Back to top</a></p>
+<!-- comparison with a real network -->
+</div>
+<div id="comparison-with-real-networks" class="section level2">
+<h2><span class="header-section-number">2.2</span> Comparison with Real Networks</h2>
+<p>Let’s load the datset for the collaborations in ArXiv in the Theoretical Phisics branch</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">th_collabs &lt;-<span class="st"> </span><span class="kw">graph_from_data_frame</span>(<span class="kw">read.csv</span>(<span class="st">&quot;Data/CA-HepTh.csv&quot;</span>))</a></code></pre></div>
+<p>since we can identify the size and the order</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">th_order &lt;-<span class="st"> </span><span class="kw">gorder</span>(th_collabs)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">th_size &lt;-<span class="st"> </span><span class="kw">gsize</span>(th_collabs)</a></code></pre></div>
+<p>we can generate a random network with those precise values (it’s true that since it is a randomly generated network, the values we compute may be slightly different in each case, however, the differences will not be significant for the purposes of our comparison)</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">101</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">th_rand &lt;-<span class="st"> </span><span class="kw">random.graph.game</span>(th_order, th_size, <span class="st">&quot;gnm&quot;</span>)</a></code></pre></div>
+<p>The summary we want is going to be composed by: <em>average degree</em>, <em>average path length</em> and <em>clustering coefficient</em></p>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="left">Network</th>
+<th align="right">Average_Degree</th>
+<th align="right">Average_Path_Length</th>
+<th align="right">Average_Clustering_Coefficient</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Real</td>
+<td align="right">10.52364</td>
+<td align="right">5.945216</td>
+<td align="right">0.2839997</td>
+</tr>
+<tr class="even">
+<td align="left">ER-model</td>
+<td align="right">10.52364</td>
+<td align="right">4.169048</td>
+<td align="right">0.0011425</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>We can compare the results in the table with the ones we may obtain using the analytic formulas, then</p>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="left">Quantity</th>
+<th align="right">Exact</th>
+<th align="right">R</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Average Path Length</td>
+<td align="right">4.1627548</td>
+<td align="right">4.1690481</td>
+</tr>
+<tr class="even">
+<td align="left">Average Clustering Coefficient</td>
+<td align="right">0.0010656</td>
+<td align="right">0.0011425</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>So the R functions produce a rather accurate and precise result.</p>
+<p>We have compared just one simulation with a real network. However, ther results we find can be easily seen to be a general pattern: In a random network the <strong>average path length</strong> will always be correctly estimated, however, the <strong>average clustering coefficient</strong> will always be significantly smaller.</p>
+<p>This means that using random networks we may estimate how far are nodes in a network, however, since the connections in real life are not random, this model cannot properly account for this feature of a real network and will always underestimate the percentage of nodes to which each node is connected: in our case <span class="math inline">\(0.1\%\)</span> compared to the true <span class="math inline">\(28.40\%\)</span>.</p>
+<p><a href="#">Back to top</a></p>
+<!-- max min degs -->
+</div>
+</div>
+<div id="maximum-and-minimum-degrees" class="section level1">
+<h1><span class="header-section-number">3</span> Maximum and Minimum Degrees</h1>
+<p>An interesting property of a random network is that once it is set, all the nodes will have, roughly, the same degree and all of them will be close to the average degree. To find out which are the <strong>upper and lower natural cutoffs</strong> we will simply impose that these correspond to the values such that there is at most one node with a higher degree and at most one node with a smaller degree. Since we have <span class="math inline">\(N\)</span> nodes, the probability for such node is <span class="math inline">\(1/N\)</span>, then</p>
+<p><span class="math display">\[\begin{equation}
+1- F(k_{max}) = \frac{1}{N}
+\end{equation}\]</span></p>
+<p>and</p>
+<p><span class="math display">\[\begin{equation}
+F(k_{min}-1) = \frac{1}{N}
+\end{equation}\]</span></p>
+<p>we may use the Poisson distribution to obtain analytical results for these values, however, since each of them correspond to the inverse survival and to the percentile, respectively, we may directly use R to obtain these values.</p>
+<p>Suppose that we are given a network with <span class="math inline">\(N=10^6\)</span> and <span class="math inline">\(\langle k\rangle =1,000\)</span>, then</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">N &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">6</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">k &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">3</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">k_min &lt;-<span class="st"> </span><span class="kw">qpois</span>(<span class="dv">1</span><span class="op">/</span>N, k) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">k_max &lt;-<span class="st"> </span><span class="kw">qpois</span>(<span class="dv">1</span><span class="op">/</span>N, k, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&quot;Maximum Degree: %5.0d</span><span class="ch">\n</span><span class="st">Minimum Degree: %5.0d&quot;</span>, k_max, k_min ))</a></code></pre></div>
+<pre><code>## Maximum Degree:  1154
+## Minimum Degree:   854</code></pre>
+<p>Then, as we see, with a network with one million nodes and an average degree of one thousand, the degre of the nodes moves from <span class="math inline">\([854, 1,154]\)</span>.</p>
+<p><a href="#">Back to top</a></p>
+<!-- evolution -->
+</div>
+<div id="evolution-of-random-networks" class="section level1">
+<h1><span class="header-section-number">4</span> Evolution of Random Networks</h1>
+<p>If we begin with <span class="math inline">\(N\)</span> isolated nodes and place <span class="math inline">\(L\)</span> links between them, we are generating a dynamical process in which the average degree of the network is changing from 0 when all nodes are isolated to <span class="math inline">\(N-1\)</span> when we have a clique.</p>
+<p>We can see this process in the following picture</p>
+<p><img src="RNets_files/figure-html/unnamed-chunk-11-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>where we have a network with 50 nodes and have selected four different moments with increasing &lt;<span class="math inline">\(k\)</span>&gt;.</p>
+<p>Along the process we can identify four different regimes, denoted as <strong>subcritical</strong>, <strong>critical</strong>, <strong>supercritical</strong> and <strong>connected</strong>. We will explain each of them now, however, it is important to point that the critical regime, occuring at &lt;<span class="math inline">\(k\)</span>&gt;<span class="math inline">\(=1\)</span>, is a very special case since at that moment a <strong>phase transition</strong> occurs and a <strong>Giant Component</strong> is formed in the network.</p>
+<p>We must be very careful making a difference bewteen the largest and the giant component of a network. We define a giant component as <strong>a component whose size grows proportional to <span class="math inline">\(N\)</span></strong>, otherwise it may just be a large component.</p>
+<p>The following graph shows the dependence of the diameter of the network as a function of its average degree for a series of five different seeds in the generatino of random networks.</p>
+<div style="float:right; position: relative;">
+<p><img src="RNets_files/figure-html/unnamed-chunk-12-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<p>We can identify that around &lt;<span class="math inline">\(k\)</span>&gt;<span class="math inline">\(=1\)</span> we obtain the maximum diameter and this decreases as we increase the degree. This is another indication of the aforementioned phase transition.</p>
+<p>In order to understand the phase transition, let’s denote by <span class="math inline">\(u=1-N_G/N\)</span> the fraction of nodes which do not belong to the giant component, and <span class="math inline">\(s=1-u\)</span> to the fraction of nodes in the giant component. Then, we can see that there are two possibilities for any node to be in <span class="math inline">\(u\)</span>: either it is not connected to any other node or it is connected to a node not in the giant component, then we can write</p>
+<p><span class="math display">\[\begin{equation}
+u = (1-p-pu)^{N-1}
+\end{equation}\]</span></p>
+<p>solving for <span class="math inline">\(s\)</span> we find that that the <strong>fraction of nodes in the giant component</strong> satisfies</p>
+<p><span class="math display">\[\begin{equation}
+s = 1-e^{-&lt;k&gt;s}
+\end{equation}\]</span></p>
+<p>which is a highly non-trivial equation and whose solution can only be found in term of the Lambert-W functions. However, we can plot the dependence of <span class="math inline">\(s\)</span> with &lt;<span class="math inline">\(k\)</span>&gt;</p>
+<div style="float:right; position: relative;">
+<p><img src="RNets_files/figure-html/unnamed-chunk-13-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<p>from where we clearly see that there is no giant component before &lt;<span class="math inline">\(k\)</span>&gt;<span class="math inline">\(=1\)</span>, as expected.</p>
+<!-- subcritical -->
+<div id="subcritical-regime" class="section level2">
+<h2><span class="header-section-number">4.1</span> Subcritical Regime</h2>
+<p>This is the regime where &lt;<span class="math inline">\(k\)</span>&gt;<span class="math inline">\(&lt;1\)</span> or <span class="math inline">\(p&lt;1/(N-1)\)</span>. In this regime there are different trees formed by a small number of nodes.</p>
+<p><a href="#">Back to top</a></p>
+<!-- critical -->
+</div>
+<div id="critical-regime" class="section level2">
+<h2><span class="header-section-number">4.2</span> Critical Regime</h2>
+<p>This regime occurs at &lt;<span class="math inline">\(k\)</span>&gt;<span class="math inline">\(=1\)</span> or <span class="math inline">\(p=1/(N-1)\)</span>. The following figure represents a different graphical inspection of the equation for the giant component size. In it we have the diagonal dashed line for <span class="math inline">\(y=s\)</span> and all the other lines are the family <span class="math inline">\(1-e^{&lt;k&gt;s}\)</span> for different values of the average degree.</p>
+<div style="float:right; position: relative;">
+<p><img src="RNets_files/figure-html/unnamed-chunk-14-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<p>For any value of &lt;<span class="math inline">\(k\)</span>&gt; we have a solution at <span class="math inline">\(s=0\)</span>, i.e. with no giant component. However, the value &lt;<span class="math inline">\(k\)</span>&gt;<span class="math inline">\(=1\)</span> is the last in which we only have that solution and other values of <span class="math inline">\(s\)</span> appear from there on, for example the value <span class="math inline">\(s=0.583\)</span> at &lt;<span class="math inline">\(k\)</span>&gt;<span class="math inline">\(=1.5\)</span>. This is precisely indicating the growth of a giant component of order <span class="math inline">\(N_G\)</span>.</p>
+<p>The solution of the equation can be found when the gradient of both sides is equal. In this case we find</p>
+<p><span class="math display">\[\begin{equation}
+&lt;k&gt;e^{-&lt;k&gt;s}=1
+\end{equation}\]</span></p>
+<p>which, when <span class="math inline">\(s=0\)</span> has as solution &lt;<span class="math inline">\(k\)</span>&gt;<span class="math inline">\(=1\)</span>. Which, again, implies that the network can have a giant component only when &lt;<span class="math inline">\(k\)</span>&gt;<span class="math inline">\(&gt;1\)</span>, while at &lt;<span class="math inline">\(k\)</span>&gt;<span class="math inline">\(=1\)</span> and below we have <span class="math inline">\(s=0\)</span></p>
+<p><a href="#">Back to top</a></p>
+<!-- supercritical -->
+</div>
+<div id="supercritical-regime" class="section level2">
+<h2><span class="header-section-number">4.3</span> Supercritical Regime</h2>
+<p>This is the case in which &lt;<span class="math inline">\(k\)</span>&gt;<span class="math inline">\(&gt;1\)</span>, or <span class="math inline">\(p&gt;1/(N-1)\)</span>, but up to a value to be determined in the next section. To understand this regime think of a node and pick all its neighbors. We will denote this set as the <strong>core</strong>, then take a set of nodes which have at least one neighbor outside the set and denote it as the <strong>periphery</strong>, then we may think of enlarging this set as much as we can. The number of nodes in this component can be denoted as <span class="math inline">\(N_G\)</span>, then the number of nodes which are not in this set is <span class="math inline">\(N-N_G\)</span>.</p>
+<p>The average number of connections of any of these nodes is still &lt;<span class="math inline">\(k\)</span>&gt;, then</p>
+<p><span class="math display">\[\begin{equation}
+p(N-N_G) \approx &lt;k&gt;
+\end{equation}\]</span></p>
+<p>and so, increasing the periphery to the new level multiplies the size by &lt;<span class="math inline">\(k\)</span>&gt; implying an exponential growth. It is this growth which determines that we have a giant component in this regime.</p>
+<p><a href="#">Back to top</a></p>
+<!-- connected -->
+</div>
+<div id="connected-regime" class="section level2">
+<h2><span class="header-section-number">4.4</span> Connected Regime</h2>
+<p>If we keep on increasing the value of the average degree, there will be a moment in which the expected number of nodes not connected to the giant component is</p>
+<p><span class="math display">\[\begin{equation}
+N(1-p)^{N_G} \simeq N(1-p)^N
+\end{equation}\]</span></p>
+<p>since in this case <span class="math inline">\(N_G\simeq N\)</span>. The last step is when there is only one node isolated from the component, this means that</p>
+<p><span class="math display">\[\begin{equation}
+1 = N(1-p)^N
+\end{equation}\]</span></p>
+<p>from where we can easily find that, in the limit <span class="math inline">\(N\to\infty\)</span>, the <strong>probability</strong> is</p>
+<p><span class="math display">\[\begin{equation}
+p = \frac{\log N}{N}
+\end{equation}\]</span></p>
+<p>or, written in terms of <strong>average degree</strong></p>
+<p><span class="math display">\[\begin{equation}
+&lt;k&gt;=\frac{(N-1)\log N}{N} \sim \log N
+\end{equation}\]</span></p>
+<p><a href="#">Back to top</a></p>
+<!-- giant component -->
+</div>
+<div id="summary" class="section level2">
+<h2><span class="header-section-number">4.5</span> Summary</h2>
+<p><br></p>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="17%" />
+<col width="20%" />
+<col width="23%" />
+<col width="26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Subcritical</th>
+<th align="center">Critical</th>
+<th align="center">Supercritical</th>
+<th align="center">Connected</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Probability</td>
+<td align="center"><span class="math inline">\(&lt;\frac{1}{N-1}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{N-1}\)</span></td>
+<td align="center"><span class="math inline">\(&gt;\frac{1}{N-1}\)</span></td>
+<td align="center"><span class="math inline">\(&gt;\frac{\log N}{N}\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">Average Degree</td>
+<td align="center"><span class="math inline">\(0&lt; \langle k\rangle &lt; 1\)</span></td>
+<td align="center"><span class="math inline">\(\langle k\rangle = 1\)</span></td>
+<td align="center"><span class="math inline">\(\langle k\rangle &gt; 1\)</span></td>
+<td align="center"><span class="math inline">\(\langle k\rangle &gt; \log N\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">Giant Component</td>
+<td align="center">No</td>
+<td align="center">No</td>
+<td align="center">Yes</td>
+<td align="center">Yes</td>
+</tr>
+<tr class="even">
+<td align="left">Structure</td>
+<td align="center">Trees</td>
+<td align="center">May have cycles</td>
+<td align="center">GC with cycles and trees outside</td>
+<td align="center">GC with cycles</td>
+</tr>
+<tr class="odd">
+<td align="left">Size of the Largest Cluster</td>
+<td align="center"><span class="math inline">\(\sim\log N\)</span></td>
+<td align="center"><span class="math inline">\(\sim N^{2/3}\)</span></td>
+<td align="center"><span class="math inline">\(\sim \left(\frac{\langle k \rangle}{N} - \frac{1}{N}\right)N\)</span></td>
+<td align="center"><span class="math inline">\(N\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>The expressions for the clustering coefficient and the average path length are still valid for any regime (being careful with the meaning when we have different components)</p>
+<p><a href="#">Back to top</a></p>
+<!-- analysis of a RN -->
+</div>
+</div>
+<div id="analysis-of-a-random-network" class="section level1">
+<h1><span class="header-section-number">5</span> Analysis of a Random Network</h1>
+<p>For this section we are going to generate manually a random network <span class="math inline">\(G(N,p)\)</span> with 1,000 nodes, but let’s act as if we were given a dataset named <code>ex_random_net</code> which is unkown to us and we have to analyse it.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">101</span>)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">ex_random_net &lt;-<span class="st"> </span><span class="kw">random.graph.game</span>(<span class="dv">1000</span>, <span class="fl">0.01</span>, <span class="st">&quot;gnp&quot;</span>)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw">V</span>(ex_random_net)<span class="op">$</span>names &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">gorder</span>(ex_random_net)</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="kw">vertex_attr</span>(ex_random_net, <span class="st">&quot;label&quot;</span>) &lt;-<span class="st"> </span><span class="kw">V</span>(ex_random_net)<span class="op">$</span>names</a></code></pre></div>
+<p>Then, let’s proceed by finding the different elements of its EDA:</p>
+<ul>
+<li>Analysis of:
+<ul>
+<li>Density</li>
+<li>Diameter</li>
+<li>Average Path Length</li>
+<li>Connectedness</li>
+</ul></li>
+<li>Centrality/Prestige Measures</li>
+<li>Trasitivity and Reciprocity</li>
+</ul>
+<p>then we are going to determine:</p>
+<ul>
+<li>The Degree Distribution</li>
+<li>If there is a Giant Component</li>
+<li>The size of the Largest Component</li>
+</ul>
+<p>Then we can find</p>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="right">Density</th>
+<th align="right">Diameter</th>
+<th align="right">APL</th>
+<th align="right">ALC</th>
+<th align="right">GCC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0.0101</td>
+<td align="right">6</td>
+<td align="right">3.2434</td>
+<td align="right">0.00998</td>
+<td align="right">0.0104</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>where <strong>APL</strong> is the Average Path Length, <strong>ALC</strong> is the Average Local Clustering Coefficient and <strong>GCC</strong> is the Global Clustering Coefficient. Note that we do not find the reciprocity because this is an undirected network. Now we can make a summary with the nodes with the highest centrality values</p>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="right">Node</th>
+<th align="right">Degree</th>
+<th align="right">Betweenness</th>
+<th align="right">Closeness</th>
+<th align="right">Eigenvector</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">225</td>
+<td align="right">0.022022</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="right">225</td>
+<td align="right">NA</td>
+<td align="right">0.0088131</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">225</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.350035</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="right">225</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>which returns that it is just one node sharing the maximum value in all the centralities. You may complete this by making some plots (better if you export the graph to gephi).</p>
+<p>From the summary of the EDA, we see a network whose <em>Average Path Length</em> is small but also has a very small value of the <em>Average Local Clustering Coefficient</em>, which is indicative of a basic ER-model. To complete this identification, let’s plot the <em>Degree Distribution</em> in order to see if it actually corresponds to a Binomial/Poisson like distribution.</p>
+<p>In the graph we can see the the observed frequencies of each degree value and the expected frequencies in case we had a binomial distribution for 1,000 events and probability <span class="math inline">\(\langle k \rangle/(N-1)\)</span></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">kmean &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">degree</span>(ex_random_net, <span class="dt">loops =</span> <span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">N &lt;-<span class="st"> </span><span class="kw">gorder</span>(ex_random_net)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">p &lt;-<span class="st"> </span>kmean<span class="op">/</span>(N<span class="dv">-1</span>)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">observed &lt;-<span class="st"> </span><span class="dv">1000</span><span class="op">*</span><span class="kw">degree.distribution</span>(ex_random_net)</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">expected &lt;-<span class="st"> </span><span class="kw">dbinom</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(observed), N, p)</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">Xsq &lt;-<span class="st"> </span><span class="kw">chisq.test</span>(observed, expected)</a></code></pre></div>
+<div style="float:right; position: relative;">
+<p><img src="RNets_files/figure-html/unnamed-chunk-19-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<p>As a final set of results:</p>
+<ul>
+<li>There is only one component, since <code>is.connected</code> returns TRUE, so we may assume that we are in the <em>Connected Regime</em></li>
+<li>The <strong>probability</strong> is 0.0101181, which is greater than <span class="math inline">\(\log(N)/N=\)</span> 0.0069078, in agreement with a connected regime</li>
+<li>The <strong>average degree</strong> is 10.108, which is greater than <span class="math inline">\(\log(N)=\)</span> 6.9077553, in agreement with a connected regime</li>
+<li>Since we have only one component, its size is of order <span class="math inline">\(N\)</span>, in agreement with a connected regime</li>
+</ul>
+<p>Summarizing our resutls, we have what a random network in the connected regime with a small average path length and diameter, i.e. all the nodes are close to each other, but with a very small transitivity, i.e. due to randomness, triads are not transitive (only the <span class="math inline">\(0.998\%\)</span> of them are). If this network where people with links of friendship, this implies that we may gain access to anyone easily, but friends of a person are not usually friends.</p>
+<p><a href="#">Back to top</a></p>
+<!-- small worlds -->
+</div>
+<div id="small-worlds" class="section level1">
+<h1><span class="header-section-number">6</span> Small Worlds</h1>
+<p>We have already mentioned the words <strong>Small Worlds</strong>, but to make it more precise, we say that a network is a small world when it has a small average path length <em>and</em> a large average local clustering coefficient.</p>
+<p>This second effect, which we can see in real networks as a reflection of a high transitivity, is not present in the ER-model, then we need another perspective: the Watts-Strogratz Model.</p>
+<p><a href="#">Back to top</a></p>
+<!-- ws model -->
+<div id="watts-strogratz-model" class="section level2">
+<h2><span class="header-section-number">6.1</span> Watts-Strogratz Model</h2>
+<p>Watts and Strogatz contructed not just one model but two based on the idea of introducing a continuous parameter that may interpolate between extreme models.</p>
+<ul>
+<li><p>The <strong><span class="math inline">\(\alpha\)</span>-model</strong>, in words of Watts, <em>represents a primitive attempt to capture the nature of connections in a social network</em>. For this purpose they introduced a parameter, <span class="math inline">\(\alpha\in [0,\infty)\)</span>, which captures the balance bewteen the constraints of social structure and the freedom of individual agency. Then by finding the average path length and the clustering coefficient as a function of <span class="math inline">\(\alpha\)</span> they were able to identify that:</p>
+<ul>
+<li>There is a critical point in the <span class="math inline">\(\langle d\rangle\)</span> where a phase transition occurs;</li>
+<li>For values of <span class="math inline">\(\alpha&lt;\alpha_{crit}\)</span> the network is just a set of <strong>fragmented networks</strong> where the accesible nodes are very close and the other nodes are simply unreachable. However, this world is <strong>unstable</strong> and tends towards the phase transtition</li>
+<li>For values of <span class="math inline">\(\alpha&gt;\alpha_{crit}\)</span> the network displays a high local clustering coeffcient and a small average path length. This is the region of the <strong>small-worlds</strong></li>
+<li>As we increase the value of <span class="math inline">\(\alpha\)</span>, we end up in a <strong>random network</strong> region, where both, local clustering coefficient and average path length are small.</li>
+</ul></li>
+</ul>
+<p>Then this model shows that the network will either be fragmented into small clusters or will be in a single giant component.</p>
+<ul>
+<li>The <strong><span class="math inline">\(\beta\)</span>-model</strong>, where the <span class="math inline">\(\beta\)</span>-parameter is a <em>rewiring probability</em>. In this case, they began with a <strong>regular network</strong>, i.e. one in which each node has exactly the same degree, as the one you can see in the graph below, such that the nodes are connected to the <span class="math inline">\(k/2\)</span> previous and posterior neighbors. Then in our graph example each node has degree 6 and is connected to the three previous and three posterior nodes.</li>
+</ul>
+<p>The of the <em>rewiring</em> process is that at each step, for each of the links in the network a random number is generated and compared to the <span class="math inline">\(\beta\)</span>, then if the generated number is smaller than it, the link is removed and connected with probability <span class="math inline">\(\beta\)</span> to any other node (avoiding repeated links and loops). Clearly, if the probability of rewiring is 0, we do not change the graph and stay in the regular newtork, however, the other limit is when <span class="math inline">\(p\)</span> is 1, in which case every node has ben rewired and placed randomly, then we are in a <strong>random network</strong>. Everything that happens in-between is the <strong>small-world</strong> network.</p>
+<p><img src="RNets_files/figure-html/unnamed-chunk-20-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Today, when we talk about the WS-model, we always refer to the <span class="math inline">\(\beta\)</span>-model. This model comes with two main lessons:</p>
+<ul>
+<li>There exist network models which can easily have the properties of small average path length and high clustering coefficient, and that</li>
+<li>Even for small values of <span class="math inline">\(\beta\)</span>, the small world appears, i.e. we do not need too many rewirings to obtain a high clustering coefficient.</li>
+</ul>
+<p>This last lesson is what explains why small-worlds are so present in real networks. However, proving rigurously this result has shown as a really hard problem and at most, it has been demonstrated in easier variants of the original model.</p>
+<p>In R we can define the WS-model using the <code>watt.strogatz.game(sim, size, nei, p)</code> function. In it we have:</p>
+<ul>
+<li><code>dim</code>, is the dimension of the starting lattice</li>
+<li><code>size</code>, is the number of nodes along each dimension</li>
+<li><code>nei</code>, is the number of neighbors in the statrting lattice</li>
+<li><code>p</code>, is the rewiring probability</li>
+</ul>
+<p>Then, for example, to simulate a WS-model to be compared with the hep-th collaborations network we would do</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">th_ws &lt;-<span class="st"> </span><span class="kw">watts.strogatz.game</span>(<span class="dv">1</span>, th_order, <span class="dv">5</span>, <span class="fl">0.1</span>)</a></code></pre></div>
+<div style="float:right; position: relative;">
+<p><img src="RNets_files/figure-html/unnamed-chunk-22-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<p>Now, the behaviour of the <strong>average length path</strong> and the <strong>clustering coefficient</strong> is very interesting. The plot we have made contains the average values on 100 simulations of a network with 1,000 nodes, 3 initial neighbors and changing the rewiring probability continuously from almost 0 to almost 1. The result has been normalized by consdering the maximum values of the ALP and the CC.</p>
+<p>as a function of <span class="math inline">\(\beta\)</span> we see that on the left side (<span class="math inline">\(\beta=0\)</span>) we have a high ALP and a high CC, while on the right side (<span class="math inline">\(\beta=1\)</span>) we have a low CC and a low ALP. Note however, that since we have normalized, we do not actually see that the change in the VLP is not very significative, while it is for the CC.</p>
+<p><a href="#">Back to top</a></p>
+<!-- problems of rn -->
+</div>
+<div id="the-problems-of-random-networks" class="section level2">
+<h2><span class="header-section-number">6.2</span> The Problems of Random Networks</h2>
+<p>It looks like the WS-model responds properly to some of the characteristics of real world networks. In fact, for the hep-th network of collaborations we can find the following summary table, where we have written the simulation as a ER-model and the equivalent with a WS-model (note that we have directly used the value of one single simulation and that results may change slightly if we increase this number)</p>
+<p><br></p>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="left">Network</th>
+<th align="right">Average_Degree</th>
+<th align="right">Average_Path_Length</th>
+<th align="right">Average_Clustering_Coefficient</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Real</td>
+<td align="right">10.52364</td>
+<td align="right">5.945216</td>
+<td align="right">0.2839997</td>
+</tr>
+<tr class="even">
+<td align="left">ER-model</td>
+<td align="right">10.52364</td>
+<td align="right">4.169048</td>
+<td align="right">0.0011425</td>
+</tr>
+<tr class="odd">
+<td align="left">WS-model</td>
+<td align="right">10.00000</td>
+<td align="right">5.272705</td>
+<td align="right">0.3465666</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br></p>
+<div style="float:right; position: relative;">
+<p><img src="RNets_files/figure-html/unnamed-chunk-24-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<p>However, WS-strogatz model is still a random network and then it suffers from the same problems as any other, in particular, we showed that the average clustering coefficient of a random network is the probability of the model, which implies that</p>
+<p><span class="math display">\[\begin{equation}
+\langle C \rangle = \frac{\langle k \rangle}{N-1}\simeq \frac{\langle k \rangle}{N}
+\end{equation}\]</span></p>
+<p>this implies that the if behaves as <span class="math inline">\(1/N\)</span>. However, it can be seen that for a family of real networks, the rate <span class="math inline">\(\langle C \rangle/\langle k \rangle\)</span> is independent of <span class="math inline">\(N\)</span>. Not only that, as can be seen in the graph (in logarithmic scale), the clustering coefficient decreases with <span class="math inline">\(k\)</span> in contradiction with the general result.</p>
+<p>Finally, a major problem is that the shape of the <strong>degree distribution</strong> is completely different from that of a real network. This has been illustrated below with the hep-th collaborations network, however, it can be seen that this is a general property of real networks: their degree distribution follows a <strong>power-law distribution</strong></p>
+<p><img src="RNets_files/figure-html/unnamed-chunk-25-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><a href="#">Back to top</a></p>
+</div>
+</div>
+
+<footer>
+  <div id="rbmvFooter" class="footer">
+    <div class="footerContent">
+    
+    <p>Copyright &copy; 2020 Juanjo Manjarín, IE University. All rights reserved.</p>
+    
+    </div>
+  </div>
+</footer>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
