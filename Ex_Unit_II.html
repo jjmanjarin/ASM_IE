@@ -297,7 +297,7 @@ $(document).ready(function () {
           <a href="SFNets.html">Scale-Free Networks</a>
         </li>
         <li>
-          <a href="ReNets.html">Real Networks</a>
+          <a href="ReNets.html">Preferential Attachment Networks</a>
         </li>
         <li>
           <a href="ModelR.html">Modelling Networks in R</a>
@@ -379,8 +379,7 @@ $(document).ready(function () {
 <ul>
 <li><a href="#random-networks"><span class="toc-section-number">1</span> <font color = "limegreen"> Random Networks </font></a></li>
 <li><a href="#small-worlds"><span class="toc-section-number">2</span> <font color = "limegreen"> Small Worlds </font></a></li>
-<li><a href="#power-law-networks"><span class="toc-section-number">3</span> <font color = "limegreen"> Power Law Networks </font></a></li>
-<li><a href="#preferential-attachment-networks"><span class="toc-section-number">4</span> <font color = "limegreen"> Preferential Attachment Networks </font></a></li>
+<li><a href="#scale-free-and-preferential-attachment-networks"><span class="toc-section-number">3</span> <font color = "limegreen"> Scale-Free and Preferential Attachment Networks </font></a></li>
 </ul>
 </div>
 
@@ -398,7 +397,7 @@ $(document).ready(function () {
 </li>
 <p><br></p>
 <li>
-<span class="exer"> Degree Distribution </span>. Generate 2 different random networks and find the corresponding degree distributions using $p{0.01, 0.2}. Explain them from a statistical point of view. Also, find the maximum and minimum natural cutoff points. What do they mean?
+<span class="exer"> Degree Distribution </span>. Generate 2 different random networks and find the corresponding degree distributions using <span class="math inline">\(p\in \{0.01, 0.2\}\)</span>. Explain them from a statistical point of view. Also, find the maximum and minimum natural cutoff points. What do they mean?
 </li>
 <p><br></p>
 </ol>
@@ -419,7 +418,7 @@ $(document).ready(function () {
 </li>
 <p><br></p>
 <li>
-<p><span class="exer"> Assessing Small Worlds </span>. For directed networks we can use a definition of the clustering coefficient due to G.~Fagiolo</p>
+<p><span class="exer"> Assessing Small Worlds </span>. For directed networks we can use a definition of the clustering coefficient due to G.Fagiolo</p>
 <p><span class="math display">\[\begin{equation}
 C(v_i)=\frac{(A+A^T)_{ii}^3}{2[k^{tot}_i(k^{tot}_i-1) -2(A^2)_{ii}]}
 \end{equation}\]</span></p>
@@ -427,13 +426,47 @@ use it to assess the small world property of both a Erdös-Renyi and a Waltz-Str
 </li>
 </ol>
 </div>
-<div id="power-law-networks" class="section level1">
-<h1><span class="header-section-number">3</span> <font color = "limegreen"> Power Law Networks </font></h1>
+<div id="scale-free-and-preferential-attachment-networks" class="section level1">
+<h1><span class="header-section-number">3</span> <font color = "limegreen"> Scale-Free and Preferential Attachment Networks </font></h1>
+<ol>
+<li>
+<p><span class="exer"> Degree Distribution </span>. Suppose that a network has a degree distribution that follows a geometric form <span class="math inline">\(p(k)=Ca^k\)</span> then,</p>
+<ul>
+<li>Find the value of <span class="math inline">\(C\)</span> such that the distribution is properly normalized</li>
+<li>Calculate the natural cutoffs of the distribution</li>
+<li>Find the fraction of nodes that have degree <span class="math inline">\(k_0\)</span> or grater</li>
+<li>Generate a random set of values for this degree distribution (just add a small noise to the values) and make a graphical representation. Is it a scale free network?</li>
+</ul>
+</li>
 <p><br></p>
-</div>
-<div id="preferential-attachment-networks" class="section level1">
-<h1><span class="header-section-number">4</span> <font color = "limegreen"> Preferential Attachment Networks </font></h1>
+<li>
+<p><span class="exer"> Degree Exponent </span>. Find the Density, Average Degree, Transitivity and the number of isolated nodes in each of the following networks</p>
+<ul>
+<li>hep-th collaborations</li>
+<li>network science collaborations</li>
+</ul>
+<p>You can find them in the campus online. To read the datasets do <code>graph_from_data_frame(read.csv(&quot;route_to_csv_file&quot;))</code>.</p>
+<p>Then if the degree distribution is a power-law, estimate the degree exponent. Finally, generate for each case a Random, a Small-World and a Preferential Attachment Network that is the <em>equivalent</em> to each real network. Compare the predictions of each model with the real network. Also estimate in the preferential attachment the degree exponent.</p>
+Make a graphical representation of the networks and of the models
+</li>
 <p><br></p>
+<li>
+<p><span class="exer"> Preferential Attachment </span>. Preferential Attachment relies in two hypotheses:</p>
+<ul>
+<li>The likelihood of connecting to a node depends on the degree of this node</li>
+<li>The probability <span class="math inline">\(\Pi(k_i)\)</span> is linear in <span class="math inline">\(k\)</span></li>
+</ul>
+<p>To assess this property you can take the <em>cumulative preferential attachment function</em></p>
+<p><span class="math display">\[\begin{equation}
+\pi(k) = \sum_{k_j=0}^k \frac{\Delta k_i}{\Delta t}
+\end{equation}\]</span></p>
+<p>find this function for the two real networks before and then if you consider that</p>
+<p><span class="math display">\[\begin{equation}
+\Pi(k_i)\approx k^\alpha
+\end{equation}\]</span></p>
+<p>estimate the value of <span class="math inline">\(\alpha\)</span>. Is this dependency linear, sublinear or superlinear?</p>
+</li>
+</ol>
 <p><a href="#">Back to top</a></p>
 </div>
 
