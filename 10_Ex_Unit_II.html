@@ -9,9 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Prof. Dr. Juanjo Manjarín" />
 
 
-<title>Home Page</title>
+<title>Unit II: Exercises</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -369,140 +370,104 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Home Page</h1>
+<h1 class="title toc-ignore">Unit II: Exercises</h1>
+<h4 class="author">Prof. Dr. Juanjo Manjarín</h4>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#random-networks"><span class="toc-section-number">1</span> <font color = "limegreen"> Random Networks </font></a></li>
+<li><a href="#small-worlds"><span class="toc-section-number">2</span> <font color = "limegreen"> Small Worlds </font></a></li>
+<li><a href="#scale-free-and-preferential-attachment-networks"><span class="toc-section-number">3</span> <font color = "limegreen"> Scale-Free and Preferential Attachment Networks </font></a></li>
+</ul>
+</div>
 
-<p>Hello, welcome to the Social Media Analytics Website! You are in the Home page of the site: just a place to redirect you to different parts of the course. Use either the links below or the main menu on top. Enjoy!</p>
-<div id="networks-in-r" class="section level1">
-<h1><span class="header-section-number">1</span> Networks in R</h1>
-<p>In this section you can find the links to the markdown html generated documents of the course. All the documents contain a explanation of the topics which complements the ones in the slides, the books and in class.</p>
-<ul>
-<li><strong>UNIT I</strong>: Introduction to Networks
-<ul>
-<li>Session I:
-<ul>
-<li><a href="01_NetworkData.html">Networks and their Data Sets</a></li>
-</ul></li>
-<li>Session II:
-<ul>
-<li><a href="02_MathNet.html">Mathematical Description of Networks</a></li>
-<li><a href="VMNets.html">Video: The Mathematics of Networks</a></li>
-</ul></li>
-<li>Session III:
-<ul>
-<li><a href="03_Measures.html">Measures in Networks</a></li>
-</ul></li>
-<li>Session IV:
-<ul>
-<li><a href="04_RBasics.html">Basics of <code>igraph</code></a></li>
-<li><a href="VRCent.html">Video: Centralities in R</a></li>
-<li><a href="VGephi.html">Video: Gephi</a></li>
-</ul></li>
-<li>Session V:
-<ul>
-<li><a href="05_Ex_Unit_I.html">Exercises</a></li>
-<li><a href="05_Ex_Unit_I_Solutions.html">Solution to Exercises</a></li>
-</ul></li>
-</ul></li>
-<li><strong>UNIT II</strong>: Models of Networks
-<ul>
-<li>Session VI:
-<ul>
-<li><a href="06_RNets.html">Random Networks</a></li>
-</ul></li>
-<li>Session VII:
-<ul>
-<li><a href="07_SFNets.html">Scale-Free Networks</a></li>
-<li><a href="VSFNets.html">Video: Scale-Free Networks</a></li>
-</ul></li>
-<li>Session VIII:
-<ul>
-<li><a href="08_PANets.html">Preferential Attachment Networks</a></li>
-</ul></li>
-<li>Session IX:
-<ul>
-<li><a href="09_NetModels.html">Modelling Networks in R</a></li>
-</ul></li>
-<li>Session X:
-<ul>
-<li><a href="10_Ex_Unit_II.html">Exercises</a></li>
-<li><a href="10_Ex_Unit_II_Solutions.html">Solution to Exercises</a></li>
-</ul></li>
-</ul></li>
-<li><strong>UNIT III</strong>: Deep Characteristics of Networks
-<ul>
-<li>Session XI:
-<ul>
-<li><a href="DegCor.html">Degree Correlation</a></li>
-</ul></li>
-<li>Session XII:
-<ul>
-<li><a href="Assort.html">Assortativity</a></li>
-</ul></li>
-<li>Sesion XIII:
-<ul>
-<li><a href="ComNet.html">Introduction to Communities</a></li>
-</ul></li>
-<li>Session XIV:
-<ul>
-<li><a href="MAAlg.html">Machine Learning Algorithms in R</a></li>
-</ul></li>
-<li>Session XV:
-<ul>
-<li><a href="Ex_Unit_III.html">Exercises</a></li>
-</ul></li>
-</ul></li>
-<li><strong>UNIT IV</strong>: Spreading Phenomena
-<ul>
-<li>Session XVI:
-<ul>
-<li><a href="SprePhen.html">Spreading Phenomena</a></li>
-</ul></li>
-<li>Session XVII:
-<ul>
-<li><a href="CEMod.html">Classical Epidemics Models</a></li>
-</ul></li>
-<li>Session XVIII:
-<ul>
-<li><a href="NetEpi.html">Network Epidemics</a></li>
-</ul></li>
-<li>Session XIX:
-<ul>
-<li><a href="NetDif.html">Network Diffusion</a></li>
-</ul></li>
-<li>Session XX:
-<ul>
-<li><a href="Ex_Unit_IV.html">Exercises</a></li>
-</ul></li>
-</ul></li>
-</ul>
+<hr />
+<div id="random-networks" class="section level1">
+<h1><span class="header-section-number">1</span> <font color = "limegreen"> Random Networks </font></h1>
+<p><br></p>
+<ol>
+<li>
+<span class="exer"> Links Distribution </span> Find the probability distribution that describes the probability that a random network of order <span class="math inline">\(N\)</span> has <span class="math inline">\(L\)</span> links. From it find the average degree and the average number of links. Is this equivalent to the degree distribution? Why?
+</li>
+<p><br></p>
+<li>
+<span class="exer"> Phase Transition </span> Generate with R four different random networks that may correspond to any of the four phases in the <em>evolution with k</em>. The compute all the relevant quantities that may describe them.
+</li>
+<p><br></p>
+<li>
+<span class="exer"> Degree Distribution </span>. Generate 2 different random networks and find the corresponding degree distributions using <span class="math inline">\(p\in \{0.01, 0.2\}\)</span>. Explain them from a statistical point of view. Also, find the maximum and minimum natural cutoff points. What do they mean?
+</li>
+<p><br></p>
+</ol>
 </div>
-<div id="an-introduction-to-r" class="section level1">
-<h1><span class="header-section-number">2</span> An introduction to R</h1>
-<p>Since the coding of all the analysis is made in R, in case you need it, you can go to the following link where you can find an introduction to R with some exercises</p>
-<ul>
-<li><a href="IntroR.html">An Introduction to R</a></li>
-</ul>
+<div id="small-worlds" class="section level1">
+<h1><span class="header-section-number">2</span> <font color = "limegreen"> Small Worlds </font></h1>
+<ol>
+<li>
+<span class="exer"> <span class="math inline">\(\beta\)</span>-Model </span>. Reproduce the graph in section 6.1 of the document Random Networks in the webpage. Can you explain what it means?
+</li>
+<p><br></p>
+<li>
+<span class="exer"> Degree Distribution </span>. Consider the <em>Les Miserables</em> dataset in Gephi. Analyse it from the perspective of the clustering coefficient, the average path length and the degree distribution. May it be seen as Small World? Why?
+</li>
+<p><br></p>
+<li>
+<span class="exer"> Neighborhood </span>. Show that in a regular lattice the number of connections bewteen neighbors is given by <span class="math inline">\(\frac{3}{8}\langle k\rangle\left(\langle k\rangle-2\right)\)</span>
+</li>
+<p><br></p>
+<li>
+<p><span class="exer"> Assessing Small Worlds </span>. For directed networks we can use a definition of the clustering coefficient due to G.Fagiolo</p>
+<p><span class="math display">\[\begin{equation}
+C(v_i)=\frac{(A+A^T)_{ii}^3}{2[k^{tot}_i(k^{tot}_i-1) -2(A^2)_{ii}]}
+\end{equation}\]</span></p>
+use it to assess the small world property of both a Erdös-Renyi and a Waltz-Strogatz network where the number of nodes is 200 (the other properties are open and you choose them).
+</li>
+</ol>
 </div>
-<div id="r-packages" class="section level1">
-<h1><span class="header-section-number">3</span> R Packages</h1>
-<p>For more information about the functions in the packages for network analysis in R, please visit the home page of the main projects found below, where we have included links to projects not used in this course but which are very interesting and which should probably be used in many situations</p>
+<div id="scale-free-and-preferential-attachment-networks" class="section level1">
+<h1><span class="header-section-number">3</span> <font color = "limegreen"> Scale-Free and Preferential Attachment Networks </font></h1>
+<ol>
+<li>
+<p><span class="exer"> Degree Distribution </span>. Suppose that a network has a degree distribution that follows a geometric form <span class="math inline">\(p(k)=Ca^k\)</span> then,</p>
 <ul>
-<li><a href="https://igraph.org/r/"><strong>igraph</strong></a></li>
-<li><a href="https://rdrr.io/cran/netdiffuseR/"><strong>NetdiffuseR</strong></a></li>
-<li><a href="https://cran.r-project.org/web/packages/network/vignettes/networkVignette.pdf"><strong>network</strong></a></li>
-<li><a href="http://statnet.org/"><strong>sna</strong></a></li>
-<li><a href="http://www.stats.ox.ac.uk/~snijders/siena/"><strong>RSiena</strong></a></li>
+<li>Find the value of <span class="math inline">\(C\)</span> such that the distribution is properly normalized</li>
+<li>Calculate the natural cutoffs of the distribution</li>
+<li>Find the fraction of nodes that have degree <span class="math inline">\(k_0\)</span> or grater</li>
+<li>Generate a random set of values for this degree distribution (just add a small noise to the values) and make a graphical representation. Is it a scale free network?</li>
 </ul>
-<p>and for visualizations:</p>
+</li>
+<p><br></p>
+<li>
+<p><span class="exer"> Degree Exponent </span>. Find the Density, Average Degree, Transitivity and the number of isolated nodes in each of the following networks</p>
 <ul>
-<li><a href="https://exts.ggplot2.tidyverse.org/ggraph.html"><strong>ggraph</strong></a></li>
-<li><a href="https://www.rdocumentation.org/packages/networkD3/versions/0.4"><strong>NetworkD3</strong></a>, also check these <a href="https://www.r-graph-gallery.com/network-interactive.html">examples</a></li>
-<li><a href="https://briatte.github.io/ggnet/"><strong>ggnet2</strong></a></li>
-<li><a href="https://exts.ggplot2.tidyverse.org/geomnet.html"><strong>geomnet</strong></a></li>
+<li>hep-th collaborations</li>
+<li>network science collaborations</li>
 </ul>
+<p>You can find them in the campus online. To read the datasets do <code>graph_from_data_frame(read.csv(&quot;route_to_csv_file&quot;))</code>.</p>
+<p>Then if the degree distribution is a power-law, estimate the degree exponent. Finally, generate for each case a Random, a Small-World and a Preferential Attachment Network that is the <em>equivalent</em> to each real network. Compare the predictions of each model with the real network. Also estimate in the preferential attachment the degree exponent.</p>
+Make a graphical representation of the networks and of the models
+</li>
+<p><br></p>
+<li>
+<p><span class="exer"> Preferential Attachment </span>. Preferential Attachment relies in two hypotheses:</p>
+<ul>
+<li>The likelihood of connecting to a node depends on the degree of this node</li>
+<li>The probability <span class="math inline">\(\Pi(k_i)\)</span> is linear in <span class="math inline">\(k\)</span></li>
+</ul>
+<p>To assess this property you can take the <em>cumulative preferential attachment function</em></p>
+<p><span class="math display">\[\begin{equation}
+\pi(k) = \sum_{k_j=0}^k \frac{\Delta k_i}{\Delta t}
+\end{equation}\]</span></p>
+<p>find this function for the two real networks before and then if you consider that</p>
+<p><span class="math display">\[\begin{equation}
+\Pi(k_i)\approx k^\alpha
+\end{equation}\]</span></p>
+<p>estimate the value of <span class="math inline">\(\alpha\)</span>. Is this dependency linear, sublinear or superlinear?</p>
+</li>
+</ol>
+<p><a href="#">Back to top</a></p>
 </div>
 
 <footer>

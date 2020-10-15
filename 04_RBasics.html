@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Prof. Dr. Juanjo Manjarín" />
+
+
+<title>Basics of igraph</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Social Media Analytics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Social Media Analytics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit I</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="01_NetworkData.html">Networks and their Data Sets</a>
+        </li>
+        <li>
+          <a href="02_MathNet.html">Mathematical Description of Networks</a>
+        </li>
+        <li>
+          <a href="03_Measures.html">Measures in Networks</a>
+        </li>
+        <li>
+          <a href="04_RBasics.html">Basics of `igraph`</a>
+        </li>
+        <li>
+          <a href="05_Ex_Unit_I_solutions.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit II</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="06_RNets.html">Random Networks</a>
+        </li>
+        <li>
+          <a href="07_SFNets.html">Scale-Free Networks</a>
+        </li>
+        <li>
+          <a href="08_PANets.html">Preferential Attachment Networks</a>
+        </li>
+        <li>
+          <a href="09_NetModels.html">Modelling Networks in R</a>
+        </li>
+        <li>
+          <a href="10_Ex_Unit_II.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit III</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="DegCor.html">Degree Correlation</a>
+        </li>
+        <li>
+          <a href="Assort.html">Assortativity</a>
+        </li>
+        <li>
+          <a href="ComNet.html">Introduction to Communities</a>
+        </li>
+        <li>
+          <a href="MAAlg.html">Machine Learning Algorithms in R</a>
+        </li>
+        <li>
+          <a href="Ex_Unit_III.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit IV</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="SprePhen.html">Spreading Phenomena</a>
+        </li>
+        <li>
+          <a href="CEMod.html">Classical Epidemics Models</a>
+        </li>
+        <li>
+          <a href="NetEpi.html">Network Epidemics</a>
+        </li>
+        <li>
+          <a href="NetDif.html">Network Diffusion</a>
+        </li>
+        <li>
+          <a href="Ex_Unit_IV.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li>
+  <a href="IntroR.html">R Course</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Basics of igraph</h1>
+<h4 class="author">Prof. Dr. Juanjo Manjarín</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#installing-igraph"><span class="toc-section-number">1</span> Installing <code>igraph</code></a></li>
+<li><a href="#creating-basic-newtorks"><span class="toc-section-number">2</span> Creating Basic Newtorks</a><ul>
+<li><a href="#undirected-graph"><span class="toc-section-number">2.1</span> Undirected Graph</a></li>
+<li><a href="#directed-graphs"><span class="toc-section-number">2.2</span> Directed Graphs</a></li>
+</ul></li>
+<li><a href="#decorating-graphs"><span class="toc-section-number">3</span> Decorating Graphs</a><ul>
+<li><a href="#vertex-atrributes"><span class="toc-section-number">3.1</span> Vertex Atrributes</a></li>
+<li><a href="#edges-attributes"><span class="toc-section-number">3.2</span> Edges Attributes</a></li>
+</ul></li>
+<li><a href="#graph-layouts"><span class="toc-section-number">4</span> Graph Layouts</a></li>
+</ul>
+</div>
+
+<hr />
+<div id="installing-igraph" class="section level1">
+<h1><span class="header-section-number">1</span> Installing <code>igraph</code></h1>
+<p>R offers a whole series of packages to manipulate and plot network data. The basic one we are going to use is <code>igraph</code>, a package whose core is written and developed in C but which is mainly used through its high level implementations in R, Python and Mathematica.</p>
+<p>It is on CRAN, so to install it just use</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">&quot;igraph&quot;</span>)</a></code></pre></div>
+<p>then we are ready to use it by calling it with the usual <code>library</code> function</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(igraph)</a></code></pre></div>
+<p>Please not the masked objects from the <code>stats</code> and <code>base</code> packages in case you want to use those functions.</p>
+<hr />
+<!-- Basic Networks -->
+</div>
+<div id="creating-basic-newtorks" class="section level1">
+<h1><span class="header-section-number">2</span> Creating Basic Newtorks</h1>
+<p>In this section we are going to see how to create small networks and how to obtain the information encoded in the igraph objects. As usual, there are different alternatives, for example, we are going to use <code>graph.formula()</code>, but we can also use <code>graph()</code>. It is highly recommended that you explore some of the other options until you feel conformtable with, at least, one of them.</p>
+<!-- undirected graph -->
+<div id="undirected-graph" class="section level2">
+<h2><span class="header-section-number">2.1</span> Undirected Graph</h2>
+<p>As a warm-up exercise, let’s create a very basic case: an undirected network with 7 nodes. In this case we can directly use the <code>graph.formula</code> function, where we specify the edges between the named nodes by just using the “-”:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">g &lt;-<span class="st"> </span><span class="kw">graph.formula</span>(<span class="dv">1-2</span>, <span class="dv">2-3</span>, <span class="dv">1-5</span>, <span class="dv">3-4</span>, <span class="dv">5-7</span>, <span class="dv">4-6</span>, <span class="dv">1-6</span>, <span class="dv">3-6</span>, <span class="dv">2-7</span>, <span class="dv">2-4</span>)</a></code></pre></div>
+<p>The object we create is a list of igraph objects, not directly accesible to us. However, there are different methods to see what we have:</p>
+<ul>
+<li>The functions <code>E()</code> and <code>V()</code> retrieve the <strong>edges</strong> (links, connections…) and the <strong>vertices</strong> (nodes, actors…) of the graph, respectively</li>
+<li>The function <code>str()</code> let us see the internal structure of the object</li>
+</ul>
+<p>then</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">V</span>(g)</a></code></pre></div>
+<pre><code>## + 7/7 vertices, named, from 5ca0b40:
+## [1] 1 2 3 5 4 7 6</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">E</span>(g)</a></code></pre></div>
+<pre><code>## + 10/10 edges from 5ca0b40 (vertex names):
+##  [1] 1--2 1--5 1--6 2--3 2--4 2--7 3--4 3--6 5--7 4--6</code></pre>
+<p>of course you can use the usual <code>length</code> function to obtain the <strong>order</strong> (number of vertices), <span class="math inline">\(N_v = |V|\)</span>, and the <strong>size</strong> (number of edges), <span class="math inline">\(N_e = |E|\)</span>, of the network. However, we also have predefined functions for this:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">gorder</span>(g)</a></code></pre></div>
+<pre><code>## [1] 7</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">gsize</span>(g)</a></code></pre></div>
+<pre><code>## [1] 10</code></pre>
+<p>This is a good moment to build our first network graph. This is can be done with the <code>plot</code> function (you know that it just decides what to plot dependending on the supplied object), so without any extra parameter we have</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">plot</span>(g)</a></code></pre></div>
+<p><img src="04_RBasics_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Later we will see how to change the different decorations and parts of the plot: layout, colors, sizes…</p>
+<p><a href="#">Back to top</a></p>
+<!-- directed graphs -->
+</div>
+<div id="directed-graphs" class="section level2">
+<h2><span class="header-section-number">2.2</span> Directed Graphs</h2>
+<p>If the previous graph were a <strong>digraph</strong> we may do it evident by just using combinations of plus and minus sings indicating if there exists direction towards the vertex or not. For example, we may do</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">di_g &lt;-<span class="st"> </span><span class="kw">graph.formula</span>(<span class="dv">1</span><span class="op">-+</span><span class="dv">2</span>, <span class="dv">2</span><span class="op">+-</span><span class="dv">3</span>, <span class="dv">1</span><span class="op">+-</span><span class="dv">5</span>, <span class="dv">3</span><span class="op">+-</span><span class="dv">4</span>, <span class="dv">5</span><span class="op">-+</span><span class="dv">7</span>, <span class="dv">4</span><span class="op">++</span><span class="dv">6</span>, <span class="dv">1</span><span class="op">-+</span><span class="dv">6</span>, <span class="dv">3</span><span class="op">+-</span><span class="dv">6</span>, <span class="dv">2</span><span class="op">-+</span><span class="dv">7</span>, <span class="dv">2</span><span class="op">-+</span><span class="dv">4</span>)</a></code></pre></div>
+<p>which, when plot, returns a digraph with arrows directed towards those vertices that had a plus sing next to them in the formula definition.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">plot</span>(di_g)</a></code></pre></div>
+<p><img src="04_RBasics_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><a href="#">Back to top</a></p>
+<hr />
+<!-- decrating graphs -->
+</div>
+</div>
+<div id="decorating-graphs" class="section level1">
+<h1><span class="header-section-number">3</span> Decorating Graphs</h1>
+<p>Suppose that we want to change the names of the vertices in this graph, we can just do it using the typical R $-syntaxis and the assignment as follows</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">V</span>(g)<span class="op">$</span>names &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;John&quot;</span>, <span class="st">&quot;Mark&quot;</span>, <span class="st">&quot;Anna&quot;</span>, <span class="st">&quot;Isa&quot;</span>, <span class="st">&quot;Peter&quot;</span>, <span class="st">&quot;Mary&quot;</span>, <span class="st">&quot;Rose&quot;</span>)</a></code></pre></div>
+<!-- vertex attributes -->
+<div id="vertex-atrributes" class="section level2">
+<h2><span class="header-section-number">3.1</span> Vertex Atrributes</h2>
+<p>In general, if we are going to use a general setup fo the look of the vertices of a graph, it may be better to set the general properties of the vertices by using the <code>vertex_attr()</code> function (check the documentation for it) In our case we are going to set the names, colors, sizes and the labels</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">vertex_attr</span>(g) &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">names =</span> <span class="kw">c</span>(<span class="st">&quot;John&quot;</span>, <span class="st">&quot;Mark&quot;</span>, <span class="st">&quot;Anna&quot;</span>, <span class="st">&quot;Isa&quot;</span>, <span class="st">&quot;Peter&quot;</span>, <span class="st">&quot;Mary&quot;</span>, <span class="st">&quot;Rose&quot;</span>),</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">                       <span class="dt">color =</span> <span class="kw">rep</span>(<span class="st">&quot;blue&quot;</span>, <span class="kw">gorder</span>(g)),</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">                       <span class="dt">size =</span> <span class="kw">rep</span>(<span class="dv">45</span>, <span class="kw">gorder</span>(g)),</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">                       <span class="dt">label.color =</span> <span class="kw">rep</span>(<span class="st">&quot;white&quot;</span>, <span class="kw">gorder</span>(g)))</a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="kw">vertex_attr</span>(g, <span class="st">&quot;label&quot;</span>) &lt;-<span class="st"> </span><span class="kw">V</span>(g)<span class="op">$</span>names</a></code></pre></div>
+<p>Now we can plot to see the result</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">plot</span>(g)</a></code></pre></div>
+<p><img src="04_RBasics_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>if we want to see which are the vertex attributes we have at any point of our analysis, we can invoque them using:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">list.vertex.attributes</span>(g)</a></code></pre></div>
+<pre><code>## [1] &quot;names&quot;       &quot;color&quot;       &quot;size&quot;        &quot;label.color&quot; &quot;label&quot;</code></pre>
+<p>we can use any value of any of the <strong>composition variables</strong> of our dataset as an attribute of our vertices. This may be clearer once we deal with data frames in igraph.</p>
+<p><a href="#">Back to top</a></p>
+<!-- edges attributes -->
+</div>
+<div id="edges-attributes" class="section level2">
+<h2><span class="header-section-number">3.2</span> Edges Attributes</h2>
+<p>We can equally set the attributes of the edges using the <code>edge_attr()</code> function. In this case, however, let’s pass the arguments directly in the plot function (to see another approach). Note that this makes that the changes we may do are not permanent, i.e. the weights we use for the graph are not part of the graph information, just part of the graph itself.</p>
+<p>We will also include some properties for the vertices just to see that we can overwrite the general properties defined above for the particular graph we are doing</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">weights &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>,<span class="op">-</span><span class="dv">2</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="kw">plot</span>(g,</a>
+<a class="sourceLine" id="cb20-4" data-line-number="4">     <span class="dt">edge.label =</span> weights,</a>
+<a class="sourceLine" id="cb20-5" data-line-number="5">     <span class="dt">edge.label.color =</span> <span class="st">&quot;black&quot;</span>,</a>
+<a class="sourceLine" id="cb20-6" data-line-number="6">     <span class="dt">edge.label.size =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb20-7" data-line-number="7">     <span class="dt">edge.color =</span> <span class="kw">ifelse</span>(weights <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;red&quot;</span>),</a>
+<a class="sourceLine" id="cb20-8" data-line-number="8">     <span class="dt">edge.curved =</span> <span class="fl">0.2</span>,</a>
+<a class="sourceLine" id="cb20-9" data-line-number="9">     <span class="dt">edge.size =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb20-10" data-line-number="10">     <span class="co"># vertex.size = 12,</span></a>
+<a class="sourceLine" id="cb20-11" data-line-number="11">     <span class="co"># vertex.label.dist = 2,</span></a>
+<a class="sourceLine" id="cb20-12" data-line-number="12">     <span class="dt">vertex.label.color =</span> <span class="st">&quot;black&quot;</span></a>
+<a class="sourceLine" id="cb20-13" data-line-number="13">     )</a></code></pre></div>
+<p><img src="04_RBasics_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>As for the vertices, we can see the attributes that are being used by the edges using:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">list.edge.attributes</span>(g)</a></code></pre></div>
+<pre><code>## character(0)</code></pre>
+<p>however, in this case, since we have not set the attributes but just give them a value during the plot, nothing shows up.</p>
+<p>We can use edges attributes to define important network properties, for example, the weights of a <strong>weighted network</strong>, not just as labels as before, but as a proper attribute. In this case we should do the following</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">is.weighted</span>(g)</a></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">E</span>(g)<span class="op">$</span>weight &lt;-<span class="st"> </span>weights</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw">is.weighted</span>(g)</a></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>now we can see that this weights appear as an attribute</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">list.edge.attributes</span>(g)</a></code></pre></div>
+<pre><code>## [1] &quot;weight&quot;</code></pre>
+<p><a href="#">Back to top</a></p>
+<!-- layouts -->
+</div>
+</div>
+<div id="graph-layouts" class="section level1">
+<h1><span class="header-section-number">4</span> Graph Layouts</h1>
+<p>Graph layouts are, probably, the heart of graph visualizations. They are <strong>specific ways of placing the vertices and edges in space</strong>, and we can find many different posibilities: from simple geometric forms: circles, stars or layers, to precise algorithms that determine the positions based on different models.</p>
+<p>The most common algorithm is the force-directed of <strong>Fruchtermann-Reingold</strong> (FR), where a simple principle holds: linked vertices are attracted while not-liked vertices are pushed away. From this FR idea many others where derived: <strong>OpenOrd</strong>, <strong>Kamada-Kawai</strong> or <strong>Force Atlas</strong> are some examples (some of these can only be found in Gephi).</p>
+<p>These force-directed algorithms use an analogy by treating vertices as balls and edges as springs, then the so-called, force is just the harmonic force of the spring (linearly dependent with the distance between the nodes), then the algorithm iterates trying to minimize the energy of the whole system by changing the positions of the vertices.</p>
+<p>How to decide which layout we should choose? It will depend mostly on what we want to show and where do we need the emphasis of the representation:</p>
+<ul>
+<li>On Divisions: Use <strong>OpenOrd</strong>, since it expects weighted undirected graphs and let us identify clusters more easily.</li>
+<li>On Ranking: Use <strong>Circular</strong> or <strong>Radial</strong></li>
+<li>On Complementarities: Use <strong>FR</strong>, <strong>KK</strong>, <strong>Force Atlas</strong>, <strong>Yifan Hu</strong>…</li>
+</ul>
+<p>There are, some limitations in the number of vertices, <span class="math inline">\(N\)</span> in the table below, that the algorithms can handle (take this into account both, in R and in Gephi), which also affects its complexity:</p>
+<p><br></p>
+<table>
+<thead>
+<tr class="header">
+<th>Algorithm</th>
+<th>Maximum Order</th>
+<th>Complexity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Fruchterman-Reingold</td>
+<td>1,000</td>
+<td><span class="math inline">\(O(N^2)\)</span></td>
+</tr>
+<tr class="even">
+<td>Force Atlas</td>
+<td>10,000</td>
+<td><span class="math inline">\(O(N^2)\)</span></td>
+</tr>
+<tr class="odd">
+<td>Yifan Hu</td>
+<td>100,000 (with a minimum of 100)</td>
+<td><span class="math inline">\(O(N\log(N))\)</span></td>
+</tr>
+<tr class="even">
+<td>OpenOrd</td>
+<td>1,000,000 (with a minimum of 100)</td>
+<td><span class="math inline">\(O(N\log(N))\)</span></td>
+</tr>
+<tr class="odd">
+<td>Force Atlas 2</td>
+<td>1,000,000</td>
+<td><span class="math inline">\(O(N\log(N))\)</span></td>
+</tr>
+<tr class="even">
+<td>Circular</td>
+<td>1,000,000</td>
+<td><span class="math inline">\(O(N)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>In order to apply the KK algorithm, we need to reset the weights to positive numbers, so let’s just leave them as 1 for all the edges</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">E</span>(g)<span class="op">$</span>weight &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, <span class="kw">gsize</span>(g))</a></code></pre></div>
+<p>Now we can see the effect of four different layouts:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">mai=</span><span class="kw">c</span>(<span class="fl">0.3</span>,<span class="fl">0.3</span>,<span class="fl">0.3</span>,<span class="fl">0.3</span>))</a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb30-3" data-line-number="3"><span class="kw">plot</span>(g, <span class="dt">layout =</span> layout.circle, <span class="dt">vertex.label.color =</span> <span class="st">&quot;black&quot;</span>)</a>
+<a class="sourceLine" id="cb30-4" data-line-number="4"><span class="kw">title</span>(<span class="st">&quot;Circle Layout&quot;</span>)</a>
+<a class="sourceLine" id="cb30-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb30-6" data-line-number="6"><span class="kw">plot</span>(g, <span class="dt">layout =</span> layout.star, <span class="dt">vertex.label.color =</span> <span class="st">&quot;black&quot;</span>)</a>
+<a class="sourceLine" id="cb30-7" data-line-number="7"><span class="kw">title</span>(<span class="st">&quot;Star Layout&quot;</span>)</a>
+<a class="sourceLine" id="cb30-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb30-9" data-line-number="9"><span class="kw">plot</span>(g, <span class="dt">layout =</span> layout.fruchterman.reingold, <span class="dt">vertex.label.color =</span> <span class="st">&quot;black&quot;</span>)</a>
+<a class="sourceLine" id="cb30-10" data-line-number="10"><span class="kw">title</span>(<span class="st">&quot;Fruchterman-Reingold Layout&quot;</span>)</a>
+<a class="sourceLine" id="cb30-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb30-12" data-line-number="12"><span class="kw">plot</span>(g, <span class="dt">layout =</span> layout.kamada.kawai, <span class="dt">vertex.label.color =</span> <span class="st">&quot;black&quot;</span>)</a>
+<a class="sourceLine" id="cb30-13" data-line-number="13"><span class="kw">title</span>(<span class="st">&quot;Kamada-Kawai Layout&quot;</span>)</a></code></pre></div>
+<p><img src="04_RBasics_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>It should not be surprising that KK and FR give rather similar results in this case: KK-algorithm derives from FR using the springs models but with a slightly different algorithm to model the forces bewteen the vertices. With a low number of vertices as in the example, the difference is negligible.</p>
+<p>Try some of the other options and read the documentation in order to see what you are actually representing. Also, consider reading some style guides for the size of the nodes, coloring schemes and any other decorations to be included in the visualizations.</p>
+<p><a href="#">Back to top</a></p>
+</div>
+
+<footer>
+  <div id="rbmvFooter" class="footer">
+    <div class="footerContent">
+    
+    <p>Copyright &copy; 2020 Juanjo Manjarín, IE University. All rights reserved.</p>
+    
+    </div>
+  </div>
+</footer>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

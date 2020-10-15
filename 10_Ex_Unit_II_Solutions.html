@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Prof. Dr. Juanjo Manjarín" />
+
+
+<title>Unit II: Exercises</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Social Media Analytics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Social Media Analytics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit I</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="01_NetworkData.html">Networks and their Data Sets</a>
+        </li>
+        <li>
+          <a href="02_MathNet.html">Mathematical Description of Networks</a>
+        </li>
+        <li>
+          <a href="03_Measures.html">Measures in Networks</a>
+        </li>
+        <li>
+          <a href="04_RBasics.html">Basics of `igraph`</a>
+        </li>
+        <li>
+          <a href="05_Ex_Unit_I_solutions.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit II</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="06_RNets.html">Random Networks</a>
+        </li>
+        <li>
+          <a href="07_SFNets.html">Scale-Free Networks</a>
+        </li>
+        <li>
+          <a href="08_PANets.html">Preferential Attachment Networks</a>
+        </li>
+        <li>
+          <a href="09_NetModels.html">Modelling Networks in R</a>
+        </li>
+        <li>
+          <a href="10_Ex_Unit_II.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit III</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="DegCor.html">Degree Correlation</a>
+        </li>
+        <li>
+          <a href="Assort.html">Assortativity</a>
+        </li>
+        <li>
+          <a href="ComNet.html">Introduction to Communities</a>
+        </li>
+        <li>
+          <a href="MAAlg.html">Machine Learning Algorithms in R</a>
+        </li>
+        <li>
+          <a href="Ex_Unit_III.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit IV</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="SprePhen.html">Spreading Phenomena</a>
+        </li>
+        <li>
+          <a href="CEMod.html">Classical Epidemics Models</a>
+        </li>
+        <li>
+          <a href="NetEpi.html">Network Epidemics</a>
+        </li>
+        <li>
+          <a href="NetDif.html">Network Diffusion</a>
+        </li>
+        <li>
+          <a href="Ex_Unit_IV.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li>
+  <a href="IntroR.html">R Course</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Unit II: Exercises</h1>
+<h4 class="author">Prof. Dr. Juanjo Manjarín</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#random-networks"><span class="toc-section-number">1</span> <font color = "limegreen"> Random Networks </font></a></li>
+<li><a href="#small-worlds"><span class="toc-section-number">2</span> <font color = "limegreen"> Small Worlds </font></a></li>
+<li><a href="#scale-free-and-preferential-attachment-networks"><span class="toc-section-number">3</span> <font color = "limegreen"> Scale-Free and Preferential Attachment Networks </font></a></li>
+</ul>
+</div>
+
+<hr />
+<div id="random-networks" class="section level1">
+<h1><span class="header-section-number">1</span> <font color = "limegreen"> Random Networks </font></h1>
+<p><br></p>
+<ol>
+<li>
+<span class="exer"> Links Distribution </span> Find the probability distribution that describes the probability that a random network of order <span class="math inline">\(N\)</span> has <span class="math inline">\(L\)</span> links. From it find the average degree and the average number of links. Is this equivalent to the degree distribution? Why?
+</li>
+<p><br></p>
+<li>
+<span class="exer"> Phase Transition </span> Generate with R four different random networks that may correspond to any of the four phases in the <em>evolution with k</em>. The compute all the relevant quantities that may describe them.
+</li>
+<p><br></p>
+<p>If we are going to generate a random network per phase in the evolution of <span class="math inline">\(k\)</span>, what we need to know is that the defining property is the value of the average degree: &lt;1, 1, &gt;1, &gt;<span class="math inline">\(\log N\)</span>, using this limits and the relation <span class="math inline">\(\langle k\rangle = p(N-1)\)</span> we can find a value of <span class="math inline">\(p\)</span> for a given network order, then suppose we use <span class="math inline">\(N=100\)</span>, then</p>
+<p><br></p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center">Subcritical</th>
+<th align="center">Critical</th>
+<th align="center">Supercritical</th>
+<th align="center">Connected</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">p</td>
+<td align="center">&lt;0.01</td>
+<td align="center">0.01</td>
+<td align="center">&gt;0.01</td>
+<td align="center">&gt;0.047</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>then</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">101</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">sub_net &lt;-<span class="st"> </span><span class="kw">erdos.renyi.game</span>(<span class="dv">100</span>, <span class="fl">0.005</span>, <span class="st">&quot;gnp&quot;</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">crt_net &lt;-<span class="st"> </span><span class="kw">erdos.renyi.game</span>(<span class="dv">100</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">99</span>, <span class="st">&quot;gnp&quot;</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">sup_net &lt;-<span class="st"> </span><span class="kw">erdos.renyi.game</span>(<span class="dv">100</span>, <span class="fl">0.025</span>, <span class="st">&quot;gnp&quot;</span>)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">con_net &lt;-<span class="st"> </span><span class="kw">erdos.renyi.game</span>(<span class="dv">100</span>, <span class="fl">0.06</span>, <span class="st">&quot;gnp&quot;</span>)</a></code></pre></div>
+<p>Let’s plot them</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">plot</span>(sub_net, </a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">     <span class="dt">layout =</span> layout.fruchterman.reingold, </a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">     <span class="dt">vertex.color =</span> <span class="kw">ifelse</span>(<span class="kw">degree</span>(sub_net) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, <span class="st">&quot;Yellow&quot;</span>, <span class="st">&quot;Blue&quot;</span>), </a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">     <span class="dt">vertex.label =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">     <span class="co">#vertex.size = 1000*degree(sub_net, normalized = TRUE),</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">     <span class="dt">edge.color =</span> <span class="st">&quot;grey&quot;</span>,</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">     <span class="dt">main =</span> <span class="st">&quot;Subcritical&quot;</span>)</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="kw">plot</span>(crt_net, </a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">     <span class="dt">layout =</span> layout.fruchterman.reingold, </a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">     <span class="dt">vertex.color =</span> <span class="kw">ifelse</span>(<span class="kw">degree</span>(crt_net) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, <span class="st">&quot;Yellow&quot;</span>, <span class="st">&quot;Blue&quot;</span>), </a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">     <span class="dt">vertex.label =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">     <span class="co">#vertex.size = 500*degree(crt_net, normalized = TRUE),</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">     <span class="dt">edge.color =</span> <span class="st">&quot;grey&quot;</span>,</a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">     <span class="dt">main =</span> <span class="st">&quot;Critical&quot;</span>)</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="kw">plot</span>(sup_net, </a>
+<a class="sourceLine" id="cb2-19" data-line-number="19">     <span class="dt">layout =</span> layout.fruchterman.reingold, </a>
+<a class="sourceLine" id="cb2-20" data-line-number="20">     <span class="dt">vertex.color =</span> <span class="kw">ifelse</span>(<span class="kw">degree</span>(sup_net) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, <span class="st">&quot;Yellow&quot;</span>, <span class="st">&quot;Blue&quot;</span>), </a>
+<a class="sourceLine" id="cb2-21" data-line-number="21">     <span class="dt">vertex.label =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">     <span class="co">#vertex.size = 500*degree(sup_net, normalized = TRUE),</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23">     <span class="dt">edge.color =</span> <span class="st">&quot;grey&quot;</span>,</a>
+<a class="sourceLine" id="cb2-24" data-line-number="24">     <span class="dt">main =</span> <span class="st">&quot;Supercritical&quot;</span>)</a>
+<a class="sourceLine" id="cb2-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="kw">plot</span>(con_net, </a>
+<a class="sourceLine" id="cb2-27" data-line-number="27">     <span class="dt">layout =</span> layout.fruchterman.reingold, </a>
+<a class="sourceLine" id="cb2-28" data-line-number="28">     <span class="dt">vertex.color =</span> <span class="kw">ifelse</span>(<span class="kw">degree</span>(con_net) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, <span class="st">&quot;Yellow&quot;</span>, <span class="st">&quot;Blue&quot;</span>), </a>
+<a class="sourceLine" id="cb2-29" data-line-number="29">     <span class="dt">vertex.label =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb2-30" data-line-number="30">     <span class="co">#vertex.size = 500*degree(con_net, normalized = TRUE),</span></a>
+<a class="sourceLine" id="cb2-31" data-line-number="31">     <span class="dt">edge.color =</span> <span class="st">&quot;grey&quot;</span>,</a>
+<a class="sourceLine" id="cb2-32" data-line-number="32">     <span class="dt">main =</span> <span class="st">&quot;Connected&quot;</span>)</a></code></pre></div>
+<p><img src="10_Ex_Unit_II_Solutions_files/figure-html/unnamed-chunk-2-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>In the graph we can clearly identify the different phases. If you want to check the components structure, you can use the <code>components</code> function. In fact, for example we can check that the size of the largest component is the right one: in the critical point this should be <span class="math inline">\(\sim N^{2/3}\)</span>, then</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">gorder</span>(crt_net)<span class="op">^</span>(<span class="dv">2</span><span class="op">/</span><span class="dv">3</span>)</a></code></pre></div>
+<pre><code>## [1] 21.54435</code></pre>
+<p>and from the graph we find</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">max</span>(<span class="kw">components</span>(crt_net)<span class="op">$</span>csize)</a></code></pre></div>
+<pre><code>## [1] 22</code></pre>
+<p>in perfect agreement. In this case we cannot use the expression we find in the notes for the supercritical region since that is only valid in a regime close to <span class="math inline">\(\langle k\rangle = 1\)</span>, however, in this case it is 2.62, rather far from it and then returns an absurd value (try using a probability around 0.011).</p>
+<hr />
+<p><br></p>
+<li>
+<span class="exer"> Degree Distribution </span>. Generate 2 different random networks and find the corresponding degree distributions using <span class="math inline">\(p\in \{0.01, 0.2\}\)</span>. Explain them from a statistical point of view. Also, find the maximum and minimum natural cutoff points. What do they mean?
+</li>
+<p><br></p>
+<p>Let’s generate the</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">101</span>)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">ex3_n1 &lt;-<span class="st"> </span><span class="kw">random.graph.game</span>(<span class="dv">50</span>, <span class="fl">0.01</span>, <span class="st">&quot;gnp&quot;</span>)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">ex3_n2 &lt;-<span class="st"> </span><span class="kw">random.graph.game</span>(<span class="dv">50</span>, <span class="fl">0.2</span>, <span class="st">&quot;gnp&quot;</span>)</a></code></pre></div>
+<p>Now, we can plot the degree distributions as</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow  =</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">hist</span>(<span class="kw">degree</span>(ex3_n1), <span class="dt">col =</span> <span class="st">&quot;Blue&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;p = 0.01&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Degree&quot;</span>)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw">hist</span>(<span class="kw">degree</span>(ex3_n2), <span class="dt">col =</span> <span class="st">&quot;Green&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;p = 0.2&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Degree&quot;</span>)</a></code></pre></div>
+<p><img src="10_Ex_Unit_II_Solutions_files/figure-html/unnamed-chunk-6-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>The distributions clearly show that the newtork with <span class="math inline">\(p=0.01\)</span> is in the subcritical regime while the one with <span class="math inline">\(p=2\)</span> is in the connected one. Taking this into account, we cannot use the Poisson approximation in the first case but yes in the second, then for the <span class="math inline">\(p=0.01\)</span> we find</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">N &lt;-<span class="st"> </span><span class="dv">50</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">k_min &lt;-<span class="st"> </span><span class="kw">qbinom</span>(<span class="fl">0.01</span>, N<span class="dv">-1</span>, <span class="dv">1</span><span class="op">/</span>(N))<span class="op">+</span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">k_max &lt;-<span class="st"> </span><span class="kw">qbinom</span>(<span class="fl">0.01</span>, N<span class="dv">-1</span>, <span class="dv">1</span><span class="op">/</span>(N), <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&quot;Maximum Degree: %5.0d</span><span class="ch">\n</span><span class="st">Minimum Degree: %5.0d&quot;</span>, k_max, k_min ))</a></code></pre></div>
+<pre><code>## Maximum Degree:     4
+## Minimum Degree:     1</code></pre>
+<p>in complete agreement with the histogram above, while for the <span class="math inline">\(p=0.2\)</span> network we have</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">N &lt;-<span class="st"> </span><span class="dv">50</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">k &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">degree</span>(ex3_n2))</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">k_min &lt;-<span class="st"> </span><span class="kw">qpois</span>(<span class="dv">1</span><span class="op">/</span>N, k) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">k_max &lt;-<span class="st"> </span><span class="kw">qpois</span>(<span class="dv">1</span><span class="op">/</span>N, k, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&quot;Maximum Degree: %5.0d</span><span class="ch">\n</span><span class="st">Minimum Degree: %5.0d&quot;</span>, k_max, k_min ))</a></code></pre></div>
+<pre><code>## Maximum Degree:    16
+## Minimum Degree:     5</code></pre>
+<p>The analysis from the statistical point of view can be assessed in terms of skewness and kurtosis for the shape and once we identify this, explaining if we should use the pair <em>(Mean, Standard Deviation)</em> or the <em>(Median, IQR)</em> to describe it. From the graph we see that the second case can be described with the pair associated to the mean while the first should go with the median.</p>
+<hr />
+<p><br></p>
+</ol>
+</div>
+<div id="small-worlds" class="section level1">
+<h1><span class="header-section-number">2</span> <font color = "limegreen"> Small Worlds </font></h1>
+<ol>
+<li>
+<span class="exer"> <span class="math inline">\(\beta\)</span>-Model </span>. Reproduce the graph in section 6.1 of the document Random Networks in the webpage. Can you explain what it means?
+</li>
+<p><br></p>
+<li>
+<span class="exer"> Degree Distribution </span>. Consider the <em>Les Miserables</em> dataset in Gephi. Analyse it from the perspective of the clustering coefficient, the average path length and the degree distribution. May it be seen as Small World? Why?
+</li>
+<p><br></p>
+<li>
+<span class="exer"> Neighborhood </span>. Show that in a regular lattice the number of connections bewteen neighbors is given by <span class="math inline">\(\frac{3}{8}\langle k\rangle\left(\langle k\rangle-2\right)\)</span>
+</li>
+<p><br></p>
+<li>
+<p><span class="exer"> Assessing Small Worlds </span>. For directed networks we can use a definition of the clustering coefficient due to G.Fagiolo</p>
+<p><span class="math display">\[\begin{equation}
+C(v_i)=\frac{(A+A^T)_{ii}^3}{2[k^{tot}_i(k^{tot}_i-1) -2(A^2)_{ii}]}
+\end{equation}\]</span></p>
+use it to assess the small world property of both a Erdös-Renyi and a Waltz-Strogatz network where the number of nodes is 200 (the other properties are open and you choose them).
+</li>
+</ol>
+</div>
+<div id="scale-free-and-preferential-attachment-networks" class="section level1">
+<h1><span class="header-section-number">3</span> <font color = "limegreen"> Scale-Free and Preferential Attachment Networks </font></h1>
+<ol>
+<li>
+<p><span class="exer"> Degree Distribution </span>. Suppose that a network has a degree distribution that follows a geometric form <span class="math inline">\(p(k)=Ca^k\)</span> then,</p>
+<ul>
+<li>Find the value of <span class="math inline">\(C\)</span> such that the distribution is properly normalized</li>
+<li>Calculate the natural cutoffs of the distribution</li>
+<li>Find the fraction of nodes that have degree <span class="math inline">\(k_0\)</span> or grater</li>
+<li>Generate a random set of values for this degree distribution (just add a small noise to the values) and make a graphical representation. Is it a scale free network?</li>
+</ul>
+</li>
+<p><br></p>
+<hr />
+<li>
+<p><span class="exer"> Degree Exponent </span>. Find the Density, Average Degree, Transitivity and the number of isolated nodes in each of the following networks</p>
+<ul>
+<li>hep-th collaborations</li>
+<li>network science collaborations</li>
+</ul>
+<p>You can find them in the campus online. To read the datasets do <code>graph_from_data_frame(read.csv(&quot;route_to_csv_file&quot;))</code>.</p>
+<p>Then if the degree distribution is a power-law, estimate the degree exponent. Finally, generate for each case a Random, a Small-World and a Preferential Attachment Network that is the <em>equivalent</em> to each real network. Compare the predictions of each model with the real network. Also estimate in the preferential attachment the degree exponent.</p>
+Make a graphical representation of the networks and of the models
+</li>
+<p><br></p>
+<p>Let’s load the datasets</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">hepth &lt;-<span class="st"> </span><span class="kw">graph_from_data_frame</span>(<span class="kw">read.csv</span>(<span class="st">&quot;./Data/CA-HepTh.csv&quot;</span>))</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">netsc &lt;-<span class="st"> </span><span class="kw">read_graph</span>(<span class="st">&quot;./Data/netscience.gml&quot;</span>, <span class="dt">format =</span> <span class="st">&quot;gml&quot;</span>)</a></code></pre></div>
+<p>Let’s find the metrics requested (and some others)</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co"># Network Science</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">netsc_apl &lt;-<span class="st"> </span><span class="kw">average.path.length</span>(netsc)</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">netsc_acc &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">transitivity</span>(netsc, <span class="dt">type =</span> <span class="st">&quot;local&quot;</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">netsc_gcc &lt;-<span class="st"> </span><span class="kw">transitivity</span>(netsc, <span class="st">&quot;global&quot;</span>)</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">netsc_ad &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">degree</span>(netsc), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">netsc_den &lt;-<span class="st"> </span><span class="kw">edge_density</span>(netsc)</a>
+<a class="sourceLine" id="cb14-7" data-line-number="7">netsc_iso &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">which</span>(<span class="kw">degree</span>(netsc) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co"># Hep-TH </span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10">hepth_apl &lt;-<span class="kw">average.path.length</span>(hepth)</a>
+<a class="sourceLine" id="cb14-11" data-line-number="11">hepth_acc &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">transitivity</span>(hepth, <span class="dt">type =</span> <span class="st">&quot;local&quot;</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb14-12" data-line-number="12">hepth_gcc &lt;-<span class="st"> </span><span class="kw">transitivity</span>(hepth, <span class="st">&quot;global&quot;</span>)</a>
+<a class="sourceLine" id="cb14-13" data-line-number="13">hepth_ad &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">degree</span>(hepth), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb14-14" data-line-number="14">hepth_den &lt;-<span class="st"> </span><span class="kw">edge_density</span>(hepth)</a>
+<a class="sourceLine" id="cb14-15" data-line-number="15">hepth_iso &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">which</span>(<span class="kw">degree</span>(hepth) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb14-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co"># metrics</span></a>
+<a class="sourceLine" id="cb14-18" data-line-number="18">nets_mets &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">NbIso =</span> <span class="kw">c</span>(hepth_iso, netsc_iso),</a>
+<a class="sourceLine" id="cb14-19" data-line-number="19">                        <span class="dt">Density =</span> <span class="kw">c</span>(hepth_den, netsc_den),</a>
+<a class="sourceLine" id="cb14-20" data-line-number="20">                        <span class="dt">AvClCoeff =</span> <span class="kw">c</span>(hepth_acc, netsc_acc),</a>
+<a class="sourceLine" id="cb14-21" data-line-number="21">                        <span class="dt">GlClCoeff =</span> <span class="kw">c</span>(hepth_gcc, netsc_gcc),</a>
+<a class="sourceLine" id="cb14-22" data-line-number="22">                        <span class="dt">AvPathLength =</span> <span class="kw">c</span>(hepth_apl, netsc_apl))</a>
+<a class="sourceLine" id="cb14-23" data-line-number="23"><span class="kw">row.names</span>(nets_mets) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Hep-TH&quot;</span>, <span class="st">&quot;Network Science&quot;</span>)</a>
+<a class="sourceLine" id="cb14-24" data-line-number="24">nets_mets</a></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">NbIso</th>
+<th align="right">Density</th>
+<th align="right">AvClCoeff</th>
+<th align="right">GlClCoeff</th>
+<th align="right">AvPathLength</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hep-TH</td>
+<td align="right">0</td>
+<td align="right">0.0005328</td>
+<td align="right">0.0930076</td>
+<td align="right">0.2839997</td>
+<td align="right">5.945216</td>
+</tr>
+<tr class="even">
+<td>Network Science</td>
+<td align="right">128</td>
+<td align="right">0.0021733</td>
+<td align="right">0.8782056</td>
+<td align="right">0.6934414</td>
+<td align="right">5.823240</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>First let’s plot the frequency distributions</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># Function for the plots</span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">make_ddplot &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">title =</span> <span class="st">&quot;&quot;</span>, <span class="dt">group =</span> <span class="ot">NULL</span>){</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">  x <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> degree, <span class="dt">y =</span> probability)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> group)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="st">    </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">color =</span> group), <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.4</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="st">    </span><span class="kw">scale_x_log10</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="st">    </span><span class="kw">scale_y_log10</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="st">&quot;log&quot;</span>(<span class="st">&quot;p&quot;</span>[<span class="st">&quot;k&quot;</span>])), <span class="dt">x =</span> <span class="st">&quot;k&quot;</span>, <span class="dt">title =</span> title) <span class="op">+</span></a>
+<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">15</span>),</a>
+<a class="sourceLine" id="cb15-12" data-line-number="12">          <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">18</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>))</a>
+<a class="sourceLine" id="cb15-13" data-line-number="13">}</a>
+<a class="sourceLine" id="cb15-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb15-15" data-line-number="15"><span class="co"># Data Frame for Hep-TH</span></a>
+<a class="sourceLine" id="cb15-16" data-line-number="16">hepth_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">degree =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(<span class="kw">degree.distribution</span>(hepth)),</a>
+<a class="sourceLine" id="cb15-17" data-line-number="17">                       <span class="dt">probability =</span> <span class="kw">degree.distribution</span>(hepth)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb15-18" data-line-number="18"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">filter</span>(degree <span class="op">!=</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>probability <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb15-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb15-20" data-line-number="20"><span class="co"># Data Frame for Network Science</span></a>
+<a class="sourceLine" id="cb15-21" data-line-number="21">netsc_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">degree =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(<span class="kw">degree.distribution</span>(netsc)),</a>
+<a class="sourceLine" id="cb15-22" data-line-number="22">                       <span class="dt">probability =</span> <span class="kw">degree.distribution</span>(netsc)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb15-23" data-line-number="23"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">filter</span>(degree <span class="op">!=</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>probability <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb15-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb15-25" data-line-number="25"><span class="co"># Plots</span></a>
+<a class="sourceLine" id="cb15-26" data-line-number="26">a &lt;-<span class="st"> </span><span class="kw">make_ddplot</span>(hepth_df, <span class="st">&quot;Hep-TH&quot;</span>)</a>
+<a class="sourceLine" id="cb15-27" data-line-number="27">b &lt;-<span class="st"> </span><span class="kw">make_ddplot</span>(netsc_df, <span class="st">&quot;Network Science&quot;</span>)</a>
+<a class="sourceLine" id="cb15-28" data-line-number="28">cowplot<span class="op">::</span><span class="kw">plot_grid</span>(a, b)</a></code></pre></div>
+<p><img src="10_Ex_Unit_II_Solutions_files/figure-html/unnamed-chunk-11-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>From the graphs we can identify two power laws behaviours, where in the case of the network science colalborations, the number of low degree nodes is rather supressed (low degree saturation) which would render the estimation somewhat wrong. We can follow three strategies, either use the saturation as a parameter in the power law, it would be placed at <span class="math inline">\(k \sim 3\)</span> (<span class="math inline">\(k\sim 7\)</span> for the Hep-TH case), remove the observations below it or simply go on and estimate the model.</p>
+<p>If we use the last approach, we have to take into account that the slope is going to be smaller than it should, then let’s just add the saturation degree and fit (if you want to add the high-degree cutoff just estimate with a constant term, however, while this may affect the Hep-TH network it doesn’t for the Network Science). Then we find that</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># Models</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">model_hth &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(probability) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(degree <span class="op">+</span><span class="st"> </span><span class="dv">7</span>), <span class="dt">data =</span> hepth_df)</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">model_nsc &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(probability) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(degree <span class="op">+</span><span class="st"> </span><span class="dv">3</span>), <span class="dt">data =</span> netsc_df)</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co"># Extracting the Degree Exponents</span></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6">deg_exp &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Hep_TH =</span> <span class="op">-</span>model_hth<span class="op">$</span>coefficients[<span class="dv">2</span>],</a>
+<a class="sourceLine" id="cb16-7" data-line-number="7">                      <span class="dt">Network_science =</span> <span class="op">-</span>model_nsc<span class="op">$</span>coefficients[<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="kw">row.names</span>(deg_exp) &lt;-<span class="st"> &quot;Degree Exponent&quot;</span></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9">deg_exp</a></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">Hep_TH</th>
+<th align="right">Network_science</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Degree Exponent</td>
+<td align="right">3.237674</td>
+<td align="right">3.106368</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>which implies that both networks are power laws in the small world regime (if you estimate with the cutoff degree, the slope for the Hep-TH networks becomes 2.18, and so a scale free network).</p>
+<p>We can perform a partial check of the small-world<em>ness</em> of the networks by computing the average distance path wich should be of the order <span class="math inline">\(\log N/\log\langle k\rangle\)</span>, or we can use the exact formula with the Euler’s constant)</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">apl_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Experimental =</span> <span class="kw">c</span>(hepth_apl, netsc_apl),</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">                     <span class="dt">Exact =</span> <span class="kw">c</span>((<span class="kw">log</span>(<span class="kw">gorder</span>(hepth))<span class="op">+</span><span class="kw">digamma</span>(<span class="dv">1</span>))<span class="op">/</span><span class="kw">log</span>(hepth_ad) <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span>,</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">                               (<span class="kw">log</span>(<span class="kw">gorder</span>(netsc))<span class="op">+</span><span class="kw">digamma</span>(<span class="dv">1</span>))<span class="op">/</span><span class="kw">log</span>(netsc_ad) <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span>),</a>
+<a class="sourceLine" id="cb17-4" data-line-number="4">                     <span class="dt">Approximated =</span> <span class="kw">c</span>(<span class="kw">log</span>(<span class="kw">gorder</span>(hepth))<span class="op">/</span><span class="kw">log</span>(hepth_ad),</a>
+<a class="sourceLine" id="cb17-5" data-line-number="5">                                      <span class="kw">log</span>(<span class="kw">gorder</span>(netsc))<span class="op">/</span><span class="kw">log</span>(netsc_ad)),</a>
+<a class="sourceLine" id="cb17-6" data-line-number="6">                     <span class="dt">Critical =</span> <span class="kw">c</span>(<span class="kw">log</span>(<span class="kw">gorder</span>(hepth))<span class="op">/</span><span class="kw">log</span>(<span class="kw">log</span>(<span class="kw">gorder</span>(hepth))),</a>
+<a class="sourceLine" id="cb17-7" data-line-number="7">                                  <span class="kw">log</span>(<span class="kw">gorder</span>(netsc))<span class="op">/</span><span class="kw">log</span>(<span class="kw">log</span>(<span class="kw">gorder</span>(netsc)))),</a>
+<a class="sourceLine" id="cb17-8" data-line-number="8">                     <span class="dt">Ultra_Small =</span> <span class="kw">c</span>(<span class="kw">log</span>(<span class="kw">log</span>(<span class="kw">gorder</span>(hepth))),</a>
+<a class="sourceLine" id="cb17-9" data-line-number="9">                                     <span class="kw">log</span>(<span class="kw">log</span>(<span class="kw">gorder</span>(netsc)))))</a>
+<a class="sourceLine" id="cb17-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb17-11" data-line-number="11"><span class="kw">row.names</span>(apl_df) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Hep-TH&quot;</span>, <span class="st">&quot;Network Science&quot;</span>)</a>
+<a class="sourceLine" id="cb17-12" data-line-number="12">apl_df</a></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">Experimental</th>
+<th align="right">Exact</th>
+<th align="right">Approximated</th>
+<th align="right">Critical</th>
+<th align="right">Ultra_Small</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hep-TH</td>
+<td align="right">5.945216</td>
+<td align="right">4.162755</td>
+<td align="right">3.908000</td>
+<td align="right">4.145128</td>
+<td align="right">2.218982</td>
+</tr>
+<tr class="even">
+<td>Network Science</td>
+<td align="right">5.823240</td>
+<td align="right">5.984363</td>
+<td align="right">5.950337</td>
+<td align="right">3.689979</td>
+<td align="right">1.997534</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>This table shows a consistent result with both networks being in the small-world region (assimilated to a random network).</p>
+<p>Let’s define a function to compute the different metrics</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">net_metrics &lt;-<span class="st"> </span><span class="cf">function</span>(graph){</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">  av_deg &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">degree</span>(graph), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">  av_plen &lt;-<span class="st"> </span><span class="kw">average.path.length</span>(graph)</a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">  av_cc &lt;-<span class="kw">mean</span>(<span class="kw">transitivity</span>(graph, <span class="st">&quot;local&quot;</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb18-5" data-line-number="5">  ccoef &lt;-<span class="st"> </span><span class="kw">transitivity</span>(graph)</a>
+<a class="sourceLine" id="cb18-6" data-line-number="6">  </a>
+<a class="sourceLine" id="cb18-7" data-line-number="7">  <span class="kw">return</span>(<span class="kw">c</span>(av_deg, av_plen, av_cc, ccoef))</a>
+<a class="sourceLine" id="cb18-8" data-line-number="8">}</a></code></pre></div>
+<p>with this we can find the models associated with the Hep-TH network</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">101</span>)</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">prob &lt;-<span class="st"> </span>hepth_ad<span class="op">/</span>(<span class="kw">gorder</span>(hepth)<span class="op">-</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="co"># ER-model</span></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5">hepth_rdnet &lt;-<span class="st"> </span><span class="kw">erdos.renyi.game</span>(<span class="kw">gorder</span>(hepth), prob, <span class="st">&quot;gnp&quot;</span>)</a>
+<a class="sourceLine" id="cb19-6" data-line-number="6">hepth_rd_metrics &lt;-<span class="st"> </span><span class="kw">net_metrics</span>(hepth_rdnet)</a>
+<a class="sourceLine" id="cb19-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb19-8" data-line-number="8"><span class="co"># WS-model</span></a>
+<a class="sourceLine" id="cb19-9" data-line-number="9">hepth_wsnet &lt;-<span class="st"> </span><span class="kw">watts.strogatz.game</span>(<span class="dv">1</span>, <span class="kw">gorder</span>(hepth), <span class="dv">5</span>, <span class="fl">0.28</span>)</a>
+<a class="sourceLine" id="cb19-10" data-line-number="10">hepth_ws_metrics &lt;-<span class="st"> </span><span class="kw">net_metrics</span>(hepth_wsnet)</a>
+<a class="sourceLine" id="cb19-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb19-12" data-line-number="12"><span class="co"># BA-model</span></a>
+<a class="sourceLine" id="cb19-13" data-line-number="13">hepth_banet &lt;-<span class="st"> </span><span class="kw">barabasi.game</span>(<span class="dt">n =</span> <span class="kw">gorder</span>(hepth), </a>
+<a class="sourceLine" id="cb19-14" data-line-number="14">                             <span class="dt">power =</span> <span class="fl">0.9</span>, </a>
+<a class="sourceLine" id="cb19-15" data-line-number="15">                             <span class="dt">zero.appeal =</span> <span class="dv">70</span>,</a>
+<a class="sourceLine" id="cb19-16" data-line-number="16">                             <span class="dt">directed =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb19-17" data-line-number="17">                             <span class="dt">out.dist =</span> <span class="kw">c</span>(<span class="fl">0.05</span>, <span class="fl">0.30</span>, <span class="fl">0.55</span>, <span class="fl">0.2</span>))</a>
+<a class="sourceLine" id="cb19-18" data-line-number="18">hepth_ba_metrics &lt;-<span class="st"> </span><span class="kw">net_metrics</span>(hepth_banet)</a>
+<a class="sourceLine" id="cb19-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb19-20" data-line-number="20"><span class="co"># Summary</span></a>
+<a class="sourceLine" id="cb19-21" data-line-number="21">hepth_mods &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Av_Degree =</span> <span class="kw">c</span>(hepth_ad, </a>
+<a class="sourceLine" id="cb19-22" data-line-number="22">                                           hepth_rd_metrics[<span class="dv">1</span>], </a>
+<a class="sourceLine" id="cb19-23" data-line-number="23">                                           hepth_ws_metrics[<span class="dv">1</span>], </a>
+<a class="sourceLine" id="cb19-24" data-line-number="24">                                           hepth_ba_metrics[<span class="dv">1</span>]),</a>
+<a class="sourceLine" id="cb19-25" data-line-number="25">                         <span class="dt">Av_PathLength =</span> <span class="kw">c</span>(hepth_apl,</a>
+<a class="sourceLine" id="cb19-26" data-line-number="26">                                           hepth_rd_metrics[<span class="dv">2</span>],</a>
+<a class="sourceLine" id="cb19-27" data-line-number="27">                                           hepth_ws_metrics[<span class="dv">2</span>], </a>
+<a class="sourceLine" id="cb19-28" data-line-number="28">                                           hepth_ba_metrics[<span class="dv">2</span>]),</a>
+<a class="sourceLine" id="cb19-29" data-line-number="29">                         <span class="dt">Average_CCoef =</span> <span class="kw">c</span>(hepth_acc, </a>
+<a class="sourceLine" id="cb19-30" data-line-number="30">                                           hepth_rd_metrics[<span class="dv">3</span>], </a>
+<a class="sourceLine" id="cb19-31" data-line-number="31">                                           hepth_ws_metrics[<span class="dv">3</span>], </a>
+<a class="sourceLine" id="cb19-32" data-line-number="32">                                           hepth_ba_metrics[<span class="dv">3</span>]))</a>
+<a class="sourceLine" id="cb19-33" data-line-number="33"><span class="kw">row.names</span>(hepth_mods) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Experimental&quot;</span>, <span class="st">&quot;ER-model&quot;</span>, <span class="st">&quot;WS-model&quot;</span>, <span class="st">&quot;BA-model&quot;</span>)</a>
+<a class="sourceLine" id="cb19-34" data-line-number="34">hepth_mods</a></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">Av_Degree</th>
+<th align="right">Av_PathLength</th>
+<th align="right">Average_CCoef</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Experimental</td>
+<td align="right">10.523641</td>
+<td align="right">5.945216</td>
+<td align="right">0.0930076</td>
+</tr>
+<tr class="even">
+<td>ER-model</td>
+<td align="right">10.578718</td>
+<td align="right">4.158566</td>
+<td align="right">0.0011416</td>
+</tr>
+<tr class="odd">
+<td>WS-model</td>
+<td align="right">10.000000</td>
+<td align="right">4.482231</td>
+<td align="right">0.0996643</td>
+</tr>
+<tr class="even">
+<td>BA-model</td>
+<td align="right">3.668725</td>
+<td align="right">6.672528</td>
+<td align="right">0.0003805</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Play a bit with the values of the BA-model in order to obtain closer values to the ones on the original network.</p>
+<p>To make a representation of the networks it is recommended to export the graphs to Gephi. Here we can find the degree distributions instead, for example, as follows</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co"># ER_model degree distribution</span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">deg_rd_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">degree =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(<span class="kw">degree.distribution</span>(hepth_rdnet)),</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">                       <span class="dt">ER_model =</span> <span class="kw">degree.distribution</span>(hepth_rdnet)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">filter</span>(degree <span class="op">!=</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>ER_model <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb20-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb20-6" data-line-number="6"><span class="co"># WS_model degree distribution</span></a>
+<a class="sourceLine" id="cb20-7" data-line-number="7">deg_ws_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">degree =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(<span class="kw">degree.distribution</span>(hepth_wsnet)),</a>
+<a class="sourceLine" id="cb20-8" data-line-number="8">                       <span class="dt">WS_model =</span> <span class="kw">degree.distribution</span>(hepth_wsnet)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-9" data-line-number="9"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">filter</span>(degree <span class="op">!=</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>WS_model <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb20-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb20-11" data-line-number="11"><span class="co"># BA_model degree distribution</span></a>
+<a class="sourceLine" id="cb20-12" data-line-number="12">deg_ba_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">degree =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(<span class="kw">degree.distribution</span>(hepth_banet)),</a>
+<a class="sourceLine" id="cb20-13" data-line-number="13">                       <span class="dt">BA_model =</span> <span class="kw">degree.distribution</span>(hepth_banet)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-14" data-line-number="14"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">filter</span>(degree <span class="op">!=</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>BA_model <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb20-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb20-16" data-line-number="16"><span class="co"># Plot</span></a>
+<a class="sourceLine" id="cb20-17" data-line-number="17"><span class="kw">colnames</span>(hepth_df) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;degree&quot;</span>, <span class="st">&quot;Experimental&quot;</span>)</a>
+<a class="sourceLine" id="cb20-18" data-line-number="18"><span class="kw">left_join</span>(<span class="kw">left_join</span>(<span class="kw">left_join</span>(hepth_df, </a>
+<a class="sourceLine" id="cb20-19" data-line-number="19">                               deg_rd_df, </a>
+<a class="sourceLine" id="cb20-20" data-line-number="20">                               <span class="dt">by =</span> <span class="st">&quot;degree&quot;</span>), </a>
+<a class="sourceLine" id="cb20-21" data-line-number="21">                     deg_ws_df, </a>
+<a class="sourceLine" id="cb20-22" data-line-number="22">                     <span class="dt">by =</span><span class="st">&quot;degree&quot;</span>),</a>
+<a class="sourceLine" id="cb20-23" data-line-number="23">           deg_ba_df,</a>
+<a class="sourceLine" id="cb20-24" data-line-number="24">           <span class="dt">by =</span> <span class="st">&quot;degree&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-25" data-line-number="25"><span class="st">  </span><span class="kw">gather</span>(Experimental, ER_model, WS_model, BA_model, <span class="dt">key =</span> <span class="st">&quot;Model&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;probability&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-26" data-line-number="26"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Model =</span> <span class="kw">as.factor</span>(Model)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-27" data-line-number="27"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> degree, <span class="dt">y =</span> probability)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-28" data-line-number="28"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-29" data-line-number="29"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.4</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb20-30" data-line-number="30"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Model, <span class="dt">nrow =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-31" data-line-number="31"><span class="st">  </span><span class="kw">scale_x_log10</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-32" data-line-number="32"><span class="st">  </span><span class="kw">scale_y_log10</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-33" data-line-number="33"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="st">&quot;log&quot;</span>(<span class="st">&quot;p&quot;</span>[<span class="st">&quot;k&quot;</span>])), <span class="dt">x =</span> <span class="st">&quot;k&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Degree Distributions&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-34" data-line-number="34"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-35" data-line-number="35"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">15</span>),</a>
+<a class="sourceLine" id="cb20-36" data-line-number="36">        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">18</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>))</a></code></pre></div>
+<p><img src="10_Ex_Unit_II_Solutions_files/figure-html/unnamed-chunk-16-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>As expected, the only distribution that follows the expected behaviour is the BA-model, however, each of the models fails as explained in the theory. You can do the same with the other network. You can also, easily estimate the degree exponent of the BA-model.</p>
+<p><br></p>
+<hr />
+<li>
+<p><span class="exer"> Preferential Attachment </span>. Preferential Attachment relies in two hypotheses:</p>
+<ul>
+<li>The likelihood of connecting to a node depends on the degree of this node</li>
+<li>The probability <span class="math inline">\(\Pi(k_i)\)</span> is linear in <span class="math inline">\(k\)</span></li>
+</ul>
+<p>To assess this property you can take the <em>cumulative preferential attachment function</em></p>
+<p><span class="math display">\[\begin{equation}
+\pi(k) = \sum_{k_j=0}^k \frac{\Delta k_i}{\Delta t}
+\end{equation}\]</span></p>
+<p>Can you find this function for the two real networks before? Then if you consider that</p>
+<p><span class="math display">\[\begin{equation}
+\Pi(k_i)\approx k^\alpha
+\end{equation}\]</span></p>
+<p>estimate the value of <span class="math inline">\(\alpha\)</span>. Is this dependency linear, sublinear or superlinear?</p>
+</li>
+<p><br></p>
+<p>To find this cumulative preferential attachment function we need to have the networks at two different time moments so that we can actually find the change between <span class="math inline">\(t\)</span> and <span class="math inline">\(t + \Delta t\)</span>. In this case we must look for those nodes whose degree have changed due to the arrival of new nodes</p>
+</ol>
+<p><a href="#">Back to top</a></p>
+</div>
+
+<footer>
+  <div id="rbmvFooter" class="footer">
+    <div class="footerContent">
+    
+    <p>Copyright &copy; 2020 Juanjo Manjarín, IE University. All rights reserved.</p>
+    
+    </div>
+  </div>
+</footer>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
