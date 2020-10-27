@@ -12,7 +12,7 @@
 <meta name="author" content="Prof. Dr. Juanjo Manjarín" />
 
 
-<title>Unit II: Exercises</title>
+<title>Modeling Networks in R</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -374,104 +374,42 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Unit II: Exercises</h1>
+<h1 class="title toc-ignore">Modeling Networks in R</h1>
 <h4 class="author">Prof. Dr. Juanjo Manjarín</h4>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#random-networks"><span class="toc-section-number">1</span> <font color = "limegreen"> Random Networks </font></a></li>
-<li><a href="#small-worlds"><span class="toc-section-number">2</span> <font color = "limegreen"> Small Worlds </font></a></li>
-<li><a href="#scale-free-and-preferential-attachment-networks"><span class="toc-section-number">3</span> <font color = "limegreen"> Scale-Free and Preferential Attachment Networks </font></a></li>
+<li><a href="#statistical-models"><span class="toc-section-number">1</span> Statistical Models</a><ul>
+<li><a href="#exponential-random-graph-models"><span class="toc-section-number">1.1</span> Exponential Random Graph Models</a><ul>
+<li><a href="#fitting-the-model"><span class="toc-section-number">1.1.1</span> Fitting the Model</a></li>
+<li><a href="#goodness-of-fit"><span class="toc-section-number">1.1.2</span> Goodness of Fit</a></li>
+</ul></li>
+</ul></li>
 </ul>
 </div>
 
 <hr />
-<div id="random-networks" class="section level1">
-<h1><span class="header-section-number">1</span> <font color = "limegreen"> Random Networks </font></h1>
-<p><br></p>
-<ol>
-<li>
-<span class="exer"> Links Distribution </span> Find the probability distribution that describes the probability that a random network of order <span class="math inline">\(N\)</span> has <span class="math inline">\(L\)</span> links. From it find the average degree and the average number of links. Is this equivalent to the degree distribution? Why?
-</li>
-<p><br></p>
-<li>
-<span class="exer"> Phase Transition </span> Generate with R four different random networks that may correspond to any of the four phases in the <em>evolution with k</em>. The compute all the relevant quantities that may describe them.
-</li>
-<p><br></p>
-<li>
-<span class="exer"> Degree Distribution </span>. Generate 2 different random networks and find the corresponding degree distributions using <span class="math inline">\(p\in \{0.01, 0.2\}\)</span>. Explain them from a statistical point of view. Also, find the maximum and minimum natural cutoff points. What do they mean?
-</li>
-<p><br></p>
-</ol>
-</div>
-<div id="small-worlds" class="section level1">
-<h1><span class="header-section-number">2</span> <font color = "limegreen"> Small Worlds </font></h1>
-<ol>
-<li>
-<span class="exer"> <span class="math inline">\(\beta\)</span>-Model </span>. Reproduce the graph in section 6.1 of the document Random Networks in the webpage. Can you explain what it means?
-</li>
-<p><br></p>
-<li>
-<span class="exer"> Degree Distribution </span>. Consider the <em>Les Miserables</em> dataset in Gephi. Analyse it from the perspective of the clustering coefficient, the average path length and the degree distribution. May it be seen as Small World? Why?
-</li>
-<p><br></p>
-<li>
-<span class="exer"> Neighborhood </span>. Show that in a regular lattice the number of connections bewteen neighbors is given by <span class="math inline">\(\frac{3}{8}\langle k\rangle\left(\langle k\rangle-2\right)\)</span>
-</li>
-<p><br></p>
-<li>
-<p><span class="exer"> Assessing Small Worlds </span>. For directed networks we can use a definition of the clustering coefficient due to G.Fagiolo</p>
-<p><span class="math display">\[\begin{equation}
-C(v_i)=\frac{(A+A^T)_{ii}^3}{2[k^{tot}_i(k^{tot}_i-1) -2(A^2)_{ii}]}
-\end{equation}\]</span></p>
-use it to assess the small world property of both a Erdös-Renyi and a Waltz-Strogatz network where the number of nodes is 200 (the other properties are open and you choose them).
-</li>
-</ol>
-</div>
-<div id="scale-free-and-preferential-attachment-networks" class="section level1">
-<h1><span class="header-section-number">3</span> <font color = "limegreen"> Scale-Free and Preferential Attachment Networks </font></h1>
-<ol>
-<li>
-<p><span class="exer"> Degree Distribution </span>. Suppose that a network has a degree distribution that follows a geometric form <span class="math inline">\(p(k)=Ca^k\)</span> then,</p>
-<ul>
-<li>Find the value of <span class="math inline">\(C\)</span> such that the distribution is properly normalized</li>
-<li>Calculate the natural cutoffs of the distribution</li>
-<li>Find the fraction of nodes that have degree <span class="math inline">\(k_0\)</span> or grater</li>
-<li>Generate a random set of values for this degree distribution (just add a small noise to the values) and make a graphical representation. Is it a scale free network?</li>
-</ul>
-</li>
-<p><br></p>
-<li>
-<p><span class="exer"> Degree Exponent </span>. Find the Density, Average Degree, Transitivity and the number of isolated nodes in each of the following networks</p>
-<ul>
-<li>hep-th collaborations</li>
-<li>network science collaborations</li>
-</ul>
-<p>You can find them in the campus online. To read the datasets do <code>graph_from_data_frame(read.csv(&quot;route_to_csv_file&quot;))</code>.</p>
-<p>Then if the degree distribution is a power-law, estimate the degree exponent. Finally, generate for each case a Random, a Small-World and a Preferential Attachment Network that is the <em>equivalent</em> to each real network. Compare the predictions of each model with the real network. Also estimate in the preferential attachment the degree exponent.</p>
-Make a graphical representation of the networks and of the models
-</li>
-<p><br></p>
-<li>
-<p><span class="exer"> Preferential Attachment </span>. Preferential Attachment relies in two hypotheses:</p>
-<ul>
-<li>The likelihood of connecting to a node depends on the degree of this node</li>
-<li>The probability <span class="math inline">\(\Pi(k_i)\)</span> is linear in <span class="math inline">\(k\)</span></li>
-</ul>
-<p>To assess this property you can take the <em>cumulative preferential attachment function</em></p>
-<p><span class="math display">\[\begin{equation}
-\pi(k) = \sum_{k_j=0}^k \frac{\Delta k_i}{\Delta t}
-\end{equation}\]</span></p>
-<p>find this function for the two real networks before and then if you consider that</p>
-<p><span class="math display">\[\begin{equation}
-\Pi(k_i)\approx k^\alpha
-\end{equation}\]</span></p>
-<p>estimate the value of <span class="math inline">\(\alpha\)</span>. Is this dependency linear, sublinear or superlinear?</p>
-</li>
-</ol>
+<!-- sm model -->
+<div id="statistical-models" class="section level1">
+<h1><span class="header-section-number">1</span> Statistical Models</h1>
 <p><a href="#">Back to top</a></p>
+<!-- ergm -->
+<div id="exponential-random-graph-models" class="section level2">
+<h2><span class="header-section-number">1.1</span> Exponential Random Graph Models</h2>
+<p><a href="#">Back to top</a></p>
+<!-- fit -->
+<div id="fitting-the-model" class="section level3">
+<h3><span class="header-section-number">1.1.1</span> Fitting the Model</h3>
+<p><a href="#">Back to top</a></p>
+<!-- goodness of fit -->
+</div>
+<div id="goodness-of-fit" class="section level3">
+<h3><span class="header-section-number">1.1.2</span> Goodness of Fit</h3>
+<p><a href="#">Back to top</a></p>
+</div>
+</div>
 </div>
 
 <footer>

@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Prof. Dr. Juanjo Manjarín" />
+
+
+<title>Midterm Exam</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Social Media Analytics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Social Media Analytics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit I</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="01_NetworkData.html">Networks and their Data Sets</a>
+        </li>
+        <li>
+          <a href="02_MathNet.html">Mathematical Description of Networks</a>
+        </li>
+        <li>
+          <a href="03_Measures.html">Measures in Networks</a>
+        </li>
+        <li>
+          <a href="04_RBasics.html">Basics of `igraph`</a>
+        </li>
+        <li>
+          <a href="05_Ex_Unit_I_Solutions.html">Exercises With Solutions</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit II</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="06_RNets.html">Random Networks</a>
+        </li>
+        <li>
+          <a href="07_SFNets.html">Scale-Free Networks</a>
+        </li>
+        <li>
+          <a href="08_PANets.html">Preferential Attachment Networks</a>
+        </li>
+        <li>
+          <a href="09_NetModels.html">Modelling Networks in R</a>
+        </li>
+        <li>
+          <a href="10_Ex_Unit_II_Solutions.html">Exercises With Solutions</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="Midterm_Exam_-_Solutions.html">Midterm Exam</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit III</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="11_DegCorrel.html">Degree Correlation</a>
+        </li>
+        <li>
+          <a href="12_Assortativity.html">Assortativity</a>
+        </li>
+        <li>
+          <a href="13_ComNet.html">Introduction to Communities</a>
+        </li>
+        <li>
+          <a href="14_MAAlg.html">Machine Learning Algorithms in R</a>
+        </li>
+        <li>
+          <a href="Ex_Unit_III.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit IV</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="SprePhen.html">Spreading Phenomena</a>
+        </li>
+        <li>
+          <a href="CEMod.html">Classical Epidemics Models</a>
+        </li>
+        <li>
+          <a href="NetEpi.html">Network Epidemics</a>
+        </li>
+        <li>
+          <a href="NetDif.html">Network Diffusion</a>
+        </li>
+        <li>
+          <a href="Ex_Unit_IV.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li>
+  <a href="IntroR.html">R Course</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Midterm Exam</h1>
+<h3 class="subtitle">Analysis of Social Media</h3>
+<h4 class="author">Prof. Dr. Juanjo Manjarín</h4>
+<h4 class="date">19th, October 2020</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#instructions"><span class="toc-section-number">1</span> <font color = "red"> Instructions </font></a></li>
+<li><a href="#packages"><span class="toc-section-number">2</span> <font color = "Red"> Packages </font></a></li>
+<li><a href="#questions"><span class="toc-section-number">3</span> <font color = "Red"> Questions </font></a><ul>
+<li><a href="#eda-analysis"><span class="toc-section-number">3.1</span> <font color = "Blue"> EDA Analysis </font></a><ul>
+<li><a href="#basic-measures-1-point"><span class="toc-section-number">3.1.1</span> <font color = "Blue"> Basic Measures </font> (1 point)</a></li>
+<li><a href="#transitivity-and-reciprocity-1-point"><span class="toc-section-number">3.1.2</span> <font color = "Blue"> Transitivity and Reciprocity </font> (1 point)</a></li>
+<li><a href="#centralities-1-point"><span class="toc-section-number">3.1.3</span> <font color = "Blue"> Centralities </font> (1 point)</a></li>
+<li><a href="#graphical-centralities-2-points"><span class="toc-section-number">3.1.4</span> <font color = "Blue"> Graphical Centralities </font> (2 points)</a></li>
+</ul></li>
+<li><a href="#network-model"><span class="toc-section-number">3.2</span> <font color = "Blue"> Network Model </font></a><ul>
+<li><a href="#in-degree-distribution-1-point"><span class="toc-section-number">3.2.1</span> <font color = "Blue"> In-Degree Distribution </font> (1 point)</a></li>
+<li><a href="#in-degree-exponent-1.5-points"><span class="toc-section-number">3.2.2</span> <font color = "Blue"> In-Degree Exponent </font> (1.5 points)</a></li>
+<li><a href="#measurements-1.5-points"><span class="toc-section-number">3.2.3</span> <font color = "Blue"> Measurements </font> (1.5 points)</a></li>
+<li><a href="#network-model-1-point"><span class="toc-section-number">3.2.4</span> <font color = "Blue"> Network Model </font> (1 point)</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+
+<hr />
+<p><font color = "red"> Student Name: </font>……………………………….</p>
+<hr />
+<div id="instructions" class="section level1">
+<h1><span class="header-section-number">1</span> <font color = "red"> Instructions </font></h1>
+<p>Read these instructions carefully and follow them during your exam and in your submission.</p>
+<ul>
+<li>You have <strong>1 hour and 20 minutes</strong> to complete the exam</li>
+<li>Once you have finished it you must upload it to the <strong>campus online</strong> in <strong>Assignment -&gt; Midterm Exam</strong></li>
+<li>The files accepted (in order of preference) for submission are:
+<ul>
+<li>The <code>pdf</code> or <code>html</code> version of your notebook (note that the heading only includes an <code>html</code> output).</li>
+<li>An R notebook <code>.Rmd</code></li>
+</ul></li>
+<li>Note that the professor should not have to run you codes to understand if a question is rigth or wrong. Therefore if you have made a chunk code that does not run, use the <code>eval = FALSE</code> flag and go on.</li>
+<li>Full marks require <strong>full explanations</strong>. Just answering the question is not enough, for example, if one answer is that the type of data is <em>panel data</em>, saying only that will not grant you more than the 15% of the available points: you must explain the reasons.</li>
+<li>The <strong>answers</strong> will be either a <strong>code chunk</strong> or a text explaining the results, then all of these must be written right below the questions made in this notebook</li>
+<li>Remember that you are the only responsible of having a <strong>working environment</strong></li>
+</ul>
+<hr />
+</div>
+<div id="packages" class="section level1">
+<h1><span class="header-section-number">2</span> <font color = "Red"> Packages </font></h1>
+<p>If you want to add any package to be used during the exam <strong>DO IT HERE</strong> not in the questions below, for example, to add the <code>tidyverse</code> do (remove the <code>eval = FALSE</code> flag and run the chunk)</p>
+<hr />
+</div>
+<div id="questions" class="section level1">
+<h1><span class="header-section-number">3</span> <font color = "Red"> Questions </font></h1>
+<p><br></p>
+<p>In this exam we are going to use a well-known dataset in network theory, that of the neural network of the Caenorhabditis elegans worm (C.elegans). It was studied by Watts and Strogatz (1998). The nodes of the network represent neurons and two of them are connected if at least one synapse or gap junction exist between them. The weight is the number of synapses and gap junctions.</p>
+<p>You can find this dataset in the campus online (same folder directory as this document). Then, first of all load the dataset in the following code chunk</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">celegans &lt;-<span class="st"> </span><span class="kw">read_graph</span>(<span class="st">&quot;./Data/celegansneural.gml&quot;</span>, <span class="dt">format =</span> <span class="st">&quot;gml&quot;</span>)</a></code></pre></div>
+<p>now go through the questions</p>
+<div id="eda-analysis" class="section level2">
+<h2><span class="header-section-number">3.1</span> <font color = "Blue"> EDA Analysis </font></h2>
+<p><br></p>
+<div id="basic-measures-1-point" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> <font color = "Blue"> Basic Measures </font> (1 point)</h3>
+<p><strong>Find the <em>Density</em>, the <em>Diameter</em>, the <em>Average Path Length</em> and the <em>Number of Components</em> and the <em>Number of nodes at each component</em> (these two last from the point of view of both, weak and strong). Report them as a summary in a data frame, then give a brief interpretation of the different magnitudes</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">data.frame</span>(<span class="dt">Density =</span> <span class="kw">edge_density</span>(celegans),</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">           <span class="dt">Diameter =</span> <span class="kw">diameter</span>(celegans),</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">           <span class="dt">APL =</span> <span class="kw">average.path.length</span>(celegans, <span class="dt">directed =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">           <span class="dt">WeakCNumber =</span> <span class="kw">components</span>(celegans, <span class="st">&quot;weak&quot;</span>)<span class="op">$</span>no,</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">           <span class="dt">StrongCNumber =</span> <span class="kw">components</span>(celegans, <span class="st">&quot;strong&quot;</span>)<span class="op">$</span>no</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">           )</a></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="right">Density</th>
+<th align="right">Diameter</th>
+<th align="right">APL</th>
+<th align="right">WeakCNumber</th>
+<th align="right">StrongCNumber</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0.0268337</td>
+<td align="right">14</td>
+<td align="right">3.991884</td>
+<td align="right">1</td>
+<td align="right">57</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>since in the case of strongly connected componets we find 57 components, we can identify the size of each of them</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">components</span>(celegans, <span class="st">&quot;strong&quot;</span>)<span class="op">$</span>csize</a></code></pre></div>
+<pre><code>##  [1]   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+## [18]   1   1   1   1   1   2   1   1   1   1   1   1   1 239   1   1   1
+## [35]   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+## [52]   1   1   2   1   1   1</code></pre>
+<p>Brief explanation:</p>
+<ul>
+<li><strong>Density</strong>: there is just a 2.6% of the possible synapses in the brain network</li>
+<li><strong>Diameter</strong>: the largest geodesic in the network consists of 14 synapses</li>
+<li><strong>Average Path Lenght</strong>: on average, it may take us 4 synapses to get from any neuron to any other neuron in the C-elegans brain</li>
+<li><strong>Weak Components</strong>: ignoring which neuron shoots first, all the neurons in the brain are connected</li>
+<li><strong>Strong Components</strong>: out of the 57 components, 55 of them are composed of neurons which shoot first, but there is no synapsis towards them. 239 neurons can be reached from any other neuron in that component and 2 sets of 2 neurons are isolated from other synapses.</li>
+</ul>
+<p><br></p>
+<hr />
+</div>
+<div id="transitivity-and-reciprocity-1-point" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> <font color = "Blue"> Transitivity and Reciprocity </font> (1 point)</h3>
+<p><strong>Write a dataframe summarising the <em>Average Clustering Coefficient</em>, the <em>Global Clustering Coefficient</em> and the <em>Reciprocity</em> of the network. Then give a brief explanation of their magnitudes.</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">data.frame</span>(<span class="dt">ACC =</span> <span class="kw">mean</span>(<span class="kw">transitivity</span>(celegans, <span class="dt">type =</span> <span class="st">&quot;local&quot;</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">           <span class="dt">GCC =</span> <span class="kw">transitivity</span>(celegans, <span class="dt">type =</span> <span class="st">&quot;global&quot;</span>),</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">           <span class="dt">Reciprocity =</span> <span class="kw">reciprocity</span>(celegans))</a></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="right">ACC</th>
+<th align="right">GCC</th>
+<th align="right">Reciprocity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0.2605983</td>
+<td align="right">0.1807115</td>
+<td align="right">0.1670199</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Brief interpretation:</p>
+<ul>
+<li><strong>Average Local Clustering Coefficient</strong>: the 26.06% of the neurons around any neuron in the brain of the C-elegans establish, on average, a synapsis among themselves</li>
+<li><strong>Global Clustering Coefficient</strong>: there is a 18.07% of possible closed triads among all the triple connections established by the neurons</li>
+<li><strong>Reciprocity</strong>: the 16.7% of the synapses is bidirectional</li>
+</ul>
+<p><br></p>
+<hr />
+</div>
+<div id="centralities-1-point" class="section level3">
+<h3><span class="header-section-number">3.1.3</span> <font color = "Blue"> Centralities </font> (1 point)</h3>
+<p><strong>Find the <em>Betweenness</em>, <em>Closeness</em>, <em>Degrees</em>, <em>Eigenvector Centrality</em> and <em>PageRank</em> of each node. Then summarise the three nodes with the highest centralities in each case (it is betterm but not mandatory to use the weights. These appear as “value” in the edge attributes).</strong></p>
+<p>To make a clear distinction, let’s add the label to the data frame below (note that since the network is disconnected, closeness will always through a warning)</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">centralities =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Neuron =</span> <span class="kw">V</span>(celegans)<span class="op">$</span>label,</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">                          <span class="dt">Betweenness =</span> <span class="kw">betweenness</span>(celegans, <span class="dt">normalized =</span> <span class="ot">TRUE</span>, <span class="dt">weights =</span> <span class="kw">E</span>(celegans)<span class="op">$</span>value),</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">                          <span class="dt">Closeness =</span> <span class="kw">closeness</span>(celegans, <span class="dt">normalized =</span> <span class="ot">TRUE</span>, <span class="dt">weights =</span> <span class="kw">E</span>(celegans)<span class="op">$</span>value),</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">                          <span class="dt">InDegree =</span> <span class="kw">degree</span>(celegans, <span class="dt">mode =</span> <span class="st">&quot;in&quot;</span>, <span class="dt">normalized =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">                          <span class="dt">OutDegree =</span> <span class="kw">degree</span>(celegans, <span class="dt">mode =</span> <span class="st">&quot;out&quot;</span>, <span class="dt">normalized =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">                          <span class="dt">PageRank =</span> <span class="kw">page.rank</span>(celegans, <span class="dt">weights =</span> <span class="kw">E</span>(celegans)<span class="op">$</span>value)<span class="op">$</span>vector)</a></code></pre></div>
+<pre><code>## Warning in closeness(celegans, normalized = TRUE, weights = E(celegans)
+## $value): At centrality.c:2617 :closeness centrality is not well-defined for
+## disconnected graphs</code></pre>
+<p>Let’s retrieve the three top neurons of each centrality:</p>
+<ul>
+<li>By <strong>Betweenness</strong></li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">head</span>(centralities[<span class="kw">order</span>(centralities<span class="op">$</span>Betweenness, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>), ], <span class="dv">3</span>)</a></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">Neuron</th>
+<th align="right">Betweenness</th>
+<th align="right">Closeness</th>
+<th align="right">InDegree</th>
+<th align="right">OutDegree</th>
+<th align="right">PageRank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>178</td>
+<td align="left">195</td>
+<td align="right">0.1086824</td>
+<td align="right">0.0278300</td>
+<td align="right">0.0439189</td>
+<td align="right">0.0405405</td>
+<td align="right">0.0025260</td>
+</tr>
+<tr class="even">
+<td>143</td>
+<td align="left">178</td>
+<td align="right">0.1066386</td>
+<td align="right">0.0293185</td>
+<td align="right">0.0540541</td>
+<td align="right">0.0979730</td>
+<td align="right">0.0026675</td>
+</tr>
+<tr class="odd">
+<td>126</td>
+<td align="left">216</td>
+<td align="right">0.0910084</td>
+<td align="right">0.0288809</td>
+<td align="right">0.0844595</td>
+<td align="right">0.1148649</td>
+<td align="right">0.0068716</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>By <strong>Closeness</strong></li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">head</span>(centralities[<span class="kw">order</span>(centralities<span class="op">$</span>Closeness, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>), ], <span class="dv">3</span>)</a></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">Neuron</th>
+<th align="right">Betweenness</th>
+<th align="right">Closeness</th>
+<th align="right">InDegree</th>
+<th align="right">OutDegree</th>
+<th align="right">PageRank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>260</td>
+<td align="left">210</td>
+<td align="right">0</td>
+<td align="right">0.0302257</td>
+<td align="right">0</td>
+<td align="right">0.0236486</td>
+<td align="right">0.001068</td>
+</tr>
+<tr class="even">
+<td>285</td>
+<td align="left">273</td>
+<td align="right">0</td>
+<td align="right">0.0299201</td>
+<td align="right">0</td>
+<td align="right">0.0574324</td>
+<td align="right">0.001068</td>
+</tr>
+<tr class="odd">
+<td>262</td>
+<td align="left">212</td>
+<td align="right">0</td>
+<td align="right">0.0294118</td>
+<td align="right">0</td>
+<td align="right">0.0202703</td>
+<td align="right">0.001068</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>By <strong>Indegree</strong></li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">head</span>(centralities[<span class="kw">order</span>(centralities<span class="op">$</span>InDegree, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>), ], <span class="dv">3</span>)</a></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">Neuron</th>
+<th align="right">Betweenness</th>
+<th align="right">Closeness</th>
+<th align="right">InDegree</th>
+<th align="right">OutDegree</th>
+<th align="right">PageRank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>45</td>
+<td align="left">305</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0033670</td>
+<td align="right">0.4695946</td>
+<td align="right">0.0000000</td>
+<td align="right">0.1676643</td>
+</tr>
+<tr class="even">
+<td>13</td>
+<td align="left">71</td>
+<td align="right">0.0309183</td>
+<td align="right">0.0284287</td>
+<td align="right">0.1520270</td>
+<td align="right">0.1317568</td>
+<td align="right">0.0209034</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td align="left">72</td>
+<td align="right">0.0238258</td>
+<td align="right">0.0288893</td>
+<td align="right">0.1385135</td>
+<td align="right">0.1317568</td>
+<td align="right">0.0187756</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>By <strong>Outdegree</strong></li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">head</span>(centralities[<span class="kw">order</span>(centralities<span class="op">$</span>OutDegree, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>), ], <span class="dv">3</span>)</a></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">Neuron</th>
+<th align="right">Betweenness</th>
+<th align="right">Closeness</th>
+<th align="right">InDegree</th>
+<th align="right">OutDegree</th>
+<th align="right">PageRank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3</td>
+<td align="left">72</td>
+<td align="right">0.0238258</td>
+<td align="right">0.0288893</td>
+<td align="right">0.1385135</td>
+<td align="right">0.1317568</td>
+<td align="right">0.0187756</td>
+</tr>
+<tr class="even">
+<td>13</td>
+<td align="left">71</td>
+<td align="right">0.0309183</td>
+<td align="right">0.0284287</td>
+<td align="right">0.1520270</td>
+<td align="right">0.1317568</td>
+<td align="right">0.0209034</td>
+</tr>
+<tr class="odd">
+<td>126</td>
+<td align="left">216</td>
+<td align="right">0.0910084</td>
+<td align="right">0.0288809</td>
+<td align="right">0.0844595</td>
+<td align="right">0.1148649</td>
+<td align="right">0.0068716</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>By <strong>PageRank</strong></li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">head</span>(centralities[<span class="kw">order</span>(centralities<span class="op">$</span>PageRank, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>), ], <span class="dv">3</span>)</a></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">Neuron</th>
+<th align="right">Betweenness</th>
+<th align="right">Closeness</th>
+<th align="right">InDegree</th>
+<th align="right">OutDegree</th>
+<th align="right">PageRank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>45</td>
+<td align="left">305</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0033670</td>
+<td align="right">0.4695946</td>
+<td align="right">0.0000000</td>
+<td align="right">0.1676643</td>
+</tr>
+<tr class="even">
+<td>191</td>
+<td align="left">306</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0033670</td>
+<td align="right">0.1081081</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0270146</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td align="left">71</td>
+<td align="right">0.0309183</td>
+<td align="right">0.0284287</td>
+<td align="right">0.1520270</td>
+<td align="right">0.1317568</td>
+<td align="right">0.0209034</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>from where we see that the only recurrent neurons are the ones labeled as 71, 72, 216 and 305. We will see their roles graphically below.</p>
+<p><br></p>
+<hr />
+</div>
+<div id="graphical-centralities-2-points" class="section level3">
+<h3><span class="header-section-number">3.1.4</span> <font color = "Blue"> Graphical Centralities </font> (2 points)</h3>
+<p><strong>In this case you may use R or Gephi (recommended). Make a graphical analysis comparing Betweenness, Closeness, In and Out Degree and PageRank. Is there any node(s) that you can consider clearly central with respect to any of these measures? (Make it clear through label and/or color together with the size of the node) Explain the role of those nodes (if any) in the context of the network. If you cannot find a central node, explain what that absence means in the context of the network.</strong></p>
+<p>We are going to present just two of the possible graphs you can make&gt;</p>
+<ul>
+<li>On the left: <strong>size</strong> of the nodes is given by the <strong>prestige</strong> and color, from lighter to darker increasing the value, by <strong>gregariousness</strong></li>
+<li>On the right: <strong>size</strong> of the nodes is given by the <strong>betweenness</strong> and color, from lighter to darker increasing the value, by <strong>PageRank</strong></li>
+</ul>
+<p><img src="Images/Celegans_degs.png" style="float: left; width: 49%; margin-right: 1%; margin-bottom: 0.5em;"><img src="Images/Celegans_betprank.png" style="float: left; width: 49%; margin-right: 1%; margin-bottom: 0.5em;"></p>
+<p style="clear: both;">
+<p>From the graph of degrees we identify neuron number labelled 305 as the one with a clear higher perstige while the ones with the higher gregariousness are the 71 and 72 (confirming our data above). From the functionality of neurons perspective, we can identify neuron 305 as the end-in-line of most synapses while 71 and 72 (which have a high prestige apart from gregariousness) are involved in most of the synapses of the brain. This may imply that neurons 71 and 72 are neurons that receive stimuli while 305 may be one that integrates the information.</p>
+<p>From the betweenness graph, we see that many neurons share importance in the sense of being in the middle of the synapsis connections. None of them are the ones we saw in the degree analysis (expect from neuron 216, which has a high value of both degrees). This is interesting from the funcional point of view since it implies that losing some neurons would not break the brain’s tranmission of information. On the other hand, PageRank is important only for neuron 305, while all the others are more or less equally valued.</p>
+<p><br></p>
+<hr />
+</div>
+</div>
+<div id="network-model" class="section level2">
+<h2><span class="header-section-number">3.2</span> <font color = "Blue"> Network Model </font></h2>
+<p><br></p>
+<div id="in-degree-distribution-1-point" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> <font color = "Blue"> In-Degree Distribution </font> (1 point)</h3>
+<p><strong>Make a graphical representation of the <em>degree distribution</em> of the network (you should choose the best option). Then describe if qualitatively. Does it look like a random network or as a scale-free network?</strong></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">deg_dist &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">degree =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(<span class="kw">degree.distribution</span>(celegans, <span class="dt">mode =</span> <span class="st">&quot;in&quot;</span>)),</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">                       <span class="dt">probability =</span> <span class="kw">degree.distribution</span>(celegans, <span class="dt">mode =</span> <span class="st">&quot;in&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">filter</span>(degree <span class="op">!=</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>probability <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5">deg_dist <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> degree, <span class="dt">y =</span> probability)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.4</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="dv">6</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="fl">33.5</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">trans =</span> <span class="st">&#39;log10&#39;</span>,</a>
+<a class="sourceLine" id="cb13-12" data-line-number="12">                     <span class="dt">breaks =</span> <span class="kw">trans_breaks</span>(<span class="st">&#39;log10&#39;</span>, <span class="cf">function</span>(x) <span class="dv">10</span><span class="op">^</span>x),</a>
+<a class="sourceLine" id="cb13-13" data-line-number="13">                     <span class="dt">labels =</span> <span class="kw">trans_format</span>(<span class="st">&#39;log10&#39;</span>, <span class="kw">math_format</span>(<span class="dv">10</span><span class="op">^</span>.x))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-14" data-line-number="14"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">trans =</span> <span class="st">&#39;log10&#39;</span>,</a>
+<a class="sourceLine" id="cb13-15" data-line-number="15">                     <span class="dt">breaks =</span> <span class="kw">trans_breaks</span>(<span class="st">&#39;log10&#39;</span>, <span class="cf">function</span>(x) <span class="dv">10</span><span class="op">^</span>x),</a>
+<a class="sourceLine" id="cb13-16" data-line-number="16">                     <span class="dt">labels =</span> <span class="kw">trans_format</span>(<span class="st">&#39;log10&#39;</span>, <span class="kw">math_format</span>(<span class="dv">10</span><span class="op">^</span>.x))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-17" data-line-number="17"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="st">&quot;log&quot;</span>(<span class="st">&quot;p&quot;</span>[<span class="st">&quot;k&quot;</span>])), <span class="dt">x =</span> <span class="st">&quot;k&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Celegans Degree Distribution&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-18" data-line-number="18"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-19" data-line-number="19"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">15</span>),</a>
+<a class="sourceLine" id="cb13-20" data-line-number="20">        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">18</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>))</a></code></pre></div>
+<p><img src="Midterm_Exam_-_Solutions_files/figure-html/unnamed-chunk-12-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>The graphical representation clearly shows a power law like behabiour with a marked saturation around <span class="math inline">\(k=6\)</span>. At the same time in the high degree values we find a possible cutoff at a value to be determined later.</p>
+<p><br></p>
+<hr />
+</div>
+<div id="in-degree-exponent-1.5-points" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> <font color = "Blue"> In-Degree Exponent </font> (1.5 points)</h3>
+<p><strong>Estimate the value of the in-degree exponent. If you use a cutoff or a saturation point, clearly state why, what they mean, how you choose them. Write down the estimated model and interpret the in-degree exponent.</strong></p>
+<p>Given our previous plot and argument below we are going to estimate the model considering a saturation at 6. You may add a linear term for the cutoff, but this last term is not mandatory for the solution. Then</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(probability) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(degree <span class="op">+</span><span class="st"> </span><span class="dv">6</span>) <span class="op">+</span><span class="st"> </span>degree, <span class="dt">data =</span> deg_dist)</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">summary</span>(model)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = log(probability) ~ log(degree + 6) + degree, data = deg_dist)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.84802 -0.32263  0.01658  0.46344  0.64343 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      3.839055   0.699822   5.486 5.33e-06 ***
+## log(degree + 6) -2.784666   0.262646 -10.602 7.78e-12 ***
+## degree           0.029784   0.006849   4.349 0.000137 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.4751 on 31 degrees of freedom
+## Multiple R-squared:  0.8684, Adjusted R-squared:  0.8599 
+## F-statistic: 102.3 on 2 and 31 DF,  p-value: 2.235e-14</code></pre>
+<p>from the model we identify that the degree exponent and the cutoff as follows</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">data.frame</span>(<span class="dt">Normalization =</span> <span class="kw">exp</span>(model<span class="op">$</span>coefficients[<span class="dv">1</span>]),</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">           <span class="dt">Degree_Exponent =</span> model<span class="op">$</span>coefficients[<span class="dv">2</span>], </a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">           <span class="dt">Cutoff =</span> <span class="dv">1</span><span class="op">/</span>model<span class="op">$</span>coefficients[<span class="dv">3</span>])</a></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">Normalization</th>
+<th align="right">Degree_Exponent</th>
+<th align="right">Cutoff</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(Intercept)</td>
+<td align="right">46.48154</td>
+<td align="right">-2.784666</td>
+<td align="right">33.57488</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The vertical lines in the plot of the degree distribution correspond precisely to the saturation and cutoff values. With this we can write the model as</p>
+<p><span class="math display">\[\begin{equation}
+p(k)\approx 46.48(k+6)^{-2.78}e^{0.03k}
+\end{equation}\]</span></p>
+<p>The degree exponent we have found identifies the in-degree as a scale-free network in the ultra-small world regime (we will check this in a moment)</p>
+<p><br></p>
+<hr />
+</div>
+<div id="measurements-1.5-points" class="section level3">
+<h3><span class="header-section-number">3.2.3</span> <font color = "Blue"> Measurements </font> (1.5 points)</h3>
+<p><strong>Explain From the perspective of the <em>average path length</em> and the <em>in-degree exponent</em> in which regime of the degree dynamics this network lies. Give a full reasoning of your conclusion.</strong></p>
+<p>We have already found all the needed values, let’s write them down together with the equivalent from the two regimes than may be of interest (ultra-small and critical point)</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">N &lt;-<span class="st"> </span><span class="kw">gorder</span>(celegans)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">metrics &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Degree_Exponent =</span> <span class="kw">c</span>(model<span class="op">$</span>coefficients[<span class="dv">2</span>], <span class="st">&quot;2 to 3&quot;</span> , <span class="dv">3</span>), </a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">                      <span class="dt">APL =</span> <span class="kw">c</span>(<span class="kw">average.path.length</span>(celegans, <span class="dt">directed =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb17-4" data-line-number="4">                              <span class="kw">log</span>(<span class="kw">log</span>(N)),</a>
+<a class="sourceLine" id="cb17-5" data-line-number="5">                              <span class="kw">log</span>(N)<span class="op">/</span><span class="kw">log</span>(<span class="kw">log</span>(N)))</a>
+<a class="sourceLine" id="cb17-6" data-line-number="6">                      )</a>
+<a class="sourceLine" id="cb17-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="kw">row.names</span>(metrics) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Experimental&quot;</span>, <span class="st">&quot;Ultra-Small&quot;</span>, <span class="st">&quot;Critical Point&quot;</span>)</a>
+<a class="sourceLine" id="cb17-9" data-line-number="9">metrics</a></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">Degree_Exponent</th>
+<th align="right">APL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Experimental</td>
+<td align="left">-2.78466631881179</td>
+<td align="right">3.991884</td>
+</tr>
+<tr class="even">
+<td>Ultra-Small</td>
+<td align="left">2 to 3</td>
+<td align="right">1.739366</td>
+</tr>
+<tr class="odd">
+<td>Critical Point</td>
+<td align="left">3</td>
+<td align="right">3.273453</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Note that the average path length we compute is closer to the critical point than to the behabiour of an ultrasmall world (in fact this is in agreement with a more precise estimation of the degree exponent!). This result can be further confirmed by computing the average clustering coefficient which scales as <span class="math inline">\((\log(N))^2/N\)</span> as in the critical point.</p>
+<p><br></p>
+<hr />
+</div>
+<div id="network-model-1-point" class="section level3">
+<h3><span class="header-section-number">3.2.4</span> <font color = "Blue"> Network Model </font> (1 point)</h3>
+<p><strong>Depending on the regime in which you network lies, recreate a model with the closest metrics (if it is a scale-free use a BA-model, if it is a random network use a ER or a WS-model). Clearly state the problems of the model you use in comparison with the real network.</strong></p>
+<p>Let’s use a BA-model as follows</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">101</span>)</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">ba_net &lt;-<span class="st"> </span><span class="kw">barabasi.game</span>(<span class="dt">n =</span> <span class="kw">gorder</span>(celegans), </a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">                        <span class="dt">power =</span> <span class="fl">0.9</span>, </a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">                        <span class="dt">zero.appeal =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb18-5" data-line-number="5">                        <span class="dt">directed =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb18-6" data-line-number="6">                        <span class="dt">out.dist =</span> <span class="kw">degree.distribution</span>(celegans, <span class="dt">mode =</span> <span class="st">&quot;in&quot;</span>))</a>
+<a class="sourceLine" id="cb18-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb18-8" data-line-number="8">models &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">ACC =</span> <span class="kw">c</span>(<span class="kw">mean</span>(<span class="kw">transitivity</span>(celegans, <span class="dt">type =</span> <span class="st">&quot;local&quot;</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb18-9" data-line-number="9">                             <span class="kw">mean</span>(<span class="kw">transitivity</span>(ba_net, <span class="dt">type =</span> <span class="st">&quot;local&quot;</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)),</a>
+<a class="sourceLine" id="cb18-10" data-line-number="10">                     <span class="dt">APL =</span> <span class="kw">c</span>(<span class="kw">average.path.length</span>(celegans, <span class="dt">directed =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb18-11" data-line-number="11">                             <span class="kw">average.path.length</span>(ba_net, <span class="dt">directed =</span> <span class="ot">TRUE</span>)))</a>
+<a class="sourceLine" id="cb18-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb18-13" data-line-number="13"><span class="kw">row.names</span>(models) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Experimental&quot;</span>, <span class="st">&quot;BA Model&quot;</span>)</a>
+<a class="sourceLine" id="cb18-14" data-line-number="14">models</a></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">ACC</th>
+<th align="right">APL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Experimental</td>
+<td align="right">0.2605983</td>
+<td align="right">3.991884</td>
+</tr>
+<tr class="even">
+<td>BA Model</td>
+<td align="right">0.2508456</td>
+<td align="right">2.304164</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In general, preferential attachment networks suffer from a too low clustering coefficient. However, in the generation of this network, we have used as output degree distribution the original degree distribution of the C-elegans. This produces a value that is rather close to the original one. On the other hand, the average path length we find is small in agreement with the general situation (although in our case it is smaller and closer to the ultrasmall-world).</p>
+<p>Also, if we plot the degree distribution we see that we do not have the same structure as before: there is no saturation nor a cutoff point, although the power-law is kept.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">deg_dist_model &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">degree =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(<span class="kw">degree.distribution</span>(ba_net, <span class="dt">mode =</span> <span class="st">&quot;in&quot;</span>)),</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">                       <span class="dt">probability =</span> <span class="kw">degree.distribution</span>(ba_net, <span class="dt">mode =</span> <span class="st">&quot;in&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">filter</span>(degree <span class="op">!=</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>probability <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5">deg_dist_model <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> degree, <span class="dt">y =</span> probability)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb19-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.4</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-9" data-line-number="9"><span class="st">  </span><span class="kw">scale_x_log10</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb19-10" data-line-number="10"><span class="st">  </span><span class="kw">scale_y_log10</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb19-11" data-line-number="11"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="kw">expression</span>(<span class="st">&quot;log&quot;</span>(<span class="st">&quot;p&quot;</span>[<span class="st">&quot;k&quot;</span>])), <span class="dt">x =</span> <span class="st">&quot;k&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;BA-model C-elegans&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb19-12" data-line-number="12"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">15</span>),</a>
+<a class="sourceLine" id="cb19-14" data-line-number="14">        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">18</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>))</a></code></pre></div>
+<p><img src="Midterm_Exam_-_Solutions_files/figure-html/unnamed-chunk-17-1.png" width="1152" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+</div>
+
+<footer>
+  <div id="rbmvFooter" class="footer">
+    <div class="footerContent">
+    
+    <p>Copyright &copy; 2020 Juanjo Manjarín, IE University. All rights reserved.</p>
+    
+    </div>
+  </div>
+</footer>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

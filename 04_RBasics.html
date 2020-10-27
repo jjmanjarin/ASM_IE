@@ -372,7 +372,7 @@ $(document).ready(function () {
           <a href="04_RBasics.html">Basics of `igraph`</a>
         </li>
         <li>
-          <a href="05_Ex_Unit_I_solutions.html">Exercises</a>
+          <a href="05_Ex_Unit_I_Solutions.html">Exercises With Solutions</a>
         </li>
       </ul>
     </li>
@@ -393,25 +393,29 @@ $(document).ready(function () {
           <a href="09_NetModels.html">Modelling Networks in R</a>
         </li>
         <li>
-          <a href="10_Ex_Unit_II.html">Exercises</a>
+          <a href="10_Ex_Unit_II_Solutions.html">Exercises With Solutions</a>
         </li>
       </ul>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="Midterm_Exam_-_Solutions.html">Midterm Exam</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-submenu">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit III</a>
       <ul class="dropdown-menu" role="menu">
         <li>
-          <a href="DegCor.html">Degree Correlation</a>
+          <a href="11_DegCorrel.html">Degree Correlation</a>
         </li>
         <li>
-          <a href="Assort.html">Assortativity</a>
+          <a href="12_Assortativity.html">Assortativity</a>
         </li>
         <li>
-          <a href="ComNet.html">Introduction to Communities</a>
+          <a href="13_ComNet.html">Introduction to Communities</a>
         </li>
         <li>
-          <a href="MAAlg.html">Machine Learning Algorithms in R</a>
+          <a href="14_MAAlg.html">Machine Learning Algorithms in R</a>
         </li>
         <li>
           <a href="Ex_Unit_III.html">Exercises</a>
@@ -507,10 +511,10 @@ $(document).ready(function () {
 </ul>
 <p>then</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">V</span>(g)</a></code></pre></div>
-<pre><code>## + 7/7 vertices, named, from 5ca0b40:
+<pre><code>## + 7/7 vertices, named, from de318c8:
 ## [1] 1 2 3 5 4 7 6</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">E</span>(g)</a></code></pre></div>
-<pre><code>## + 10/10 edges from 5ca0b40 (vertex names):
+<pre><code>## + 10/10 edges from de318c8 (vertex names):
 ##  [1] 1--2 1--5 1--6 2--3 2--4 2--7 3--4 3--6 5--7 4--6</code></pre>
 <p>of course you can use the usual <code>length</code> function to obtain the <strong>order</strong> (number of vertices), <span class="math inline">\(N_v = |V|\)</span>, and the <strong>size</strong> (number of edges), <span class="math inline">\(N_e = |E|\)</span>, of the network. However, we also have predefined functions for this:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">gorder</span>(g)</a></code></pre></div>
