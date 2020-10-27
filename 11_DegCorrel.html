@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Prof. Dr. Juanjo Manjarín" />
+
+
+<title>Degree Correlation</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Social Media Analytics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Social Media Analytics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit I</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="01_NetworkData.html">Networks and their Data Sets</a>
+        </li>
+        <li>
+          <a href="02_MathNet.html">Mathematical Description of Networks</a>
+        </li>
+        <li>
+          <a href="03_Measures.html">Measures in Networks</a>
+        </li>
+        <li>
+          <a href="04_RBasics.html">Basics of `igraph`</a>
+        </li>
+        <li>
+          <a href="05_Ex_Unit_I_Solutions.html">Exercises With Solutions</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit II</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="06_RNets.html">Random Networks</a>
+        </li>
+        <li>
+          <a href="07_SFNets.html">Scale-Free Networks</a>
+        </li>
+        <li>
+          <a href="08_PANets.html">Preferential Attachment Networks</a>
+        </li>
+        <li>
+          <a href="09_NetModels.html">Modelling Networks in R</a>
+        </li>
+        <li>
+          <a href="10_Ex_Unit_II_Solutions.html">Exercises With Solutions</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="Midterm_Exam_-_Solutions.html">Midterm Exam</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit III</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="11_DegCorrel.html">Degree Correlation</a>
+        </li>
+        <li>
+          <a href="12_Assortativity.html">Assortativity</a>
+        </li>
+        <li>
+          <a href="13_ComNet.html">Introduction to Communities</a>
+        </li>
+        <li>
+          <a href="14_MAAlg.html">Machine Learning Algorithms in R</a>
+        </li>
+        <li>
+          <a href="Ex_Unit_III.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit IV</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="SprePhen.html">Spreading Phenomena</a>
+        </li>
+        <li>
+          <a href="CEMod.html">Classical Epidemics Models</a>
+        </li>
+        <li>
+          <a href="NetEpi.html">Network Epidemics</a>
+        </li>
+        <li>
+          <a href="NetDif.html">Network Diffusion</a>
+        </li>
+        <li>
+          <a href="Ex_Unit_IV.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li>
+  <a href="IntroR.html">R Course</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Degree Correlation</h1>
+<h4 class="author">Prof. Dr. Juanjo Manjarín</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#assortativity-and-disassortativity"><span class="toc-section-number">1</span> Assortativity and Disassortativity</a></li>
+<li><a href="#degree-correlation"><span class="toc-section-number">2</span> Degree Correlation</a><ul>
+<li><a href="#measuring-degree-correlation"><span class="toc-section-number">2.1</span> Measuring Degree Correlation</a></li>
+</ul></li>
+<li><a href="#structural-dissasortativity"><span class="toc-section-number">3</span> Structural Dissasortativity</a></li>
+<li><a href="#the-impact-of-degree-correlation"><span class="toc-section-number">4</span> The impact of Degree Correlation</a></li>
+</ul>
+</div>
+
+<hr />
+<p>In this document we are going to study some properties of the ties in a network, in particular if they are established among equals or not. This is known as <strong>assortativity</strong> and <strong>dissasortativity</strong> respectively and we will see that they are patterns are actual properties of real networks</p>
+<!-- assortative and disassortative -->
+<div id="assortativity-and-disassortativity" class="section level1">
+<h1><span class="header-section-number">1</span> Assortativity and Disassortativity</h1>
+<p>When we say that links are established among equals or not we are intentionally leaving open what <em>equals</em> mean. This is because in general (see next chapter) we may consider equality with respect to one of the many properties of a node, for example if we are studying a network of people, we may consider the age or we may consider their college or we may consider the number of friends they have.</p>
+<p>Note that each of the previous is a different characteristic by the nature of the variable: numerical, categorical or degree. It is, no doubt, with respect to degree the one that will occupy in this section and we leave the analysis of the rest for the next one.</p>
+<p>When we consider the degree, what we are actually interested is in looking at the degree of the nodes in the neighborhood of a node, in particular <em>how is the degree of a node with respect to the average degree of its neighborhood</em>. This is what we know as <strong>degree correlation</strong>.</p>
+<p>In this context we may have:</p>
+<ul>
+<li><strong>Neutral Networks</strong>: when nodes of degree <span class="math inline">\(k\)</span> connect to nodes of degree <span class="math inline">\(k&#39;\)</span> with a random probability</li>
+<li><strong>Assortative Networks</strong>: When nodes of degree <span class="math inline">\(k\)</span> are more likely to connect with nodes of the same degree, i.e. hubs connect with hubs and low degee with low degree.</li>
+<li><strong>Disassortative Networks</strong>: When nodes of degree <span class="math inline">\(k\)</span> are more likely to connect with nodes with a different degree, i.e. hubs avoid hubs and low degree connect to hubs</li>
+</ul>
+<p><a href="#">Back to top</a></p>
+<!-- degree correlation -->
+</div>
+<div id="degree-correlation" class="section level1">
+<h1><span class="header-section-number">2</span> Degree Correlation</h1>
+<p>We say that a network displays degree correlations if the number of links between low degree and high degree nodes is different from those that may appear if the links were random. For this we introduce the <strong>correlation matrix</strong>, <span class="math inline">\(e_{ij}\)</span>, which denotes the <em>probability that we find nodes with degrees <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> at the end points of a randomly selected link</em></p>
+<p><span class="math display">\[\begin{equation}
+\sum_{i,j} e_{ij} = 1
+\end{equation}\]</span></p>
+<p>Suppose we select one node with degree <span class="math inline">\(k\)</span>, i.e. <span class="math inline">\(k\)</span> edges have an ending point on it. We can do it with probability <span class="math inline">\(p_k\)</span>, then the probability that at the end of one of its nodes there is a node with degree <span class="math inline">\(k\)</span> can be written as</p>
+<p><span class="math display">\[\begin{equation}
+q_k = Ckp_k = \frac{kp_k}{\langle k\rangle}
+\end{equation}\]</span></p>
+<p>then we can write that</p>
+<p><span class="math display">\[\begin{equation}
+\sum_{i} e_{ij} = q_j
+\end{equation}\]</span></p>
+<p>and then, for a neutral nework we expect</p>
+<p><span class="math display">\[\begin{equation}
+e_{ij} = q_iq_j
+\end{equation}\]</span></p>
+<p>However, in most real networks we expect to observe a deviation from this formula due to the existence of different correlations.</p>
+<p>One of the most widely used measures for degree correlation is the <strong>degree correlation function</strong></p>
+<p><span class="math display">\[\begin{equation}
+k_{nn}(k)=\sum_{k&#39;} k&#39;p(k&#39;|k)
+\end{equation}\]</span></p>
+<p>where</p>
+<p><span class="math display">\[\begin{equation}
+p(k&#39;|k)= \frac{e_{kk&#39;}}{\sum_{k&#39;} e_{kk&#39;}} = \frac{e_{kk&#39;}}{q_k}
+\end{equation}\]</span></p>
+<p>is the conditional probability that a link from a node with degree <span class="math inline">\(k\)</span> connects to a node with degree <span class="math inline">\(k&#39;\)</span>. For a <strong>neutral network</strong> we can write that <span class="math inline">\(p(k&#39;|k)=q_{k&#39;}\)</span> and then</p>
+<p><span class="math display">\[\begin{equation}
+k_{nn}(k)=\sum_{k&#39;} k&#39;q_{k&#39;} =  \sum_{k&#39;}\frac{k&#39;k&#39;p_{k&#39;}}{\langle k\rangle}=\frac{\langle k^2\rangle}{\langle k\rangle}
+\end{equation}\]</span></p>
+<p>This boundary will be used as to compare the behaviour of the networks against their neutraility.</p>
+<p><a href="#">Back to top</a></p>
+<!-- measure deg corr -->
+<div id="measuring-degree-correlation" class="section level2">
+<h2><span class="header-section-number">2.1</span> Measuring Degree Correlation</h2>
+<p>The degree correlation is actually measuring the average degree of the neighbours of a node of the degree <span class="math inline">\(k\)</span>, then for each node we can write it in terms of the adjacency matrix as</p>
+<p><span class="math display">\[\begin{equation}
+k_{nn}(k_i) = \frac{1}{k_i}\sum_{j} A_{ij}k_j
+\end{equation}\]</span></p>
+<p>being the previous expression for <span class="math inline">\(k_{nn}(k)\)</span> the computation for all the nodes with degree <span class="math inline">\(k\)</span>. We can use this expression to determine the general tendency of the links nature (compared to the randomness of a neutral network). For example, using the C-elegans neural network we can see the following graph</p>
+<p><br></p>
+<p><img src="11_DegCorrel_files/figure-html/unnamed-chunk-2-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<p>From it we see that the slope is negative, meaning that the average degree of the neighbors decreases as the degree of the node increases, i.e. a disassortative network. In this case hubs tend to ellude hubs. Although not very common, biological networks tend to have this type of behaviour.</p>
+<p>If we see the graph, we may be tempted to consider that</p>
+<p><span class="math display">\[\begin{equation}
+k_{nn} = Ak^\mu
+\end{equation}\]</span></p>
+<p>and then, estimate the slope as a way to estimate the degree correlation. The exponent <span class="math inline">\(\mu\)</span>, is known as the <strong>correlation exponent</strong>, and gives us the direction of the correlation through its sign (not the value of the correlation itself):</p>
+<ul>
+<li>If <strong><span class="math inline">\(\mu &gt; 0\)</span></strong>: we have an <strong>assortative</strong> network</li>
+<li>If <strong><span class="math inline">\(\mu = 0\)</span></strong>: we have a <strong>neutral</strong> network</li>
+<li>If <strong><span class="math inline">\(\mu &lt; 0\)</span></strong>: we have a <strong>disassortative</strong> network</li>
+</ul>
+<p>where we should understand the sign from the estimated values of the slope and its standard error, i.e. through the confidence interval or through the p-value of the estimation.</p>
+<p>For example, in the case of the C-elegans neural network above we find that</p>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="right">Correlation_Exponent</th>
+<th align="right">Std_Error</th>
+<th align="right">p_value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">-0.3824737</td>
+<td align="right">0.0462356</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Which returns a relevant and negative exponent, showing a negative correlation and, then, a disassortative network. The p-value is of the order of <span class="math inline">\(10^{-10}\)</span> and so, we identify it with zero, which means that the slope is significantly different from 0.</p>
+<p>It is worth to insist on the fact that the correlation exponent is not the correlation. We wil compute this in the next chapter.</p>
+<p>We can find these degree correlation for different real networks we have used along the course</p>
+<p><br></p>
+<p><img src="11_DegCorrel_files/figure-html/unnamed-chunk-4-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<p>In the four networks represented in the previous graph we see that three of them: the two of science colaborations and the UK faculty friends are assortative while the C-elegans neural network is dissassortative.</p>
+<p><a href="#">Back to top</a></p>
+<!-- struct diss -->
+</div>
+</div>
+<div id="structural-dissasortativity" class="section level1">
+<h1><span class="header-section-number">3</span> Structural Dissasortativity</h1>
+<p>In simple networks the scale-free property of the networks gives rise to a conflict with the degree correlations. The problem arises when we compute the expected number of links connecting nodes with degree <span class="math inline">\(k\)</span> and <span class="math inline">\(k&#39;\)</span>.</p>
+<p><span class="math display">\[\begin{equation}
+E_{kk&#39;} = e_{kk&#39;}\langle k\rangle N = \frac{kp_kk&#39;p_{k&#39;}}{\langle k\rangle }N
+\end{equation}\]</span></p>
+<p>let’s generate a network using the BA-model</p>
+<p><img src="11_DegCorrel_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>the nodes in blue are the hubs with degrees 157 and 73 then, applying the formula above to them with find that the expected number of links between them is</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">(<span class="dv">157</span><span class="op">/</span><span class="dv">300</span><span class="op">*</span><span class="dv">73</span><span class="op">/</span><span class="dv">300</span>)<span class="op">/</span><span class="kw">mean</span>(<span class="kw">degree</span>(deg_mod), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">*</span><span class="st"> </span><span class="dv">300</span></a></code></pre></div>
+<pre><code>## [1] 10.2148</code></pre>
+<p>approximatedly 10 links to comply the neutral network! While we are allowing for only one link between them. It can be proved (see the book chapter 7) that there exists a <strong>structural cutoff</strong>, <span class="math inline">\(k_s\)</span>, such that when exceeded the expected number of links connecting them is greater than 1. This cutoff is</p>
+<p><span class="math display">\[\begin{equation}
+k_s \sim \left(\langle k\rangle N\right)^{1/2}
+\end{equation}\]</span></p>
+<p>remember that for scale-free networks the maximum degree was <span class="math inline">\(k_{max}\sim N^{1/(\gamma-1)}\)</span>, then we can identify different regimes depending on <span class="math inline">\(\gamma\)</span> as</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="26%" />
+<col width="40%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"><span class="math inline">\(\gamma\)</span></th>
+<th align="center">Regime</th>
+<th align="center">Properties</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline">\(\geq 3\)</span></td>
+<td align="center">No Structural Cutoff</td>
+<td align="center"><span class="math inline">\(k_{max}\)</span> is smaller than the <span class="math inline">\(k_s\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\([2,3)\)</span></td>
+<td align="center">Structural Disassortativity</td>
+<td align="center">The network has fewer links among its hubs than predicted</td>
+</tr>
+</tbody>
+</table>
+<p>If we find less links than the ones predicted in a neutral network between hubs, this is a form of disassortativity which does not come from the properties of the nodes connected but by the structure of the network itself (simple network), hence the name <strong>structural disassortativity</strong>.</p>
+<p>To identify if the disassortativity of a network is structural or not we can make use of a random rewiring of the links preserving the degree distribution. In the case of the C-elegans we find the following graph</p>
+<p><img src="11_DegCorrel_files/figure-html/unnamed-chunk-7-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>where the red dots are the original points and the blue ones come from the rewiring. Note than both have the same direction which implies that the disassortativity is induced by the scale-free nature of the network and not by other effects.</p>
+<p>As a final comment, it must be clear that the structural cutoff only produces disassortative networks, never assortative.</p>
+<p><a href="#">Back to top</a></p>
+<!-- impact deg corr -->
+</div>
+<div id="the-impact-of-degree-correlation" class="section level1">
+<h1><span class="header-section-number">4</span> The impact of Degree Correlation</h1>
+<p>Note that along the lecture we have been discussing comparisons against a neutral network which is just nothing more than a random network. Then the degree correlation may be affecting the properties we saw with respect to the phase transition and the giant components. In fact:</p>
+<ul>
+<li><strong>Assortative Networks</strong> have a giant component emerging at values <span class="math inline">\(\langle k \rangle &lt; 1\)</span>, since, intuitively, it is easier to form such component if the high degree nodes look for each other. This <strong>Giant Component</strong> is smaller than in neutral or disassortative networks since the nodes fail to attract the low degree nodes.</li>
+<li><strong>Disassortative Networks</strong> have a giant component emerging at values <span class="math inline">\(\langle k \rangle &gt; 1\)</span>, because of the opposite reasons given before and have a <strong>Giant Component</strong> larger than neutral or assortative networks too.</li>
+</ul>
+<p>There are some other impacts of the degree correlation, refer to the book to see some of them</p>
+<p><a href="#">Back to top</a></p>
+</div>
+
+<footer>
+  <div id="rbmvFooter" class="footer">
+    <div class="footerContent">
+    
+    <p>Copyright &copy; 2020 Juanjo Manjarín, IE University. All rights reserved.</p>
+    
+    </div>
+  </div>
+</footer>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
