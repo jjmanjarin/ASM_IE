@@ -537,7 +537,7 @@ Q_{\text{}norm} = \frac{Q}{Q_{max}} = \frac{\sum_{i,j}\left( A_{ij} - \frac{k_ik
 <a class="sourceLine" id="cb1-2" data-line-number="2">mod_graph &lt;-<span class="st"> </span><span class="kw">erdos.renyi.game</span>(<span class="dv">100</span>, <span class="fl">0.02</span>, <span class="st">&quot;gnp&quot;</span>, <span class="dt">directed =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">V</span>(mod_graph)<span class="op">$</span>group &lt;-<span class="st"> </span><span class="kw">gl</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">100</span>)</a></code></pre></div>
 <p>so we have generated a factor with 4 levels and periodicity of 4. Then</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">assortativity.nominal</span>(mod_graph, <span class="kw">V</span>(mod_graph)<span class="op">$</span>group)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">assortativity.nominal</span>(mod_graph, <span class="kw">V</span>(mod_graph)<span class="op">$</span>group, <span class="dt">directed =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <pre><code>## [1] 0.007610828</code></pre>
 <p>As we see, this value is consistent with the randomness of our model, i.e. it is basically 0. In any case, note that, in order to use the R function, we need the vector with the groups or with the categories of the nodes. There is an alternative function call which uses a slightly different algorithm:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">modularity</span>(mod_graph, <span class="kw">V</span>(mod_graph)<span class="op">$</span>group)</a></code></pre></div>
@@ -551,7 +551,7 @@ Q_{\text{}norm} = \frac{Q}{Q_{max}} = \frac{\sum_{i,j}\left( A_{ij} - \frac{k_ik
 <h2><span class="header-section-number">2.2</span> Assortative Mixing by Ordinal Attributes</h2>
 <p>In this case we deal with attributes which are numerical, either discrete or continuous (the degree case is a particular case with a discrete attribute). In this context we should better deal with the covariance of the network, for this let’s first find the average of the quantity in node <span class="math inline">\(i\)</span>, <span class="math inline">\(x_i\)</span>, at the end of one link</p>
 <p><span class="math display">\[\begin{equation}
-\mu = \frac{\sum{ij} A_ij x_i}{\sum_{ij} A_ij} = \frac{1}{2m}\sum_i k_ix_i
+\mu = \frac{\sum_{ij} A_ij x_i}{\sum_{ij} A_ij} = \frac{1}{2m}\sum_i k_ix_i
 \end{equation}\]</span></p>
 <p>with this we can write the covariance of <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_j\)</span> over all edges as</p>
 <p><span class="math display">\[\begin{equation}
@@ -674,7 +674,7 @@ G_{\text{homophily}}(t) = A(G_{t_2}, X_{t_1}) - A(G_{t_1}, X_{t_1}) &gt; 0
 \end{equation}\]</span></p>
 <p>The subtle part is how to decide if a change due to any of the forces is significant. Here is where we use the <em>randomization</em>.</p>
 <ul>
-<li><strong>Inlfuence Significance Test</strong>: The NuLL hypothesis of the test is that the attributes changed randomly at time <span class="math inline">\(t_2\)</span> and not due to any force. Then we have to generate a random attribute set at time <span class="math inline">\(t_2\)</span> and find the value of influence assortativity increase. Then propose that the change is significant if the non-random change is larger than <span class="math inline">\((1-2/\alpha)\)</span>% of the values in the random change.</li>
+<li><strong>Influence Significance Test</strong>: The NuLL hypothesis of the test is that the attributes changed randomly at time <span class="math inline">\(t_2\)</span> and not due to any force. Then we have to generate a random attribute set at time <span class="math inline">\(t_2\)</span> and find the value of influence assortativity increase. Then propose that the change is significant if the non-random change is larger than <span class="math inline">\((1-2/\alpha)\)</span>% of the values in the random change.</li>
 <li><strong>Homophily Significance Test</strong>: The NuLL hypothesis of the test is that the graph changed randomly at time <span class="math inline">\(t_2\)</span> and not due to any force. Then we have to generate a random set of links at time <span class="math inline">\(t_2\)</span> and find the value of homophily assortativity increase. Then propose that the change is significant if the non-random change is larger than <span class="math inline">\((1-2/\alpha)\)</span>% of the values in the random change.</li>
 </ul>
 </div>
