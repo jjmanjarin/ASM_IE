@@ -9,9 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Prof. Dr. Juanjo Manjarín" />
 
 
-<title>Home Page</title>
+<title>Unit III: Exercises</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -373,272 +374,99 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Home Page</h1>
+<h1 class="title toc-ignore">Unit III: Exercises</h1>
+<h4 class="author">Prof. Dr. Juanjo Manjarín</h4>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#degree-correlation"><span class="toc-section-number">1</span> <font color = "limegreen"> Degree Correlation </font></a></li>
+<li><a href="#case-twitter"><span class="toc-section-number">2</span> <font color = "limegreen"> Case: Twitter </font></a></li>
+</ul>
+</div>
 
-<p>Hello, welcome to the Social Media Analytics Website! You are in the Home page of the site: just a place to redirect you to different parts of the course. Use either the links below or the main menu on top. Enjoy!</p>
-<div id="networks-in-r" class="section level1">
-<h1><span class="header-section-number">1</span> Networks in R</h1>
-<p>In this section you can find the links to the markdown html generated documents of the course. All the documents contain a explanation of the topics which complements the ones in the slides, the books and in class.</p>
+<hr />
+<div id="degree-correlation" class="section level1">
+<h1><span class="header-section-number">1</span> <font color = "limegreen"> Degree Correlation </font></h1>
 <p><br></p>
-<table style="width:100%;">
-<thead>
-<tr style="background-color: #1a9405; color:#FFFFFF;">
-<th>
-<strong>UNIT I</strong>: Introduction to Networks
-</th>
-<th>
-<strong>UNIT II</strong>: Models of Networks
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-Session I:
+<ol>
+<li>
+<p><span class="exer"> C-elegans. </span> Consider the neural network of the C-elegans used in the midterm. In the following <a href="https://snap.stanford.edu/data/C-elegans-frontal.html">link</a> you can find the names of the neurons. Then:</p>
 <ul>
-<li>
-<a href="01_NetworkData.html">Networks and their Data Sets</a>
-</li>
-</ul>
-</td>
-<td>
-Session VI:
+<li>Download the names of the neurons and create an attribute of the edges with these names</li>
+<li>In terms of the degree correlation, is the network assortative or disassortative? If it is disassortative, find out if it is structural or not. For both questions, do the graphical analysis.</li>
+<li>Find the communities with the <code>fast_greedy</code>, <code>walktrap</code> and <code>edge_betweenness</code></li>
+<li>Considering the one with the highest modularity, try to interpret the communities in the network (note that for this you will have to look for the meaning of the names of the neurons <a href="https://www.wormatlas.org/neurons/Individual%20Neurons/Neuronframeset.html">here</a> for example). What we are interested in knowing is:
 <ul>
-<li>
-<a href="06_RNets.html">Random Networks</a>
-</li>
+<li>Are the communities homogeneous in any sense?</li>
+<li>Are the main nodes in the different communities relevant in any sense? For this second part, it may be interesting if you filter by communities and find if there are central nodes</li>
+</ul></li>
 </ul>
-</td>
-</tr>
-<tr>
-<td>
-Session II:
-<ul>
-<li>
-<a href="02_MathNet.html">Mathematical Description of Networks</a>
 </li>
-<li>
-<a href="VMNets.html">Video: The Mathematics of Networks</a>
-</li>
-</ul>
-</td>
-<td>
-Session VII:
-<ul>
-<li>
-<a href="07_SFNets.html">Scale-Free Networks</a>
-</li>
-<li>
-<a href="VSFNets.html">Video: Scale-Free Networks</a>
-</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td>
-Session III:
-<ul>
-<li>
-<a href="03_Measures.html">Measures in Networks</a>
-</li>
-</ul>
-</td>
-<td>
-Session VIII:
-<ul>
-<li>
-<a href="08_PANets.html">Preferential Attachment Networks</a>
-</li>
-</ul>
-</td>
-</tr>
-<td>
-Session IV:
-<ul>
-<li>
-<a href="04_RBasics.html">Basics of <code>igraph</code></a>
-</li>
-<li>
-<a href="VRCent.html">Video: Centralities in R</a>
-</li>
-<li>
-<a href="VGephi.html">Video: Gephi</a>
-</li>
-</ul>
-</td>
-<td>
-Session IX:
-<ul>
-<li>
-<a href="09_NetModels.html">Modelling Networks in R</a>
-</li>
-</ul>
-</td>
-<tr>
-<td>
-Session V:
-<ul>
-<li>
-<a href="05_Ex_Unit_I.html">Exercises</a>
-</li>
-<li>
-<a href="05_Ex_Unit_I_Solutions.html">Solution to Exercises</a>
-</li>
-</ul>
-</td>
-<td>
-Session X:
-<ul>
-<li>
-<a href="10_Ex_Unit_II.html">Exercises</a>
-</li>
-<li>
-<a href="10_Ex_Unit_II_Solutions.html">Solution to Exercises</a>
-</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
 <p><br></p>
-<strong>MIDTERM EXAM</strong>: <a href="Midterm_Exam_-_Solutions.html">Solutions</a>
-</td>
+<li>
+<p><span class="exer"> Network Science. </span> Use the Network Science Collaborations network and then:</p>
+<ul>
+<li>Determine if, with respect to the degree, the network is assortative or disassortative. What does it mean?</li>
+<li>Identify the communities (any algorithm of your choice) and the relevant nodes in each of them (use degree). With the relevant nodes identified, try to look for information of the scientists and give an in-context interpretation</li>
+</ul>
+</li>
 <p><br></p>
-<table style="width:100%;">
-<thead>
-<tr style="background-color: #1a9405; color:#FFFFFF;">
-<th>
-<strong>UNIT III</strong>: Deep Characteristics of Networks
-</th>
-<th>
-<strong>UNIT IV</strong>: Spreading Phenomena
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-Session XI:
+<li>
+<p><span class="exer"> Spectral Decomposition. </span> Generate three models: ER-model, WS-model and BA-model, apart from using 50 nodes, choose the properties you want and then explain the regimes in which each network are. Then:</p>
 <ul>
-<li>
-<a href="11_DegCorrel.html">Degree Correlation</a>
-</li>
+<li>Perform the spectral decomposition</li>
+<li>Using the K-means clustering method, determine the optimum number of components (communities) that may best describe the structure of the networks. With this information, find the communities and make a plot of each network.</li>
 </ul>
-</td>
-<td>
-Session XVI:
+</li>
+<p><br></p>
+<li>
+<p><span class="exer"> Karate Club. </span> Use the <code>karate</code> dataset and then:</p>
 <ul>
-<li>
-<a href="16_SprePhen.html">Spreading Phenomena</a>
-</li>
+<li>Find the community structure by, at least, three different algorithms</li>
+<li>Select the clustering with the highest modularity</li>
+<li>Interpret the results</li>
 </ul>
-</td>
-</tr>
-<tr>
-<td>
-Session XII:
+</li>
+<p><br></p>
+<li>
+<p><span class="exer"> Simulation. </span> Define a function that let’s you generate a dynamical series of networks from a seeded network. It must satisfy that:</p>
 <ul>
-<li>
-<a href="12_Assortativity.html">Assortativity</a>
-</li>
-<li>
-<a href="VAssort.html">Video: Assortativity</a>
-</li>
+<li>Have an <code>igraph</code> object as input</li>
+<li>Nodes are selected randomly for updating</li>
+<li>Assume that there is a passage of time (one unit) from update to update (to make things easier, assume that chages in two nodes do not co-occur)</li>
+<li>The change in the network proceeds only by degree, then you may either add or remove edges at each step (if you want to make this using any particular mechanism, do it. If not, a random generation is perfect)</li>
+<li>The output is an <code>igraph</code> object</li>
 </ul>
-</td>
-<td>
-Session XVII:
+<p>Once you have the starting network and an ending network find:</p>
 <ul>
-<li>
-<a href="17_CEMod.html">Classical Epidemics Models</a>
-</li>
+<li>If the networks are assortative, disassortative or neutral (with respect to degree)</li>
+<li>In any case, perform a Randomization test to determine if the (even if it is small) change in assortativity is due to homophily or to influence (this may depend on the selection mechanism you use in the function above)</li>
 </ul>
-</td>
-</tr>
-<tr>
-<td>
-Sesion XIII:
-<ul>
-<li>
-<a href="13_ComNet.html">Introduction to Communities</a>
 </li>
-</ul>
-</td>
-<td>
-Session XVIII:
-<ul>
-<li>
-<a href="18_NetEpi.html">Network Epidemics</a>
-</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td>
-Session XIV:
-<ul>
-<li>
-<a href="14_MAAlg.html">Machine Learning Algorithms in R</a>
-</li>
-</ul>
-</td>
-<td>
-Session XIX:
-<ul>
-<li>
-<a href="19_NetDif.html">Network Diffusion</a>
-</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td>
-Session XV:
-<ul>
-<li>
-<a href="15_Ex_Unit_III.html">Exercises</a>
-</li>
-</ul>
-</td>
-<td>
-Session XX:
-<ul>
-<li>
-<a href="20_Ex_Unit_IV.html">Exercises</a>
-</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+<p><br></p>
+</ol>
+<p><a href="#">Back to top</a></p>
+<hr />
 </div>
-<div id="an-introduction-to-r" class="section level1">
-<h1><span class="header-section-number">2</span> An introduction to R</h1>
-<p>Since the coding of all the analysis is made in R, in case you need it, you can go to the following link where you can find an introduction to R with some exercises</p>
+<div id="case-twitter" class="section level1">
+<h1><span class="header-section-number">2</span> <font color = "limegreen"> Case: Twitter </font></h1>
+<p>Consider the Twitter Networks for USA Elections. The dataset contains the same Twitter search in two different times, and each contains different nodes and types of links. For the analysis, through filtering, you can choose any type of node (user, tweet,…) and any type of link (retweets from, has mention,…) as long as they produce a network with links. Th easiest options are User and then quotes_from or retweets_from, since the other options will imply working with bimodal/affiliation networks. Then:</p>
 <ul>
-<li><a href="IntroR.html">An Introduction to R</a></li>
+<li>Find the communities through their modularity class</li>
+<li>Make the graph using modularity as color (If you have too many isolated nodes you can remove them with the filter topology -&gt; k-cores or Degree Range). Then answer the following:</li>
+<li>Do you idenfity relevant nodes per community?</li>
+<li>With respect to which centrality measure do you find them?</li>
+<li>What does it mean?</li>
 </ul>
-</div>
-<div id="r-packages" class="section level1">
-<h1><span class="header-section-number">3</span> R Packages</h1>
-<p>For more information about the functions in the packages for network analysis in R, please visit the home page of the main projects found below, where we have included links to projects not used in this course but which are very interesting and which should probably be used in many situations</p>
+<p>Due to the evolution of the network you can find changes in assortativity, the attributes you have may fit good for degree or unordered assortativity, then degree correlation or modularity. Let’s consider the two networks as the same network evolved in time</p>
 <ul>
-<li><a href="https://igraph.org/r/"><strong>igraph</strong></a></li>
-<li><a href="https://rdrr.io/cran/netdiffuseR/"><strong>NetdiffuseR</strong></a></li>
-<li><a href="https://cran.r-project.org/web/packages/network/vignettes/networkVignette.pdf"><strong>network</strong></a></li>
-<li><a href="http://statnet.org/"><strong>sna</strong></a></li>
-<li><a href="http://www.stats.ox.ac.uk/~snijders/siena/"><strong>RSiena</strong></a></li>
+<li>Be sure that the filter in both networks are exactly the same and then import your network into R</li>
+<li>Find the assortativity index in both time stamps: Does it show assortativity or disassortativity? Can you explain its origin?</li>
 </ul>
-<p>and for visualizations:</p>
-<ul>
-<li><a href="https://exts.ggplot2.tidyverse.org/ggraph.html"><strong>ggraph</strong></a></li>
-<li><a href="https://www.rdocumentation.org/packages/networkD3/versions/0.4"><strong>NetworkD3</strong></a>, also check these <a href="https://www.r-graph-gallery.com/network-interactive.html">examples</a></li>
-<li><a href="https://briatte.github.io/ggnet/"><strong>ggnet2</strong></a></li>
-<li><a href="https://exts.ggplot2.tidyverse.org/geomnet.html"><strong>geomnet</strong></a></li>
-</ul>
+<p>As the last part, try to perform a test to identify if the change in the network is due to influence or homophily. Remember that for this you need to generate random networks with the appropriate properties and then perform the test.</p>
+<p><a href="#">Back to top</a></p>
 </div>
 
 <footer>

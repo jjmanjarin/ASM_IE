@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Prof. Dr. Juanjo Manjarín" />
+
+
+<title>Algorithms for Community Detection</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Social Media Analytics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Social Media Analytics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit I</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="01_NetworkData.html">Networks and their Data Sets</a>
+        </li>
+        <li>
+          <a href="02_MathNet.html">Mathematical Description of Networks</a>
+        </li>
+        <li>
+          <a href="03_Measures.html">Measures in Networks</a>
+        </li>
+        <li>
+          <a href="04_RBasics.html">Basics of `igraph`</a>
+        </li>
+        <li>
+          <a href="05_Ex_Unit_I_Solutions.html">Exercises With Solutions</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit II</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="06_RNets.html">Random Networks</a>
+        </li>
+        <li>
+          <a href="07_SFNets.html">Scale-Free Networks</a>
+        </li>
+        <li>
+          <a href="08_PANets.html">Preferential Attachment Networks</a>
+        </li>
+        <li>
+          <a href="09_NetModels.html">Modelling Networks in R</a>
+        </li>
+        <li>
+          <a href="10_Ex_Unit_II_Solutions.html">Exercises With Solutions</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="Midterm_Exam_-_Solutions.html">Midterm Exam</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit III</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="11_DegCorrel.html">Degree Correlation</a>
+        </li>
+        <li>
+          <a href="12_Assortativity.html">Assortativity</a>
+        </li>
+        <li>
+          <a href="13_ComNet.html">Introduction to Communities</a>
+        </li>
+        <li>
+          <a href="14_MAAlg.html">Machine Learning Algorithms in R</a>
+        </li>
+        <li>
+          <a href="15_Ex_Unit_III.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit IV</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="16_SprePhen.html">Spreading Phenomena</a>
+        </li>
+        <li>
+          <a href="17_CEMod.html">Classical Epidemics Models</a>
+        </li>
+        <li>
+          <a href="18_NetEpi.html">Network Epidemics</a>
+        </li>
+        <li>
+          <a href="19_NetDif.html">Network Diffusion</a>
+        </li>
+        <li>
+          <a href="20_Ex_Unit_IV.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li>
+  <a href="IntroR.html">R Course</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Algorithms for Community Detection</h1>
+<h4 class="author">Prof. Dr. Juanjo Manjarín</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#hierarchical-clustering"><span class="toc-section-number">1</span> Hierarchical Clustering</a></li>
+<li><a href="#spectral-partitioning"><span class="toc-section-number">2</span> Spectral Partitioning</a></li>
+<li><a href="#information-theory-based-methods"><span class="toc-section-number">3</span> Information Theory Based Methods</a></li>
+<li><a href="#betweenness-based-methods"><span class="toc-section-number">4</span> Betweenness Based Methods</a></li>
+</ul>
+</div>
+
+<hr />
+<p>There are many different approaches for the Community Detection problem. Here we are only going to review a few of them. In particular:</p>
+<ul>
+<li>Hierachical Clustering</li>
+<li>Spectral Decomposition</li>
+</ul>
+<p>then we will overview some other methods that can be applied based on information theory or bewteenness.</p>
+<!-- hier clust -->
+<div id="hierarchical-clustering" class="section level1">
+<h1><span class="header-section-number">1</span> Hierarchical Clustering</h1>
+<p>Hierarchical clustering is a class of algorithms that may divide in two different families:</p>
+<ul>
+<li><strong>agglomerative</strong>: the algorithm proceeds by a succesive coarsening of the partition by merging smaller clusters.</li>
+<li><strong>divisive</strong>: the algorithm proceeds by a succesive refinment of the partition by splitting bigger clusters.</li>
+</ul>
+<p>clusters are defined in terms of a distance: a similarity between the nodes, then it should reflect our definition of cohesive group. There are many different possible measures for similarity, and this gives a high flexibility to the approach.</p>
+<p>The method proceeds as follows:</p>
+<ol style="list-style-type: decimal">
+<li>Choose the similarity and evaluate it for each pair of nodes</li>
+<li>Assign nodes to the initial configuration, if for example, it is agglomerative, we begin with isolated nodes.</li>
+<li>Find the pairs of nodes with the higher similarity and join them in one cluster</li>
+<li>Compute the similarity between this new group and all the other nodes using the usual clustering methods
+<ul>
+<li>Single: similarity between groups is defined to be the similarity of the more similar pair of nodes</li>
+<li>Complete: similarity bewteen groups is defined to be the similarity of the least similar pair of nodes</li>
+<li>Average: similarity between groups is defined to be the average similarity of all the nodes</li>
+</ul></li>
+<li>Repeat from step 3 until each node has been evaluated and joined to one group</li>
+</ol>
+<p>In our case we are going to use as similartiy measure the modularity, where the classes are defined as precisely the cluster indices.</p>
+<p>In this mtehodology falls the <code>fast_greedy</code> algorithm of <code>igraph</code> and we may either use the usual graph representation or a <strong>dendrogram</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">101</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">mod_net &lt;-<span class="st"> </span><span class="kw">ba.game</span>(<span class="dv">20</span>, <span class="fl">0.9</span>, <span class="dt">out.dist =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.55</span>, <span class="fl">0.35</span>), <span class="dt">directed =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">comms &lt;-<span class="st"> </span><span class="kw">cluster_fast_greedy</span>(mod_net)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw">plot</span>(mod_net,</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">     <span class="dt">layout =</span> layout.kamada.kawai,</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">     <span class="dt">vertex.color =</span> <span class="kw">membership</span>(comms))</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="kw">dendPlot</span>(comms, <span class="dt">mode=</span><span class="st">&quot;phylo&quot;</span>, <span class="dt">cex=</span><span class="dv">1</span>)</a></code></pre></div>
+<p><img src="14_MAAlg_files/figure-html/unnamed-chunk-2-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><a href="#">Back to top</a></p>
+<!-- spectral -->
+</div>
+<div id="spectral-partitioning" class="section level1">
+<h1><span class="header-section-number">2</span> Spectral Partitioning</h1>
+<p>In this case we use spectral graph theory with associates the graph decomposition with the eigen-analysis of graph matrices. For graph partitioning we can define the <strong>cut size</strong> as the number of edges running between the different groups as</p>
+<p><span class="math display">\[\begin{equation}
+R = \frac{1}{2}\sum_{i,j \text{ in different groups}} A_{ij}
+\end{equation}\]</span></p>
+<p>take, for example, two groups. Then we can define a vector</p>
+<p><span class="math display">\[\begin{equation}
+s_i = \left\{\begin{array}{ll} 1 &amp; \text{ if the node belongs to group 1} \\  -1 &amp; \text{ if the node belongs to group 2}\end{array}\right.
+\end{equation}\]</span></p>
+<p>then we can rewrite the cut size as</p>
+<p><span class="math display">\[\begin{equation}
+R = \frac{1}{4}\sum_{i,j}A_{ij}(1 - s_is_j) = \frac{1}{4}\sum_{i,j}\left( k_i\delta_{ij} - A_{ij}\right)s_is_j = \frac{1}{4}\sum_{i, j}L_{ij}s_is_j
+\end{equation}\]</span></p>
+<p>where the matrix <span class="math inline">\(L_{ij}\)</span> is known as the <strong>graph Laplacian</strong>, written in matrix form as <span class="math inline">\(L=D-A\)</span>, where <span class="math inline">\(D\)</span> is the diagonal degree matrix and <span class="math inline">\(A\)</span> the adjacency matrix, and then we can write</p>
+<p><span class="math display">\[\begin{equation}
+R = \frac{1}{4}s^T\,L\, s
+\end{equation}\]</span></p>
+<p>There is a general theorem that states that the number of graph components is directly related to the number of non-zero eigenvalues of the matrix <span class="math inline">\(L\)</span>. Let’s find it in the same case of before.</p>
+<p>First let’s find the laplacian and its eigenvalues</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">glap &lt;-<span class="st"> </span><span class="kw">graph.laplacian</span>(mod_net)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">eig_dec &lt;-<span class="st"> </span><span class="kw">eigen</span>(glap)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">eig_dec<span class="op">$</span>values</a></code></pre></div>
+<pre><code>##  [1]  9.305040e+00  7.233689e+00  6.138829e+00  4.709045e+00  4.605604e+00
+##  [6]  4.145237e+00  3.587068e+00  2.520518e+00  2.416307e+00  1.836920e+00
+## [11]  1.691434e+00  1.345847e+00  1.123092e+00  1.000000e+00  7.611063e-01
+## [16]  6.928821e-01  5.317258e-01  3.556554e-01  9.612575e-19 -1.646101e-17</code></pre>
+<p>In this case we see that there are two eigenvalues that can be taken as 0. The eigenvector of the first non-zero eigevalue is known as the Fiedler vector, and in this case it is</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">f_vec &lt;-<span class="st"> </span>eig_dec<span class="op">$</span>vectors[, <span class="kw">length</span>(eig_dec<span class="op">$</span>values)<span class="op">-</span><span class="dv">2</span>]</a></code></pre></div>
+<p>If we are clustering in only two groups, we directly consider the sign of the elements of the Fiedler vector</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">plot</span>(mod_net,</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">     <span class="dt">layout =</span> layout.kamada.kawai,</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">     <span class="dt">vertex.color =</span> <span class="kw">ifelse</span>(<span class="kw">sign</span>(f_vec) <span class="op">==</span><span class="st"> </span><span class="dv">-1</span>, <span class="dv">0</span>, <span class="dv">1</span>))</a></code></pre></div>
+<p><img src="14_MAAlg_files/figure-html/unnamed-chunk-5-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>If we want to cluster in more than 2, then we apply k-means algorithm to the rows of the eigenvectors matrix for the k-smallest eigenvalues.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(eig_dec<span class="op">$</span>vectors[ , (<span class="kw">length</span>(eig_dec<span class="op">$</span>values)<span class="op">-</span><span class="dv">6</span>)<span class="op">:</span>(<span class="kw">length</span>(eig_dec<span class="op">$</span>values)<span class="op">-</span><span class="dv">2</span>)])</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">fit_kmean &lt;-<span class="st"> </span><span class="kw">kmeans</span>(df, <span class="dv">5</span>, <span class="dt">nstart =</span> <span class="dv">10</span>)</a></code></pre></div>
+<p>now we can use the <code>clustering_vector</code> as the community membership</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">plot</span>(mod_net,</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">     <span class="dt">layout =</span> layout.kamada.kawai,</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">     <span class="dt">vertex.color =</span> fit_kmean<span class="op">$</span>cluster)</a></code></pre></div>
+<p><img src="14_MAAlg_files/figure-html/unnamed-chunk-7-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>if you want to make a dendrogram you must generate the object with the memberships of the nodes to the different clusters, for example adding it as an edge attribute in the graph.</p>
+<p><a href="#">Back to top</a></p>
+<!-- information -->
+</div>
+<div id="information-theory-based-methods" class="section level1">
+<h1><span class="header-section-number">3</span> Information Theory Based Methods</h1>
+<p>The main idea behind these methods is that a right split in communities will give us a high amount of information about the network. To analyse this idea, Rosvall and Bergstrom created the <em>InfoMAP</em> method that has the following pieces</p>
+<ul>
+<li>First generate a random walk in the network that allow us to visit all the nodes</li>
+<li>Define a possible structure of communities</li>
+<li>Assign a string of bits to each of the nodes in each community, as well as two more strings denoting the entry and exit labels</li>
+<li>Find the sequence of bits that is generated with the random walk by visiting all the nodes</li>
+<li>Do the same for the possible other configurations.</li>
+</ul>
+<p>However, applying this method to each possible configuration is clearly not feasable. However, in information theory the Shannon’s source coding theorem tell us that the <strong>entropy</strong> of the random walk is precisely the average number of bits per step for the shortest possible bit-string. This average number is given by the <strong>map equation</strong></p>
+<p><span class="math display">\[\begin{equation}
+L = qH(Q) + \sum_gp_gH(P_g)
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(q\)</span> is the fraction of time that the random walk spends hopping bewteen groups, <span class="math inline">\(p_g\)</span> is the fraction of time it spends within and exiting the group <span class="math inline">\(g\)</span> (see that both quantities are actually just probabilities) and <span class="math inline">\(H(Q)\)</span> and <span class="math inline">\(H(P_g)\)</span> are the entropies</p>
+<p><span class="math display">\[\begin{equation}
+H(Q) = -\sum_i Q_i\,log Q_i
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(Q_i\)</span> is the fraction of times that the object <span class="math inline">\(i\)</span> appears in the sequence. Then <span class="math inline">\(H(Q)\)</span> is the entropy of the sequence of groups that the random walk passes through while <span class="math inline">\(H(P_g)\)</span> is the entropy of the nodes in group <span class="math inline">\(g\)</span> that the random walk passes through.</p>
+<p>This method in the end minimizes <span class="math inline">\(L\)</span> (as we maximize modularity), since a minimum entropy implies a higher order in the system. The point with the BR-method is that it actually allow us to compute this minimization by just moving individual nodes to find new configurations until there is no further improvement and all the quantities in <span class="math inline">\(L\)</span> can be found just knowing the local structure of the network and the fraction of time that a random walk spends at each node (this is proportional to the degree of the node)</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">comms &lt;-<span class="st"> </span><span class="kw">cluster_infomap</span>(mod_net)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw">plot</span>(mod_net,</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">     <span class="dt">layout =</span> layout.kamada.kawai,</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">     <span class="dt">vertex.color =</span> <span class="kw">membership</span>(comms))</a></code></pre></div>
+<p><img src="14_MAAlg_files/figure-html/unnamed-chunk-8-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><a href="#">Back to top</a></p>
+<!-- betweenness -->
+</div>
+<div id="betweenness-based-methods" class="section level1">
+<h1><span class="header-section-number">4</span> Betweenness Based Methods</h1>
+<p>A completely different approach from the previous ones is searching for the nodes that lie between communities. Then we can define <strong>edge betweenness</strong> which counts the number of shortest paths in the network. This method proceeds as</p>
+<ul>
+<li>Compute betweenness for all the edges in the network</li>
+<li>Find the edge with the highest score and remove it</li>
+<li>Recalculate betweenness and continue</li>
+</ul>
+<p>this algorithm generates a dendrogram in a divisive way and then we may use modularity to determine the goodness of a configuration.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">comms &lt;-<span class="st"> </span><span class="kw">cluster_edge_betweenness</span>(mod_net)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw">plot</span>(mod_net,</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">     <span class="dt">layout =</span> layout.kamada.kawai,</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">     <span class="dt">vertex.color =</span> <span class="kw">membership</span>(comms))</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="kw">dendPlot</span>(comms, <span class="dt">mode=</span><span class="st">&quot;phylo&quot;</span>, <span class="dt">cex=</span><span class="dv">1</span>)</a></code></pre></div>
+<p><img src="14_MAAlg_files/figure-html/unnamed-chunk-9-1.png" width="1152" style="display: block; margin: auto;" /></p>
+</div>
+
+<footer>
+  <div id="rbmvFooter" class="footer">
+    <div class="footerContent">
+    
+    <p>Copyright &copy; 2020 Juanjo Manjarín, IE University. All rights reserved.</p>
+    
+    </div>
+  </div>
+</footer>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
