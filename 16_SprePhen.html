@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Prof. Dr. Juanjo Manjarín" />
+
+
+<title>Information Diffusion</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Social Media Analytics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Social Media Analytics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit I</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="01_NetworkData.html">Networks and their Data Sets</a>
+        </li>
+        <li>
+          <a href="02_MathNet.html">Mathematical Description of Networks</a>
+        </li>
+        <li>
+          <a href="03_Measures.html">Measures in Networks</a>
+        </li>
+        <li>
+          <a href="04_RBasics.html">Basics of `igraph`</a>
+        </li>
+        <li>
+          <a href="05_Ex_Unit_I_Solutions.html">Exercises With Solutions</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit II</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="06_RNets.html">Random Networks</a>
+        </li>
+        <li>
+          <a href="07_SFNets.html">Scale-Free Networks</a>
+        </li>
+        <li>
+          <a href="08_PANets.html">Preferential Attachment Networks</a>
+        </li>
+        <li>
+          <a href="09_NetModels.html">Modelling Networks in R</a>
+        </li>
+        <li>
+          <a href="10_Ex_Unit_II_Solutions.html">Exercises With Solutions</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="Midterm_Exam_-_Solutions.html">Midterm Exam</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit III</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="11_DegCorrel.html">Degree Correlation</a>
+        </li>
+        <li>
+          <a href="12_Assortativity.html">Assortativity</a>
+        </li>
+        <li>
+          <a href="13_ComNet.html">Introduction to Communities</a>
+        </li>
+        <li>
+          <a href="14_MAAlg.html">Machine Learning Algorithms in R</a>
+        </li>
+        <li>
+          <a href="15_Ex_Unit_III.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit IV</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="16_SprePhen.html">Spreading Phenomena</a>
+        </li>
+        <li>
+          <a href="17_CEMod.html">Classical Epidemics Models</a>
+        </li>
+        <li>
+          <a href="18_NetEpi.html">Network Epidemics</a>
+        </li>
+        <li>
+          <a href="19_NetDif.html">Network Diffusion</a>
+        </li>
+        <li>
+          <a href="20_Ex_Unit_IV.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li>
+  <a href="IntroR.html">R Course</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Information Diffusion</h1>
+<h4 class="author">Prof. Dr. Juanjo Manjarín</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#herd-behaviour"><span class="toc-section-number">1</span> Herd Behaviour</a><ul>
+<li><a href="#bayesian-herd-behaviour"><span class="toc-section-number">1.1</span> Bayesian Herd Behaviour</a></li>
+</ul></li>
+<li><a href="#information-cascade"><span class="toc-section-number">2</span> Information Cascade</a></li>
+<li><a href="#diffusion-of-innovations"><span class="toc-section-number">3</span> Diffusion of Innovations</a><ul>
+<li><a href="#models"><span class="toc-section-number">3.1</span> Models</a><ul>
+<li><a href="#pure-external-innovation-model"><span class="toc-section-number">3.1.1</span> Pure External-Innovation Model</a></li>
+<li><a href="#pure-imitation-model"><span class="toc-section-number">3.1.2</span> Pure Imitation Model</a></li>
+<li><a href="#mixed-model"><span class="toc-section-number">3.1.3</span> Mixed Model</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(tidyverse, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>## -- Attaching packages ---------------------------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>## v ggplot2 3.2.1     v purrr   0.3.2
+## v tibble  2.1.3     v dplyr   0.8.3
+## v tidyr   1.0.0     v stringr 1.4.0
+## v readr   1.3.1     v forcats 0.4.0</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<hr />
+<p>In this chapter we analyse the forms in which different types of spreading phenomena occur in networks. At a first stage we need to understand that different processes will occur in different contextual networks and for this we need to make the distinction bewteen explicit and implicit implicit networks:</p>
+<ul>
+<li><p>An <strong>explicit network</strong>, also known as <em>emic networks</em>, which is given when the members of the network know that they belong to the network and they understand who they other members are. The diffusion processes that can appear in this network are <strong>herd behaviour</strong>, when the information is global, or <strong>information cascades</strong>, when the information is local.</p></li>
+<li><p>An <strong>implicit network</strong>, also known as <em>etic networks</em>, which is given when the members do not know that they belong to the network. An example of this type of network are the communities we found in the previous chapter. The <strong>diffusion processes</strong> that we can find in this type of networks are the <strong>diffusion of innovations</strong> and the <strong>epidemics</strong></p></li>
+</ul>
+<!-- Herd Behaviour -->
+<div id="herd-behaviour" class="section level1">
+<h1><span class="header-section-number">1</span> Herd Behaviour</h1>
+<p>In 1916, the surgeon Wilfred Trotter, described for the first time what we understand as <strong>herd behaviour</strong>, which occurs when <em>a group of individuals perform actions that are aligned without any prior plannification</em>.</p>
+<p>Note that this is not the usual behaviour that appears under <em>social</em> or <em>peer pressure</em>, since in this case we expect a conscious decision based on inference. Specifically, the herd behaviour appears when the <strong>crowd intelligence</strong> is taken as trustworthy.</p>
+<p>The conditions for this behaviour are</p>
+<ul>
+<li>There needs to be a <strong>decision made</strong></li>
+<li>Decisions need to be in <strong>sequential order</strong></li>
+<li>Decisions are <strong>not mindless</strong>,</li>
+<li>Participants have <strong>private information</strong> that helps them decide</li>
+<li>There is <strong>no sharing of information</strong>. Inference is otherwise crucial</li>
+</ul>
+<p>implicit to them there is the requirement that the network between the individuals is almost complete, since the nodes must be able to infer information from almost all the other nodes.</p>
+<p><a href="#">Back to top</a></p>
+<!-- bayes herds -->
+<div id="bayesian-herd-behaviour" class="section level2">
+<h2><span class="header-section-number">1.1</span> Bayesian Herd Behaviour</h2>
+<p>This type of behaviour can be easily modelized using Bayes formula. To see how, let’s consider the following classical example by Anderson and Holt:</p>
+<p><em>In a large class of students, there is an urn with three marbles, either <font color="blue">blue</font> or <font color="red">red</font> and we are guaranteed that there is at least one of each color, so combinations are either <font color="blue">BB</font><font color="red">R</font> or <font color="blue">B</font><font color="red">RR</font>. The students have to guess the right combination</em></p>
+<p>The experiment is designed so that it satisfies all the requirements of a herd behaviour:</p>
+<ul>
+<li>The <strong>decision</strong> the students have to make is to declare which of the two possible combinations we have in the box;</li>
+<li>the process is <strong>sequential</strong> because each student is going to say her claim in order</li>
+<li>The <strong>information</strong> is obtained when each student picks one and only one marble from the box</li>
+<li>This is <strong>private</strong> because no other student knows which marble any other student has picked</li>
+<li>And there is <strong>no sharing</strong> because no student says the color of the marble picked. The inference from the next students appears once the previous have declared their guess</li>
+</ul>
+<p>How do we analyse this procedure from the Bayesian prespective? The steps are the following:</p>
+<ul>
+<li>Denoting by <span class="math inline">\(mR\)</span> ad <span class="math inline">\(mB\)</span> the majority of red and blue and by <span class="math inline">\(R\)</span> and <span class="math inline">\(B\)</span> just he marble red or blue of the student, the initial configuration:</li>
+</ul>
+<p><span class="math display">\[\begin{equation}
+P(mR)=P(mB)=\frac{1}{2}, \quad P(R|mR) = P(B|mB) = \frac{2}{3}
+\end{equation}\]</span></p>
+<ul>
+<li>Let’s assume that the first student observes a blue marble, then using Bayes formula we obtain</li>
+</ul>
+<p><span class="math display">\[\begin{equation}
+P(mB|B)=\frac{2}{3}, P(mR|B)=\frac{1}{3}
+\end{equation}\]</span></p>
+<p>which should lead the student to declare majority of Blue. The rest of the students may infer that the student picked a Blue marble.</p>
+<p>For the second student the argument goes the same. Let’s assume again that he picks blue, then he will choose blue since</p>
+<p><span class="math display">\[\begin{equation}
+P(mB|B\cap B) = \frac{4}{5}, \quad P(mR|B\cap B) = \frac{1}{5}
+\end{equation}\]</span></p>
+<p>if, on the other hand he picks red, we have</p>
+<p><span class="math display">\[\begin{equation}
+P(mB|B\cap R) = \frac{1}{2}, \quad P(mR|B\cap R) = \frac{1}{2}
+\end{equation}\]</span></p>
+<p>then, as before if she picks a blue marble, she will choose blue and any of the combinations if she picks a red marble. Let’s assume she picks blue (otherwise the argument just gets delayed)</p>
+<p>The herd behaviour appears already in the third student! In this case it does not really matter what marble she picks, with the inference she can make from the other two students choosing blue, it is difficult that she may choose different from <em>majority Blue</em>. Even in the case that she obtains a red marble, the probabilities are</p>
+<p><span class="math display">\[\begin{equation}
+P(mB|B\cap B\cap R) = \frac{2}{3},\quad P(mR|B\cap B\cap R) = \frac{1}{3}
+\end{equation}\]</span></p>
+<p>This simple model ilustrates that under reasonable assumptions, the herd behaviour can be modelized by the usual Bayes formula. But it also let us see how we may break this behaviour: as soon as there is any kind of <strong>intervention</strong>, for example, we write the observations next to the predictions made, the behaviour breaks.</p>
+<p><a href="#">Back to top</a></p>
+<!-- cascades -->
+</div>
+</div>
+<div id="information-cascade" class="section level1">
+<h1><span class="header-section-number">2</span> Information Cascade</h1>
+<p>A cascade differs from a herd behaviour in a very basic property: the information is received from the neighbors in the network, then we need an explicit and non-complete network. Formally we define the cascade as the process where information flows through</p>
+<ul>
+<li>individuals connected by the network</li>
+<li>individuals who are observing only the actions of their neighbors</li>
+</ul>
+<p>Cascades appear in many different contexts: rumors or memes in social media, fires in forests, financial crisis, DDoS attacks on the internet or Power Grid Blackouts are some of the cases in which we need to understand the cascade and how to stop or push it.</p>
+<p>Due to limitations of the course we cannot go into these processes with the depth they deserve, in any case, there is one exercise where you can begin to explore the deep meaning of cascades and cascades failures.</p>
+<p><a href="#">Back to top</a></p>
+<!-- innovations -->
+</div>
+<div id="diffusion-of-innovations" class="section level1">
+<h1><span class="header-section-number">3</span> Diffusion of Innovations</h1>
+<p>Following Rogers, we define an <strong>innovation</strong> as <em>an idea, practise or object that is perceived as new by an individual or other unit of adoption</em>. As we know, innovations occur regularly in any social context but not all of them are adopted (in fact most of them are not).</p>
+<p>The following theory tries to give an answer to how and why an innovation is adopted. As a general definition, the <strong>innovations</strong> must be highly <em>visible</em>, should give a <em>relative advantage</em> over previous methods, must be <em>compatible</em> with the sociocultural structure and should not be highly <em>complex</em>.</p>
+<p>A rather common description of the <strong>adopters</strong> is based on the work of Ryan and Gross where they identified, as a function of time, five different scales of adopters: <em>innovators</em> (2.5%), <em>early adopters</em> (13.5%), <em>early majority</em> (34%), <em>late majority</em> (34%) and <em>laggards</em> (16%), which gives a usual S-shaped curve in the cumulative amount of adopters.</p>
+<p>In a model by Katz, he developed a two-stages process where the imformation is delivered from the mass (social) media into the <em>opinion leaders</em> who act like hubs for other members of their communities. While Rogers describes a five-step processes: <em>awareness</em>, <em>interest</em>, <em>evaluation</em>, <em>trial</em> and <em>adoption</em>.</p>
+<p>The next section gives a quantitative form to these ideas in terms of models for the diffusion of innovations.</p>
+<p><a href="#">Back to top</a></p>
+<!-- models -->
+<div id="models" class="section level2">
+<h2><span class="header-section-number">3.1</span> Models</h2>
+<p>The main quantity we need to know is that of the number (proportion) of users that adopt the innovation. Then, in general we can define a that incorporates the basic elements as</p>
+<p><span class="math display">\[\begin{equation}
+\frac{dA(t)}{dt} = i(t)\left[ P - A(t)\right]
+\end{equation}\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(A(t)\)</span> is the total population that adopts the innovation until time <span class="math inline">\(t\)</span>, this is just a cumulative sum which can be computed as the usual cumulative integral of the adopters at time <span class="math inline">\(t\)</span> function</li>
+</ul>
+<p><span class="math display">\[\begin{equation}
+ A(t)=\int_0^t a(t)dt
+ \end{equation}\]</span></p>
+<ul>
+<li><span class="math inline">\(i(t)\)</span> denotes the coefficient of diffusion, which describes the innovativeness of the product</li>
+<li><span class="math inline">\(P\)</span> is the total number of potential adopters</li>
+</ul>
+<p>the the equation above describes that the variation in the number of adopters is proportional to the number of users who have not adopted the innovation yet, being the proportionality the coefficient of diffusion.</p>
+<p>This coefficient is commonly defined as a linear combination of the cumulative adopters at time <span class="math inline">\(t\)</span></p>
+<p><span class="math display">\[\begin{equation}
+i(t)=\alpha + \sum_{i=t_0}^t \alpha_iA(i)
+\end{equation}\]</span></p>
+<p>in particular if we can find three different models:</p>
+<ul>
+<li><strong>External-Influence model</strong>, where the cumulative adopters do not influence the adoption of new users, then</li>
+</ul>
+<p><span class="math display">\[\begin{equation}
+i(t) = \alpha
+\end{equation}\]</span></p>
+<ul>
+<li><strong>Internal-Influence model</strong>, where only the cumulative adopters at the specific time influence the adoption of new users, then</li>
+</ul>
+<p><span class="math display">\[\begin{equation}
+i(t) = \beta\, A(t)
+\end{equation}\]</span></p>
+<ul>
+<li><strong>Mixed-Influence model</strong>, where both previous situations coexist, then</li>
+</ul>
+<p><span class="math display">\[\begin{equation}
+i(t) = \alpha + \beta\, A(t)
+\end{equation}\]</span></p>
+<p>In this context we denote <span class="math inline">\(\alpha\)</span> as the <strong>innovation coefficient</strong> and <span class="math inline">\(\beta\)</span> as the <strong>imitation coefficient</strong> (sometimes this last is normalized by dividing it by <span class="math inline">\(P\)</span>)</p>
+<p><a href="#">Back to top</a></p>
+<!-- models -->
+<div id="pure-external-innovation-model" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Pure External-Innovation Model</h3>
+<div style="float:right; position: relative;">
+<p><img src="16_SprePhen_files/figure-html/unnamed-chunk-2-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<p>If we solve the differential equation with the boundary condition <span class="math inline">\(A(t=0)=0\)</span>, we obtain</p>
+<p><span class="math display">\[\begin{equation}
+A(t)=P(1-e^{-\alpha t})
+\end{equation}\]</span></p>
+<p>the graph shows the solutions when the innovation coefficient takes values in <span class="math inline">\([0.001, 0.01, 0.1, 0.5, 1, 1.5, 2]\)</span> for a total population of possible adopters of 100.</p>
+<p>Note that we can always write the solution in terms of the ratio of cumulative adopters by just defining by <span class="math inline">\(P\)</span>.</p>
+<p><span class="math display">\[\begin{equation}
+\alpha(t)=1-e^{-\alpha t}
+\end{equation}\]</span></p>
+<p>where we have use <span class="math inline">\(\alpha(t)\)</span> instead of the usual lowercase <span class="math inline">\(a(t)\)</span> not to confuse it with the function <span class="math inline">\(a(t)\)</span> of adopters at time t.</p>
+<p><a href="#">Back to top</a></p>
+<!-- models -->
+</div>
+<div id="pure-imitation-model" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Pure Imitation Model</h3>
+<p><a href="#">Back to top</a></p>
+<!-- models -->
+</div>
+<div id="mixed-model" class="section level3">
+<h3><span class="header-section-number">3.1.3</span> Mixed Model</h3>
+<p><a href="#">Back to top</a></p>
+</div>
+</div>
+</div>
+
+<footer>
+  <div id="rbmvFooter" class="footer">
+    <div class="footerContent">
+    
+    <p>Copyright &copy; 2020 Juanjo Manjarín, IE University. All rights reserved.</p>
+    
+    </div>
+  </div>
+</footer>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
