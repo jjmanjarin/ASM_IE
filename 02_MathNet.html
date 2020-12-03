@@ -418,7 +418,7 @@ $(document).ready(function () {
           <a href="14_MAAlg.html">Machine Learning Algorithms in R</a>
         </li>
         <li>
-          <a href="Ex_Unit_III.html">Exercises</a>
+          <a href="15_Ex_Unit_III.html">Exercises</a>
         </li>
       </ul>
     </li>
@@ -427,19 +427,19 @@ $(document).ready(function () {
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit IV</a>
       <ul class="dropdown-menu" role="menu">
         <li>
-          <a href="SprePhen.html">Spreading Phenomena</a>
+          <a href="16_SprePhen.html">Spreading Phenomena</a>
         </li>
         <li>
-          <a href="CEMod.html">Classical Epidemics Models</a>
+          <a href="17_CEMod.html">Classical Epidemics Models</a>
         </li>
         <li>
-          <a href="NetEpi.html">Network Epidemics</a>
+          <a href="18_NetEpi.html">Network Epidemics</a>
         </li>
         <li>
-          <a href="NetDif.html">Network Diffusion</a>
+          <a href="19_NetDif.html">Network Diffusion</a>
         </li>
         <li>
-          <a href="Ex_Unit_IV.html">Exercises</a>
+          <a href="20_Ex_Unit_IV.html">Exercises</a>
         </li>
       </ul>
     </li>
@@ -537,31 +537,31 @@ $(document).ready(function () {
 <p>The neighborhood can be found as</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">neighborhood</span>(g)</a></code></pre></div>
 <pre><code>## [[1]]
-## + 4/7 vertices, named, from 906bec7:
+## + 4/7 vertices, named, from 399e77d:
 ## [1] 1 2 5 6
 ## 
 ## [[2]]
-## + 5/7 vertices, named, from 906bec7:
+## + 5/7 vertices, named, from 399e77d:
 ## [1] 2 1 3 4 7
 ## 
 ## [[3]]
-## + 4/7 vertices, named, from 906bec7:
+## + 4/7 vertices, named, from 399e77d:
 ## [1] 3 2 4 6
 ## 
 ## [[4]]
-## + 3/7 vertices, named, from 906bec7:
+## + 3/7 vertices, named, from 399e77d:
 ## [1] 5 1 7
 ## 
 ## [[5]]
-## + 4/7 vertices, named, from 906bec7:
+## + 4/7 vertices, named, from 399e77d:
 ## [1] 4 2 3 6
 ## 
 ## [[6]]
-## + 3/7 vertices, named, from 906bec7:
+## + 3/7 vertices, named, from 399e77d:
 ## [1] 7 2 5
 ## 
 ## [[7]]
-## + 4/7 vertices, named, from 906bec7:
+## + 4/7 vertices, named, from 399e77d:
 ## [1] 6 1 3 4</code></pre>
 <p>later you will see that this output is rather much like the <a href="#adjacency-and-edge-lists">edge list or the adjacency list</a>.</p>
 <p><a href="#">Back to top</a></p>
@@ -854,61 +854,61 @@ A_{ij} = \left\{\begin{array}{ll} w_{ij}, &amp; \text{if } e(v_i,v_j)\in E \\ 0,
 <p>To get the <strong>adjacency list</strong> we use</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">get.adjlist</span>(g)</a></code></pre></div>
 <pre><code>## $`1`
-## + 3/7 vertices, named, from 906bec7:
+## + 3/7 vertices, named, from 399e77d:
 ## [1] 2 5 6
 ## 
 ## $`2`
-## + 4/7 vertices, named, from 906bec7:
+## + 4/7 vertices, named, from 399e77d:
 ## [1] 1 3 4 7
 ## 
 ## $`3`
-## + 3/7 vertices, named, from 906bec7:
+## + 3/7 vertices, named, from 399e77d:
 ## [1] 2 4 6
 ## 
 ## $`5`
-## + 2/7 vertices, named, from 906bec7:
+## + 2/7 vertices, named, from 399e77d:
 ## [1] 1 7
 ## 
 ## $`4`
-## + 3/7 vertices, named, from 906bec7:
+## + 3/7 vertices, named, from 399e77d:
 ## [1] 2 3 6
 ## 
 ## $`7`
-## + 2/7 vertices, named, from 906bec7:
+## + 2/7 vertices, named, from 399e77d:
 ## [1] 2 5
 ## 
 ## $`6`
-## + 3/7 vertices, named, from 906bec7:
+## + 3/7 vertices, named, from 399e77d:
 ## [1] 1 3 4</code></pre>
 <p>from where we obtain the vertices that are adjacent (connected) to each other vertex. Then, for example, we see that <span class="math inline">\(v_2&lt;\)</span> is connected with <span class="math inline">\(V_1\)</span>, <span class="math inline">\(v_3\)</span>, <span class="math inline">\(v_4\)</span> and <span class="math inline">\(v_7\)</span> (remember that the order is not given by the label in this case)</p>
 <p>The edge list gives the same information but may be more useful when we have digraphs, since it returns the sign of the arrow in the connection. We obtain it as</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">get.adjedgelist</span>(g)</a></code></pre></div>
 <pre><code>## $`1`
-## + 3/10 edges from 906bec7 (vertex names):
+## + 3/10 edges from 399e77d (vertex names):
 ## [1] 1--2 1--5 1--6
 ## 
 ## $`2`
-## + 4/10 edges from 906bec7 (vertex names):
+## + 4/10 edges from 399e77d (vertex names):
 ## [1] 1--2 2--3 2--4 2--7
 ## 
 ## $`3`
-## + 3/10 edges from 906bec7 (vertex names):
+## + 3/10 edges from 399e77d (vertex names):
 ## [1] 2--3 3--4 3--6
 ## 
 ## $`5`
-## + 2/10 edges from 906bec7 (vertex names):
+## + 2/10 edges from 399e77d (vertex names):
 ## [1] 1--5 5--7
 ## 
 ## $`4`
-## + 3/10 edges from 906bec7 (vertex names):
+## + 3/10 edges from 399e77d (vertex names):
 ## [1] 2--4 3--4 4--6
 ## 
 ## $`7`
-## + 2/10 edges from 906bec7 (vertex names):
+## + 2/10 edges from 399e77d (vertex names):
 ## [1] 2--7 5--7
 ## 
 ## $`6`
-## + 3/10 edges from 906bec7 (vertex names):
+## + 3/10 edges from 399e77d (vertex names):
 ## [1] 1--6 3--6 4--6</code></pre>
 <p><a href="#">Back to top</a></p>
 <hr />
@@ -1027,11 +1027,11 @@ e_1(E, A)\,e_2(A,C)\,e_3(C,D)\,e_4(D,F)
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">all_shortest_paths</span>(paths_graph, <span class="dt">from =</span> <span class="st">&quot;E&quot;</span>, <span class="dt">to =</span> <span class="st">&quot;F&quot;</span>)</a></code></pre></div>
 <pre><code>## $res
 ## $res[[1]]
-## + 5/6 vertices, named, from d675132:
+## + 5/6 vertices, named, from 48acc06:
 ## [1] E A B D F
 ## 
 ## $res[[2]]
-## + 5/6 vertices, named, from d675132:
+## + 5/6 vertices, named, from 48acc06:
 ## [1] E A C D F
 ## 
 ## 
@@ -1193,7 +1193,7 @@ D^{dir} = \frac{L}{L_{max}} = \frac{L}{N(N-1)}
 <p><img src="02_MathNet_files/figure-html/unnamed-chunk-36-1.png" width="60%" style="display: block; margin: auto;" /></p>
 <p>In <code>igraph</code> we can use the function <code>articulation.points()</code> to determine which are the cutpoints of our network (named <em>cut</em>)</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">articulation.points</span>(cut)</a></code></pre></div>
-<pre><code>## + 2/7 vertices, named, from d750d2e:
+<pre><code>## + 2/7 vertices, named, from 496fb23:
 ## [1] E A</code></pre>
 <p>In the graph before we have only marked the node <span class="math inline">\(A\)</span>, however, if we remove the node <span class="math inline">\(E\)</span>, we also obtain a network with two components, since the node <span class="math inline">\(G\)</span> will be isolated.</p>
 <ul>

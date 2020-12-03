@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Prof. Dr. Juanjo Manjarín" />
+
+
+<title>Hands-on Information Diffusion: NetdiffuseR</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Social Media Analytics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Social Media Analytics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit I</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="01_NetworkData.html">Networks and their Data Sets</a>
+        </li>
+        <li>
+          <a href="02_MathNet.html">Mathematical Description of Networks</a>
+        </li>
+        <li>
+          <a href="03_Measures.html">Measures in Networks</a>
+        </li>
+        <li>
+          <a href="04_RBasics.html">Basics of `igraph`</a>
+        </li>
+        <li>
+          <a href="05_Ex_Unit_I_Solutions.html">Exercises With Solutions</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit II</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="06_RNets.html">Random Networks</a>
+        </li>
+        <li>
+          <a href="07_SFNets.html">Scale-Free Networks</a>
+        </li>
+        <li>
+          <a href="08_PANets.html">Preferential Attachment Networks</a>
+        </li>
+        <li>
+          <a href="09_NetModels.html">Modelling Networks in R</a>
+        </li>
+        <li>
+          <a href="10_Ex_Unit_II_Solutions.html">Exercises With Solutions</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="Midterm_Exam_-_Solutions.html">Midterm Exam</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit III</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="11_DegCorrel.html">Degree Correlation</a>
+        </li>
+        <li>
+          <a href="12_Assortativity.html">Assortativity</a>
+        </li>
+        <li>
+          <a href="13_ComNet.html">Introduction to Communities</a>
+        </li>
+        <li>
+          <a href="14_MAAlg.html">Machine Learning Algorithms in R</a>
+        </li>
+        <li>
+          <a href="15_Ex_Unit_III.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit IV</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="16_SprePhen.html">Spreading Phenomena</a>
+        </li>
+        <li>
+          <a href="17_CEMod.html">Classical Epidemics Models</a>
+        </li>
+        <li>
+          <a href="18_NetEpi.html">Network Epidemics</a>
+        </li>
+        <li>
+          <a href="19_NetDif.html">Network Diffusion</a>
+        </li>
+        <li>
+          <a href="20_Ex_Unit_IV.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li>
+  <a href="IntroR.html">R Course</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Hands-on Information Diffusion: NetdiffuseR</h1>
+<h4 class="author">Prof. Dr. Juanjo Manjarín</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#the-dataset"><span class="toc-section-number">1</span> The DataSet</a></li>
+<li><a href="#graphical-analysis"><span class="toc-section-number">2</span> Graphical Analysis</a><ul>
+<li><a href="#generation-of-a-netdiff-object"><span class="toc-section-number">2.1</span> Generation of a <code>netdiff</code> object</a></li>
+<li><a href="#charts"><span class="toc-section-number">2.2</span> Charts</a></li>
+</ul></li>
+<li><a href="#statistical-tests"><span class="toc-section-number">3</span> Statistical Tests</a><ul>
+<li><a href="#statistics"><span class="toc-section-number">3.1</span> Statistics</a></li>
+<li><a href="#lagged-exposure"><span class="toc-section-number">3.2</span> Lagged Exposure</a></li>
+</ul></li>
+</ul>
+</div>
+
+<hr />
+<p>In this chapter we will see an example of use of the <code>netdiffuseR</code> package using the dataset <code>medInnovations</code> from the same package.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(netdiffuseR)</a></code></pre></div>
+<pre><code>## Warning: package &#39;netdiffuseR&#39; was built under R version 3.6.3</code></pre>
+<pre><code>## 
+## Attaching package: &#39;netdiffuseR&#39;</code></pre>
+<pre><code>## The following object is masked _by_ &#39;.GlobalEnv&#39;:
+## 
+##     medInnovations</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     recode</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     %*%</code></pre>
+<p><a href="#">Back to top</a></p>
+<!-- data -->
+<div id="the-dataset" class="section level1">
+<h1><span class="header-section-number">1</span> The DataSet</h1>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">data</span>(medInnovations)</a></code></pre></div>
+<p><a href="#">Back to top</a></p>
+<!-- graphs -->
+</div>
+<div id="graphical-analysis" class="section level1">
+<h1><span class="header-section-number">2</span> Graphical Analysis</h1>
+<p><a href="#">Back to top</a></p>
+<!--netdiff object -->
+<div id="generation-of-a-netdiff-object" class="section level2">
+<h2><span class="header-section-number">2.1</span> Generation of a <code>netdiff</code> object</h2>
+<p>Creating unique ids (including for the network data)</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">othervars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;toa&quot;</span>, <span class="st">&quot;city&quot;</span>)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">netvars &lt;-<span class="st"> </span><span class="kw">names</span>(medInnovations)[<span class="kw">grepl</span>(<span class="st">&quot;^net&quot;</span>, <span class="kw">names</span>(medInnovations))]</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, netvars)){</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">   medInnovations[[i]] &lt;-<span class="st"> </span>medInnovations[[i]] <span class="op">+</span><span class="st"> </span>medInnovations<span class="op">$</span>city<span class="op">*</span><span class="dv">1000</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">}</a></code></pre></div>
+<p>Leaving unsurveyed individuals with NA</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">surveyed &lt;-<span class="st"> </span>medInnovations<span class="op">$</span>id</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="cf">for</span> (i <span class="cf">in</span> netvars){</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">  medInnovations[[i]][<span class="kw">which</span>(<span class="op">!</span>(medInnovations[[i]] <span class="op">%in%</span><span class="st"> </span>surveyed))] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">}</a></code></pre></div>
+<p>Reshaping data (so we have an edgelist)</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">medInnovations.long &lt;-<span class="st"> </span><span class="kw">reshape</span>(</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">  medInnovations[,<span class="kw">c</span>(othervars, netvars)], <span class="dt">v.names=</span> <span class="st">&quot;net&quot;</span>,</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">  <span class="dt">varying =</span> netvars,</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">  <span class="dt">timevar =</span> <span class="st">&quot;level&quot;</span>, </a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">  <span class="dt">idvar=</span><span class="st">&quot;id&quot;</span>,</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">  <span class="dt">direction=</span><span class="st">&quot;long&quot;</span>)</a></code></pre></div>
+<p>Coercing the edgelist to an adjacency matrix. Here we are assuming that the network is constant through time.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">graph &lt;-<span class="st"> </span><span class="kw">with</span>(medInnovations.long,</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">              <span class="kw">edgelist_to_adjmat</span>(<span class="kw">cbind</span>(id, net), </a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">                                 <span class="dt">t=</span><span class="dv">18</span>,<span class="dt">undirected=</span><span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">                                 <span class="dt">keep.isolates =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">              )</a></code></pre></div>
+<p>Just to be sure. Sorting the data!</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">orddata &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(<span class="kw">rownames</span>(graph[[<span class="dv">1</span>]])))</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">medInnovations &lt;-<span class="st"> </span>medInnovations[orddata,]</a></code></pre></div>
+<p>Creating a diffnet object</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">diffnet &lt;-<span class="st"> </span><span class="kw">as_diffnet</span>(graph, </a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">                      medInnovations<span class="op">$</span>toa, </a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">                      <span class="dt">vertex.static.attrs =</span> <span class="kw">subset</span>(medInnovations, </a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">                                                   <span class="dt">select=</span><span class="kw">c</span>(<span class="op">-</span>id, <span class="op">-</span>toa)))</a></code></pre></div>
+<pre><code>## Warning in new_diffnet(graph, ...): Coercing -toa- into integer.</code></pre>
+<p><a href="#">Back to top</a></p>
+<!--plots -->
+</div>
+<div id="charts" class="section level2">
+<h2><span class="header-section-number">2.2</span> Charts</h2>
+<p>Plot and summary</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">plot</span>(diffnet, <span class="dt">t=</span>diffnet<span class="op">$</span>meta<span class="op">$</span>nper)</a></code></pre></div>
+<p><img src="17_CEMod_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">diffnet</a></code></pre></div>
+<pre><code>## Dynamic network of class -diffnet-
+##  Name               : Diffusion Network
+##  Behavior           : Unspecified
+##  # of nodes         : 125 (1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, ...)
+##  # of time periods  : 18 (1 - 18)
+##  Type               : directed
+##  Final prevalence   : 1.00
+##  Static attributes  : city, detail, meet, coll, attend, proage, length, ... (58)
+##  Dynamic attributes : -</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">summary</span>(diffnet)</a></code></pre></div>
+<pre><code>## Diffusion network summary statistics
+## Name     : Diffusion Network
+## Behavior : Unspecified
+## -----------------------------------------------------------------------------
+##  Period   Adopters   Cum Adopt. (%)   Hazard Rate   Density   Moran&#39;s I (sd)  
+## -------- ---------- ---------------- ------------- --------- ---------------- 
+##        1         11        11 (0.09)             -      0.02  0.07 (0.03) **  
+##        2          9        20 (0.16)          0.08      0.02  0.04 (0.03)     
+##        3          9        29 (0.23)          0.09      0.02 -0.03 (0.03)     
+##        4         11        40 (0.32)          0.11      0.02 -0.02 (0.03)     
+##        5         11        51 (0.41)          0.13      0.02 -0.06 (0.03)     
+##        6         11        62 (0.50)          0.15      0.02 -0.02 (0.03)     
+##        7         13        75 (0.60)          0.21      0.02 -0.00 (0.03)     
+##        8          7        82 (0.66)          0.14      0.02  0.01 (0.03)     
+##        9          4        86 (0.69)          0.09      0.02  0.01 (0.03)     
+##       10          1        87 (0.70)          0.03      0.02  0.01 (0.03)     
+##       11          5        92 (0.74)          0.13      0.02  0.02 (0.03)     
+##       12          3        95 (0.76)          0.09      0.02  0.02 (0.03)     
+##       13          3        98 (0.78)          0.10      0.02  0.01 (0.03)     
+##       14          4       102 (0.82)          0.15      0.02  0.04 (0.03)     
+##       15          4       106 (0.85)          0.17      0.02  0.05 (0.03) *   
+##       16          2       108 (0.86)          0.11      0.02  0.03 (0.03)     
+##       17          1       109 (0.87)          0.06      0.02  0.02 (0.03)     
+##       18         16       125 (1.00)          1.00      0.02               -  
+## -----------------------------------------------------------------------------
+##  Left censoring  : 0.09 (11)
+##  Right centoring : 0.00 (0)
+##  # of nodes      : 125
+## 
+##  Moran&#39;s I was computed on contemporaneous autocorrelation using 1/geodesic
+##  values. Significane levels  *** &lt;= .01, ** &lt;= .05, * &lt;= .1.</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">plot_diffnet</span>(diffnet, <span class="dt">slices=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">12</span>,<span class="dv">16</span>,<span class="dv">18</span>))</a></code></pre></div>
+<p><img src="17_CEMod_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">plot_threshold</span>(diffnet, <span class="dt">undirected =</span> <span class="ot">FALSE</span>, <span class="dt">vertex.size =</span> <span class="dv">1</span><span class="op">/</span><span class="dv">5</span>)</a></code></pre></div>
+<p><img src="17_CEMod_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">plot_adopters</span>(diffnet)</a></code></pre></div>
+<p><img src="17_CEMod_files/figure-html/unnamed-chunk-10-3.png" width="672" /></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">plot_hazard</span>(diffnet)</a></code></pre></div>
+<p><img src="17_CEMod_files/figure-html/unnamed-chunk-10-4.png" width="672" /></p>
+<p><a href="#">Back to top</a></p>
+<!--analysis -->
+</div>
+</div>
+<div id="statistical-tests" class="section level1">
+<h1><span class="header-section-number">3</span> Statistical Tests</h1>
+<p>Now, we want to know if the threshold model fits here. In order to do so we will use the structure dependency test built in the package, struct_test. We will apply this both in a aggregated level and by city. First we need to subset the data:</p>
+<p>Get cities ids so we can subset the vertices and run the test by city.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">city &lt;-<span class="st"> </span>diffnet<span class="op">$</span>vertex.static.attrs[,<span class="st">&quot;city&quot;</span>]</a></code></pre></div>
+<p>Subsetting diffnet, notice that we can use either indices or ids to create a “subdiffnet”. In this case we are using indices.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">diffnet_city1 &lt;-<span class="st"> </span>diffnet[<span class="kw">which</span>(city<span class="op">==</span><span class="dv">1</span>),]</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2">diffnet_city2 &lt;-<span class="st"> </span>diffnet[<span class="kw">which</span>(city<span class="op">==</span><span class="dv">2</span>),]</a>
+<a class="sourceLine" id="cb25-3" data-line-number="3">diffnet_city3 &lt;-<span class="st"> </span>diffnet[<span class="kw">which</span>(city<span class="op">==</span><span class="dv">3</span>),]</a>
+<a class="sourceLine" id="cb25-4" data-line-number="4">diffnet_city4 &lt;-<span class="st"> </span>diffnet[<span class="kw">which</span>(city<span class="op">==</span><span class="dv">4</span>),]</a></code></pre></div>
+<p>Notice that by subsetting the set of vertices we have created 4 new diffnet objects, so all the methods and functions work for each one of these, for example, threshold levels in each city</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">oldpar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb26-3" data-line-number="3"><span class="kw">plot_threshold</span>(diffnet_city1, <span class="dt">vertex.label =</span> <span class="st">&quot;&quot;</span>, <span class="dt">main=</span><span class="st">&quot;Threshold and ToA</span><span class="ch">\n</span><span class="st">in City 1&quot;</span>)</a>
+<a class="sourceLine" id="cb26-4" data-line-number="4"><span class="kw">plot_threshold</span>(diffnet_city2, <span class="dt">vertex.label =</span> <span class="st">&quot;&quot;</span>, <span class="dt">main=</span><span class="st">&quot;Threshold and ToA</span><span class="ch">\n</span><span class="st">in City 2&quot;</span>)</a>
+<a class="sourceLine" id="cb26-5" data-line-number="5"><span class="kw">plot_threshold</span>(diffnet_city3, <span class="dt">vertex.label =</span> <span class="st">&quot;&quot;</span>, <span class="dt">main=</span><span class="st">&quot;Threshold and ToA</span><span class="ch">\n</span><span class="st">in City 3&quot;</span>)</a>
+<a class="sourceLine" id="cb26-6" data-line-number="6"><span class="kw">plot_threshold</span>(diffnet_city4, <span class="dt">vertex.label =</span> <span class="st">&quot;&quot;</span>, <span class="dt">main=</span><span class="st">&quot;Threshold and ToA</span><span class="ch">\n</span><span class="st">in City 4&quot;</span>)</a></code></pre></div>
+<p><img src="17_CEMod_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">plot_infectsuscep</span>(diffnet_city1, <span class="dt">K=</span><span class="dv">5</span>, <span class="dt">logscale =</span> <span class="ot">TRUE</span>, <span class="dt">bins=</span><span class="dv">30</span>)</a></code></pre></div>
+<pre><code>## Warning in plot_infectsuscep.list(graph$graph, graph$toa, t0, normalize, :
+## When applying logscale some observations are missing.</code></pre>
+<p><img src="17_CEMod_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>Now we run the test for each city. Observe that we can use the parallel package to speedup the test as we will do in the first two cities using two cores (this is done thanks to the boot package).</p>
+<!-- stats -->
+<div id="statistics" class="section level2">
+<h2><span class="header-section-number">3.1</span> Statistics</h2>
+<p>Defining the statistic</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">avgthr &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">mean</span>(<span class="kw">threshold</span>(x), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>Running the test by city</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">test1   &lt;-<span class="st"> </span><span class="kw">struct_test</span>(diffnet_city1, avgthr, <span class="dv">500</span>, <span class="dt">ncpus=</span><span class="dv">2</span>, <span class="dt">parallel=</span><span class="st">&quot;multicore&quot;</span>)</a>
+<a class="sourceLine" id="cb30-2" data-line-number="2">test2   &lt;-<span class="st"> </span><span class="kw">struct_test</span>(diffnet_city2, avgthr, <span class="dv">500</span>, <span class="dt">ncpus=</span><span class="dv">2</span>, <span class="dt">parallel=</span><span class="st">&quot;multicore&quot;</span>)</a>
+<a class="sourceLine" id="cb30-3" data-line-number="3">test3   &lt;-<span class="st"> </span><span class="kw">struct_test</span>(diffnet_city3, avgthr, <span class="dv">500</span>)</a>
+<a class="sourceLine" id="cb30-4" data-line-number="4">test4   &lt;-<span class="st"> </span><span class="kw">struct_test</span>(diffnet_city4, avgthr, <span class="dv">500</span>)</a></code></pre></div>
+<p>Running the test aggregated</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">testall &lt;-<span class="st"> </span><span class="kw">struct_test</span>(diffnet, avgthr, <span class="dv">500</span>, <span class="dt">ncpus=</span><span class="dv">2</span>, <span class="dt">parallel=</span><span class="st">&quot;multicore&quot;</span>)</a></code></pre></div>
+<p>Printing the outcomes</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">test1</a></code></pre></div>
+<pre><code>## 
+## Structure dependence test
+## # Simulations     : 500
+## # nodes           : 62
+## # of time periods : 18
+## --------------------------------------------------------------------------------
+##  H0: E[beta(Y,G)|G] - E[beta(Y,G)] = 0 (no structure dependency)
+##     observed    expected       p.val
+##       0.6304      0.6241      0.7720</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">test2</a></code></pre></div>
+<pre><code>## 
+## Structure dependence test
+## # Simulations     : 500
+## # nodes           : 24
+## # of time periods : 18
+## --------------------------------------------------------------------------------
+##  H0: E[beta(Y,G)|G] - E[beta(Y,G)] = 0 (no structure dependency)
+##     observed    expected       p.val
+##       0.4931      0.5047      0.7640</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">test3</a></code></pre></div>
+<pre><code>## 
+## Structure dependence test
+## # Simulations     : 500
+## # nodes           : 21
+## # of time periods : 18
+## --------------------------------------------------------------------------------
+##  H0: E[beta(Y,G)|G] - E[beta(Y,G)] = 0 (no structure dependency)
+##     observed    expected       p.val
+##       0.4365      0.4220      0.6640</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">test4</a></code></pre></div>
+<pre><code>## 
+## Structure dependence test
+## # Simulations     : 500
+## # nodes           : 18
+## # of time periods : 18
+## --------------------------------------------------------------------------------
+##  H0: E[beta(Y,G)|G] - E[beta(Y,G)] = 0 (no structure dependency)
+##     observed    expected       p.val
+##       0.5926      0.6054      0.7120</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">testall</a></code></pre></div>
+<pre><code>## 
+## Structure dependence test
+## # Simulations     : 500
+## # nodes           : 125
+## # of time periods : 18
+## --------------------------------------------------------------------------------
+##  H0: E[beta(Y,G)|G] - E[beta(Y,G)] = 0 (no structure dependency)
+##     observed    expected       p.val
+##       0.5660      0.5550      0.5600</code></pre>
+<p>This shows in no City threshold seems to be struture dependent, as after simulating 1,000 networks by rewiring each one of these preserving the degree sequence (using algorithm = “swap” by default in the rewire.args) the null can’t be rejected. Now we can make an histogram of the outcomes by city. To make it nicer, we change the parameters in using par (see ?par)</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">oldpar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb42-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="kw">hist</span>(test1, <span class="dt">main=</span><span class="st">&quot;Distribution of Statistic on rewired</span><span class="ch">\n</span><span class="st">network (City 1)&quot;</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb42-5" data-line-number="5"><span class="kw">hist</span>(test2, <span class="dt">main=</span><span class="st">&quot;Distribution of Statistic on rewired</span><span class="ch">\n</span><span class="st">network (City 2)&quot;</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb42-6" data-line-number="6"><span class="kw">hist</span>(test3, <span class="dt">main=</span><span class="st">&quot;Distribution of Statistic on rewired</span><span class="ch">\n</span><span class="st">network (City 3)&quot;</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb42-7" data-line-number="7"><span class="kw">hist</span>(test4, <span class="dt">main=</span><span class="st">&quot;Distribution of Statistic on rewired</span><span class="ch">\n</span><span class="st">network (City 4)&quot;</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="17_CEMod_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>Retrieving the data to create a panel/envent history/longitudinal data. To use the data for statistical models we can retrieve the data stored in the diffnet object and coerce it as a data.frame. First, we will compute lagged exposure at each time period and add it as a dynamic vertex attribute, including a dummy variable called adopted equal to 1 if the individual adopted at that time point.</p>
+<!-- lagged exposure -->
+</div>
+<div id="lagged-exposure" class="section level2">
+<h2><span class="header-section-number">3.2</span> Lagged Exposure</h2>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">expo &lt;-<span class="st"> </span><span class="kw">exposure</span>(diffnet, <span class="dt">lags =</span> 1L)</a>
+<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="kw">head</span>(expo)</a></code></pre></div>
+<pre><code>##       1 2         3         4         5         6         7         8
+## 1001 NA 0 0.0000000 0.5000000 1.0000000 1.0000000 1.0000000 1.0000000
+## 1002 NA 0 0.0000000 0.5000000 1.0000000 1.0000000 1.0000000 1.0000000
+## 1003 NA 0 0.2000000 0.4000000 0.6000000 0.8000000 0.8000000 0.8000000
+## 1004 NA 0 0.3333333 0.3333333 0.3333333 0.3333333 0.6666667 0.6666667
+## 1005 NA 0 0.0000000 0.0000000 0.0000000 1.0000000 1.0000000 1.0000000
+## 1006 NA 0 0.3333333 0.6666667 0.6666667 1.0000000 1.0000000 1.0000000
+##              9        10        11        12        13        14        15
+## 1001 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000
+## 1002 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000
+## 1003 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000
+## 1004 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667
+## 1005 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000
+## 1006 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000
+##             16        17        18
+## 1001 1.0000000 1.0000000 1.0000000
+## 1002 1.0000000 1.0000000 1.0000000
+## 1003 1.0000000 1.0000000 1.0000000
+## 1004 0.6666667 0.6666667 0.6666667
+## 1005 1.0000000 1.0000000 1.0000000
+## 1006 1.0000000 1.0000000 1.0000000</code></pre>
+<p>Netdiffuser automatically identifies whether the input is dynamic or not.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">diffnet[[<span class="st">&quot;lagged_expo&quot;</span>]] &lt;-<span class="st"> </span>expo</a>
+<a class="sourceLine" id="cb45-2" data-line-number="2">diffnet[[<span class="st">&quot;adopted&quot;</span>]]  &lt;-<span class="st"> </span><span class="kw">toa_mat</span>(diffnet)<span class="op">$</span>cumadopt</a></code></pre></div>
+<p>Now we can create a data frame from our diffnet object</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">mydata &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(diffnet)</a></code></pre></div>
+<p>The following model illustrates how can we use netdiffuseR to run a lagged exposure model. In this (toy) model we are including fixed effects for time (per), city, belief in science (belief) and age, and only including observations prior to the adoption of the behavior, and excluding observations from the last time point.</p>
+<p>Running a model</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">summary</span>(</a>
+<a class="sourceLine" id="cb47-2" data-line-number="2">  <span class="kw">glm</span>(adopted <span class="op">~</span><span class="st"> </span>lagged_expo <span class="op">+</span><span class="st"> </span><span class="kw">factor</span>(per) <span class="op">+</span><span class="st"> </span><span class="kw">factor</span>(city) <span class="op">+</span><span class="st"> </span>belief <span class="op">+</span><span class="st"> </span>proage <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(proage<span class="op">^</span><span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb47-3" data-line-number="3">      <span class="dt">dat    =</span> mydata, </a>
+<a class="sourceLine" id="cb47-4" data-line-number="4">      <span class="dt">subset =</span> (per <span class="op">&lt;=</span><span class="st"> </span>toa) <span class="op">&amp;</span><span class="st"> </span>per <span class="op">&lt;</span><span class="st"> </span><span class="dv">18</span>,</a>
+<a class="sourceLine" id="cb47-5" data-line-number="5">      <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link=</span><span class="st">&quot;logit&quot;</span>))</a>
+<a class="sourceLine" id="cb47-6" data-line-number="6">  )</a></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = adopted ~ lagged_expo + factor(per) + factor(city) + 
+##     belief + proage + I(proage^2), family = binomial(link = &quot;logit&quot;), 
+##     data = mydata, subset = (per &lt;= toa) &amp; per &lt; 18)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -0.9291  -0.5547  -0.4294  -0.2990   2.6441  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)   -4.86017    0.74267  -6.544 5.98e-11 ***
+## lagged_expo    0.06835    0.36290   0.188  0.85060    
+## factor(per)3   0.11026    0.49879   0.221  0.82505    
+## factor(per)4   0.36896    0.49420   0.747  0.45532    
+## factor(per)5   0.62556    0.49461   1.265  0.20595    
+## factor(per)6   0.79024    0.51149   1.545  0.12235    
+## factor(per)7   1.05813    0.52363   2.021  0.04331 *  
+## factor(per)8   0.84961    0.57908   1.467  0.14232    
+## factor(per)9   0.46900    0.67474   0.695  0.48700    
+## factor(per)10 -0.89617    1.10056  -0.814  0.41548    
+## factor(per)11  0.90279    0.64682   1.396  0.16280    
+## factor(per)12  0.44730    0.74503   0.600  0.54826    
+## factor(per)13  0.64460    0.75892   0.849  0.39567    
+## factor(per)14  1.13806    0.71444   1.593  0.11117    
+## factor(per)15  1.32137    0.72124   1.832  0.06694 .  
+## factor(per)16  0.06475    1.12636   0.057  0.95416    
+## factor(per)17  0.09697    1.12815   0.086  0.93150    
+## factor(city)2 -0.05152    0.32958  -0.156  0.87579    
+## factor(city)3 -0.07965    0.31878  -0.250  0.80270    
+## factor(city)4 -0.19764    0.33718  -0.586  0.55777    
+## belief         0.50842    0.16589   3.065  0.00218 ** 
+## proage         0.94983    0.34181   2.779  0.00546 ** 
+## I(proage^2)   -0.10620    0.04736  -2.242  0.02495 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 585.45  on 825  degrees of freedom
+## Residual deviance: 548.47  on 803  degrees of freedom
+##   (155 observations deleted due to missingness)
+## AIC: 594.47
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<p>As shown, we find no lagged exposure effects and the adoption was mainly driven by belief in science and age of the MD.</p>
+<p>Notice that instead of calling glm directly, we could have also used the diffreg function (a wrapper of glm that does all the filtering and exposure computing for us) as follows:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw">summary</span>(</a>
+<a class="sourceLine" id="cb49-2" data-line-number="2">  <span class="kw">diffreg</span>(diffnet <span class="op">~</span><span class="st"> </span>exposure <span class="op">+</span><span class="st"> </span><span class="kw">factor</span>(per) <span class="op">+</span><span class="st"> </span><span class="kw">factor</span>(city) <span class="op">+</span><span class="st"> </span>belief <span class="op">+</span><span class="st"> </span>proage <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(proage<span class="op">^</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb49-3" data-line-number="3">  )</a></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = Adopt ~ exposure + factor(per) + factor(city) + 
+##     belief + proage + I(proage^2), family = binomial(link = &quot;logit&quot;), 
+##     data = dat, subset = ifelse(is.na(toa), TRUE, toa &gt;= per))
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -0.9291  -0.5505  -0.4245  -0.2887   2.6441  
+## 
+## Coefficients:
+##                Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)    -4.86017    0.74267  -6.544 5.98e-11 ***
+## exposure        0.06835    0.36290   0.188  0.85060    
+## factor(per)3    0.11026    0.49879   0.221  0.82505    
+## factor(per)4    0.36896    0.49420   0.747  0.45532    
+## factor(per)5    0.62556    0.49461   1.265  0.20595    
+## factor(per)6    0.79024    0.51149   1.545  0.12235    
+## factor(per)7    1.05813    0.52363   2.021  0.04331 *  
+## factor(per)8    0.84961    0.57908   1.467  0.14232    
+## factor(per)9    0.46900    0.67474   0.695  0.48700    
+## factor(per)10  -0.89617    1.10058  -0.814  0.41549    
+## factor(per)11   0.90279    0.64682   1.396  0.16280    
+## factor(per)12   0.44730    0.74503   0.600  0.54826    
+## factor(per)13   0.64460    0.75892   0.849  0.39567    
+## factor(per)14   1.13806    0.71444   1.593  0.11117    
+## factor(per)15   1.32137    0.72124   1.832  0.06694 .  
+## factor(per)16   0.06475    1.12636   0.057  0.95416    
+## factor(per)17   0.09697    1.12815   0.086  0.93150    
+## factor(per)18  19.74176  584.21139   0.034  0.97304    
+## factor(city)2  -0.05152    0.32958  -0.156  0.87579    
+## factor(city)3  -0.07965    0.31878  -0.250  0.80270    
+## factor(city)4  -0.19764    0.33718  -0.586  0.55777    
+## belief          0.50842    0.16589   3.065  0.00218 ** 
+## proage          0.94983    0.34181   2.779  0.00546 ** 
+## I(proage^2)    -0.10620    0.04736  -2.242  0.02495 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 652.73  on 841  degrees of freedom
+## Residual deviance: 548.47  on 818  degrees of freedom
+##   (155 observations deleted due to missingness)
+## AIC: 596.47
+## 
+## Number of Fisher Scoring iterations: 15</code></pre>
+</div>
+</div>
+
+<footer>
+  <div id="rbmvFooter" class="footer">
+    <div class="footerContent">
+    
+    <p>Copyright &copy; 2020 Juanjo Manjarín, IE University. All rights reserved.</p>
+    
+    </div>
+  </div>
+</footer>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

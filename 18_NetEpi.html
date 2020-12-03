@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Prof. Dr. Juanjo Manjarín" />
+
+
+<title>Classical Epidemic Models</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Social Media Analytics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Social Media Analytics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit I</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="01_NetworkData.html">Networks and their Data Sets</a>
+        </li>
+        <li>
+          <a href="02_MathNet.html">Mathematical Description of Networks</a>
+        </li>
+        <li>
+          <a href="03_Measures.html">Measures in Networks</a>
+        </li>
+        <li>
+          <a href="04_RBasics.html">Basics of `igraph`</a>
+        </li>
+        <li>
+          <a href="05_Ex_Unit_I_Solutions.html">Exercises With Solutions</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit II</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="06_RNets.html">Random Networks</a>
+        </li>
+        <li>
+          <a href="07_SFNets.html">Scale-Free Networks</a>
+        </li>
+        <li>
+          <a href="08_PANets.html">Preferential Attachment Networks</a>
+        </li>
+        <li>
+          <a href="09_NetModels.html">Modelling Networks in R</a>
+        </li>
+        <li>
+          <a href="10_Ex_Unit_II_Solutions.html">Exercises With Solutions</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="Midterm_Exam_-_Solutions.html">Midterm Exam</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit III</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="11_DegCorrel.html">Degree Correlation</a>
+        </li>
+        <li>
+          <a href="12_Assortativity.html">Assortativity</a>
+        </li>
+        <li>
+          <a href="13_ComNet.html">Introduction to Communities</a>
+        </li>
+        <li>
+          <a href="14_MAAlg.html">Machine Learning Algorithms in R</a>
+        </li>
+        <li>
+          <a href="15_Ex_Unit_III.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Unit IV</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="16_SprePhen.html">Spreading Phenomena</a>
+        </li>
+        <li>
+          <a href="17_CEMod.html">Classical Epidemics Models</a>
+        </li>
+        <li>
+          <a href="18_NetEpi.html">Network Epidemics</a>
+        </li>
+        <li>
+          <a href="19_NetDif.html">Network Diffusion</a>
+        </li>
+        <li>
+          <a href="20_Ex_Unit_IV.html">Exercises</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+  </ul>
+</li>
+<li>
+  <a href="IntroR.html">R Course</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Classical Epidemic Models</h1>
+<h4 class="author">Prof. Dr. Juanjo Manjarín</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#basic-models"><span class="toc-section-number">1</span> Basic Models</a><ul>
+<li><a href="#assumptions"><span class="toc-section-number">1.1</span> Assumptions</a></li>
+</ul></li>
+<li><a href="#si-model"><span class="toc-section-number">2</span> SI Model</a></li>
+<li><a href="#sis-model"><span class="toc-section-number">3</span> SIS Model</a></li>
+<li><a href="#sir-model"><span class="toc-section-number">4</span> SIR Model</a><ul>
+<li><a href="#estimation-of-the-parameters"><span class="toc-section-number">4.1</span> Estimation of the Parameters</a><ul>
+<li><a href="#linear-model"><span class="toc-section-number">4.1.1</span> Linear Model</a></li>
+<li><a href="#simple-epidemics"><span class="toc-section-number">4.1.2</span> Simple Epidemics</a></li>
+</ul></li>
+<li><a href="#numerical-integration"><span class="toc-section-number">4.2</span> Numerical Integration</a></li>
+<li><a href="#final-epidemic-size"><span class="toc-section-number">4.3</span> Final Epidemic Size</a></li>
+</ul></li>
+</ul>
+</div>
+
+<p><br></p>
+<p>Since Kermack and McKendrick introduced the SIR model in 1927, the mathematical modeling of the spreading of infectious diseases has become a common tool in epidemics.</p>
+<p>In this document we will see an introduction to the techniques used in this context which, although, very restrictive give useful insights and the main quantities that are used to understand the behaviour of these processes.</p>
+<p><a href="#">Back to top</a></p>
+<!-- basic models -->
+<div id="basic-models" class="section level1">
+<h1><span class="header-section-number">1</span> Basic Models</h1>
+<p>There are three main basic models:</p>
+<ul>
+<li>The <strong>SI-model</strong>, where we have two different types of individuals only, those who are susceptible of getting infected and those who are already infected</li>
+<li>The <strong>SIS-model</strong>, where we assume that an individual has (probably naturally) recovered from the disease and has gone back to be susceptible</li>
+<li>The <strong>SIR-model</strong>, where the R stands for recovered or retired, and then the individuals who fall in this category have either recovered from the disease and have become immune or have been retired from the population.</li>
+</ul>
+<p>There are many other possible models, like the <strong>SIRS</strong>, where the recovered individuals may eventually become susceptible again, the <strong>SEIR</strong>, where we count with the exposure of individuals to the disease or the <strong>SEIHFR</strong>, where we count with exposure and consider the options Infectious in Community, Infectious in Hospital and Dead but not yet Buried. To mention some.</p>
+<p>We are going to focus on the three first ones and specifically later in the SIR-model.</p>
+<p><a href="#">Back to top</a></p>
+<!-- assumptions -->
+<div id="assumptions" class="section level2">
+<h2><span class="header-section-number">1.1</span> Assumptions</h2>
+<p>In classical epidemiology there are two main assumptions:</p>
+<ul>
+<li><strong>Compartmentalization</strong>, this means that from the perspective of epidemiology one individual belongs to one and only one state, i.e. She is either <em>susceptible</em>, <em>infected(-ious)</em> or <em>recovered</em> (true that some diseases require other states, as <em>exposure</em>, where we have latent individuals, or <em>immune</em> if the individual can no longer be infected)</li>
+<li><strong>Homogeneous Mixing</strong>, where we assume that each individual has the same probability of coming in contact with an infected individual. From the perspective of networks this assumption is too much (and wrong), but it helps since it avoids the need of knowing the precise contact network of each individual in the population.</li>
+</ul>
+<p><a href="#">Back to top</a></p>
+<!-- si -->
+</div>
+</div>
+<div id="si-model" class="section level1">
+<h1><span class="header-section-number">2</span> SI Model</h1>
+<p>Suppose we have a population of <span class="math inline">\(N\)</span> individuals, such that at any time instant <span class="math inline">\(t\)</span> there are <span class="math inline">\(S(t)\)</span> who are susceptible of getting the disease from the <span class="math inline">\(I(t)\)</span> already infected. Let’s call <span class="math inline">\(\beta\)</span> to the probability that an individual gets infected at time t. We can represent this situation as follows</p>
+<p><br></p>
+<p><img src="18_NetEpi_files/figure-html/unnamed-chunk-1-1.png" width="30%" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<p>note that if we do not consider the network structure, <span class="math inline">\(\beta\)</span> is in fact, the probability that any two individuals meet at any time step. Therefore, each susceptible individual meets other <span class="math inline">\(\beta I\)</span> in that time step.</p>
+<p>In the same sense, any infected individual meets other <span class="math inline">\(\beta N\)</span> individuals of which only a fraction <span class="math inline">\(S/N\)</span> is susceptible while the rest is already infected. Therefore each individual will infect other <span class="math inline">\(\beta S/N\)</span>, multiplying by the number of infected we obtain the total number of infections per time step as <span class="math inline">\(\beta IS/N\)</span>.</p>
+<p>Since we only have two compartments, this number is both, the number of people by which the number of susceptibles descrease adn the number by which the infected increase, this allow us to write the following equations</p>
+<p><span class="math display">\[\begin{equation}
+\left\{
+\begin{array}{rcl}
+\displaystyle\frac{dS}{dt} &amp; = &amp; -\beta I\frac{S}{N} \\[1ex]
+\displaystyle\frac{dI}{dt} &amp; = &amp; \beta I\frac{S}{N}\\[1ex]
+\end{array}
+\right.
+\end{equation}\]</span></p>
+<p>with the restriction that <span class="math inline">\(N=S+I\)</span> at all time. This constraint allows for an easy integration of the equations which renders as solution</p>
+<p><span class="math display">\[\begin{equation}
+i(t) = \frac{i_0 e^{\beta t}}{1+i_0(e^{\beta t} - 1)}
+\end{equation}\]</span></p>
+<p>where we have defined the fractions of infected in the population as <span class="math inline">\(I(t)/N\)</span> and the initial fraction is <span class="math inline">\(i_0\)</span>. This solution is the usual logistic solution</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># General Solution of SI</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">SI_sol &lt;-<span class="st"> </span><span class="cf">function</span>(beta, i0, time){</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">  i =<span class="st"> </span>i0 <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>(beta <span class="op">*</span><span class="st"> </span>time)<span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>i0<span class="op">*</span>(<span class="kw">exp</span>(beta <span class="op">*</span><span class="st"> </span>time) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">  <span class="kw">return</span>(i)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">}</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># Parameters</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">time &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="fl">0.01</span>)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">beta &lt;-<span class="st"> </span><span class="fl">0.3</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">i0 &lt;-<span class="st"> </span><span class="fl">0.001</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co"># Plot</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="kw">plot</span>(time, <span class="kw">SI_sol</span>(beta, i0, time), <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, </a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">     <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>,</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">     <span class="dt">ylab =</span> <span class="st">&quot;Fraction&quot;</span>,</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">     <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="kw">lines</span>(time, <span class="dv">1</span><span class="op">-</span><span class="kw">SI_sol</span>(beta, i0, time), <span class="dt">col =</span> <span class="st">&quot;green&quot;</span>)</a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="kw">legend</span>(<span class="dv">40</span>, <span class="fl">0.6</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;S&quot;</span>, <span class="st">&quot;I&quot;</span>),</a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">       <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb1-20" data-line-number="20">       <span class="dt">cex =</span> <span class="fl">0.8</span>,</a>
+<a class="sourceLine" id="cb1-21" data-line-number="21">       <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;green&quot;</span>, <span class="st">&quot;red&quot;</span>),</a>
+<a class="sourceLine" id="cb1-22" data-line-number="22">       <span class="dt">box.lty =</span> <span class="dv">0</span>)</a></code></pre></div>
+<p><img src="18_NetEpi_files/figure-html/unnamed-chunk-2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<p>One interesting point with this solution are its limits:</p>
+<ul>
+<li>At the beginning of the infection, when both, the time and <span class="math inline">\(i\)</span> are small, we can approximate</li>
+</ul>
+<p><span class="math display">\[\begin{equation}
+ i(t)\approx i_0 e^{\beta t}
+ \end{equation}\]</span></p>
+<p>which implies an <strong>exponential</strong> growth in the fraction of infected.</p>
+<ul>
+<li>On the other hand, for alrge times, say <span class="math inline">\(t\to\infty\)</span>, the function tends to <span class="math inline">\(1\)</span>, i.e.</li>
+</ul>
+<p><span class="math display">\[\begin{equation}
+ \lim_{t\to\infty} i(t) \to 1
+ \end{equation}\]</span></p>
+<p>which implies that <em>in the long run every susceptible individual will be infected</em>.</p>
+<p>This second conclusion seems too strong and one may be tempted to think that this model does not describe a real situation. However, many STD (sexual transmission diseases) do follow this type of behaviour. Well known cases are the gonorrhea or HIV. In this model, the epidemic ends only when every susceptible individual gets infected, although, of course, the crucial point here is the proper identification of that susceptible fraction.</p>
+<p><a href="#">Back to top</a></p>
+<!-- sis -->
+</div>
+<div id="sis-model" class="section level1">
+<h1><span class="header-section-number">3</span> SIS Model</h1>
+<p>In the SI-model we can add an extra condition, namely, that every individual that passes the infection becomes susceptible again, i.e. she does not generate any kind of immunization. Then denoting by <span class="math inline">\(\gamma\)</span> the recovering probability of an individual we can make the following chart to describe the situation</p>
+<p><br></p>
+<p><img src="18_NetEpi_files/figure-html/unnamed-chunk-3-1.png" width="30%" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<p>and from the mathematical perspective, this just means that there is a number of infected individuals recovering, i.e. <span class="math inline">\(\gamma I\)</span>. Since these individuals return to the susceptible state and are, at the same time removed from the infected, we can write the equations as</p>
+<p><span class="math display">\[\begin{equation}
+\left\{
+\begin{array}{rcl}
+\displaystyle\frac{dS}{dt} &amp; = &amp; \gamma I -\beta I\frac{S}{N} \\[1ex]
+\displaystyle\frac{dI}{dt} &amp; = &amp; \beta I\frac{S}{N} -\gamma I\\[1ex]
+\end{array}
+\right.
+\end{equation}\]</span></p>
+<p>where, again <span class="math inline">\(N=S+I\)</span>. Then we can find the solution to these equations as</p>
+<p><span class="math display">\[\begin{equation}
+i(t)=\left(1-\frac{\gamma}{\beta}\right)\frac{Ce^{(\beta-\gamma)t}}{1+Ce^{(\beta-\gamma)t}}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(C\)</span> is found from <span class="math inline">\(i(t=0)=i_0\)</span> as</p>
+<p><span class="math display">\[\begin{equation}
+C = \frac{i_0}{1-i_0-\gamma/\beta}
+\end{equation}\]</span></p>
+<p>This solution has some interesting properties:</p>
+<ul>
+<li>First, it has two critical points: one when <span class="math inline">\(i=0\)</span>, and the other when</li>
+</ul>
+<p><span class="math display">\[\begin{equation}
+ i(t) = 1 - \frac{\gamma}{\beta} \equiv 1 - \frac{1}{R_0}
+ \end{equation}\]</span></p>
+<p>where this <span class="math inline">\(R_0\)</span> is the <strong>basic reproductive number</strong>, one of the most relevant quantities in the epidemics analysis, since it represents <em>the average number of susceptible individuals infected by an infected individual during his infectious period</em>, for short, it measures the strength of the infection.</p>
+<p>Now, from this equilibrium point we see that there are two possible regimes:</p>
+<ul>
+<li><span class="math inline">\(R_0 &gt; 1\)</span>, when this is true we say that the infection is in an <strong>endemic state</strong>, in which the pathogen can still infect more susceptible population than it is recovered</li>
+<li><span class="math inline">\(R_0 &lt; 1\)</span>, when this is true we say that we are in a <strong>disease free state</strong> since the rate of infected population is negative, meaning that more patients are recovered than infected and then the disease tends to die out.</li>
+</ul>
+<p>As we see part of the power of <span class="math inline">\(R_0\)</span> lies in its predictive power, then the estimation of it is a very important part of the analysis of any disease.</p>
+<p>Since we can easily see that</p>
+<p><span class="math display">\[\begin{equation}
+i(\infty) = 1 - \frac{1}{R_0}
+\end{equation}\]</span></p>
+<p>the endemic behaviour as a stable critical point of the solution is achieved for large times, where <em>large</em> depends on the value of <span class="math inline">\(R_0\)</span>, i.e. on the power of the infection. Let’s make a representation of the solution.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># General Solution of SI</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">SIS_sol &lt;-<span class="st"> </span><span class="cf">function</span>(beta, R0, i0, time){</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">  C &lt;-<span class="st"> </span>i0<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>i0<span class="dv">-1</span><span class="op">/</span>R0)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">  i &lt;-<span class="st"> </span>(<span class="dv">1-1</span><span class="op">/</span>R0) <span class="op">*</span><span class="st"> </span>C <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>((<span class="dv">1-1</span><span class="op">/</span>R0)<span class="op">*</span><span class="st"> </span>beta <span class="op">*</span><span class="st"> </span>time)<span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>C<span class="op">*</span><span class="kw">exp</span>((<span class="dv">1</span><span class="op">-</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span>R0) <span class="op">*</span><span class="st"> </span>beta <span class="op">*</span><span class="st"> </span>time))</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">  <span class="kw">return</span>(i)</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">}</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co"># Parameters</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">time &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">200</span>, <span class="fl">0.01</span>)</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">beta &lt;-<span class="st"> </span><span class="fl">0.3</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">R0 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">1.5</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">i0 &lt;-<span class="st"> </span><span class="fl">0.001</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co"># Plot</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="cf">for</span>(r <span class="cf">in</span> R0){</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">  <span class="kw">plot</span>(time, <span class="kw">SIS_sol</span>(beta, beta<span class="op">*</span>r, i0, time), <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, </a>
+<a class="sourceLine" id="cb2-18" data-line-number="18">       <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>,</a>
+<a class="sourceLine" id="cb2-19" data-line-number="19">       <span class="dt">ylab =</span> <span class="st">&quot;Fraction&quot;</span>,</a>
+<a class="sourceLine" id="cb2-20" data-line-number="20">       <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>,</a>
+<a class="sourceLine" id="cb2-21" data-line-number="21">       <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">       <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;R0 =&quot;</span>, r))</a>
+<a class="sourceLine" id="cb2-23" data-line-number="23">  <span class="kw">lines</span>(time, <span class="dv">1</span><span class="op">-</span><span class="kw">SIS_sol</span>(beta, beta<span class="op">*</span>r, i0, time), <span class="dt">col =</span> <span class="st">&quot;green&quot;</span>)</a>
+<a class="sourceLine" id="cb2-24" data-line-number="24">  <span class="kw">legend</span>(<span class="dv">170</span>, <span class="fl">0.7</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;S&quot;</span>, <span class="st">&quot;I&quot;</span>),</a>
+<a class="sourceLine" id="cb2-25" data-line-number="25">         <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb2-26" data-line-number="26">         <span class="dt">cex =</span> <span class="fl">0.8</span>,</a>
+<a class="sourceLine" id="cb2-27" data-line-number="27">         <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;green&quot;</span>, <span class="st">&quot;red&quot;</span>),</a>
+<a class="sourceLine" id="cb2-28" data-line-number="28">         <span class="dt">box.lty =</span> <span class="dv">0</span>)}</a></code></pre></div>
+<p><img src="18_NetEpi_files/figure-html/unnamed-chunk-4-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>from the graph we see that the higher the value of <span class="math inline">\(R_0\)</span>, the faster that the endemic state is reached and also the higher the fraction of the population that is infected by the disease, while all of them show the usual exponential behaviour for low values of the infected fraction (short time).</p>
+<p><a href="#">Back to top</a></p>
+<!-- sir -->
+</div>
+<div id="sir-model" class="section level1">
+<h1><span class="header-section-number">4</span> SIR Model</h1>
+<p>Sometimes, once recovered, the population grows some kind of immunity. If consider it as permanent immunity we fall into the SIR model, in which we have a new state of <em>recovered</em>. In this case the graphical representation is the following</p>
+<p><br></p>
+<p><img src="18_NetEpi_files/figure-html/unnamed-chunk-5-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<p>And then now the recovered rate does not go into the susceptible population but in the generation of a new state of recovered, then the system of equations is</p>
+<p><span class="math display">\[\begin{equation}
+\left\{
+\begin{array}{rcl}
+\displaystyle\frac{dS}{dt} &amp; = &amp; -\beta I\frac{S}{N} \\[1ex]
+\displaystyle\frac{dI}{dt} &amp; = &amp; \beta I\frac{S}{N} -\gamma I\\[1ex]
+\displaystyle\frac{dR}{dt} &amp; = &amp; \gamma I \\[1ex]
+\end{array}
+\right.
+\end{equation}\]</span></p>
+<p>with <span class="math inline">\(N=S + I + R\)</span>. It is worth to mention that this model is known as the <strong>closed epidemic model</strong>, where we are assuming a zero or negligible number of births and deaths. The equivalent case for the <strong>open epidemic model</strong> is</p>
+<p><span class="math display">\[\begin{equation}
+\left\{
+\begin{array}{rcl}
+\displaystyle\frac{dS}{dt} &amp; = &amp; \mu(N-S)-\beta I\frac{S}{N} \\[1ex]
+\displaystyle\frac{dI}{dt} &amp; = &amp; \beta I\frac{S}{N} -(\gamma+\mu) I\\[1ex]
+\displaystyle\frac{dR}{dt} &amp; = &amp; \gamma I - \mu R\\[1ex]
+\end{array}
+\right.
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\mu\)</span> is the death rate and <span class="math inline">\(\mu N\)</span> the birth rate. The integration of this system of equations is harder than the previous ones and in fact it is better to perform a numerical integration. This will be done in the next section with the help of the <code>deSolve</code> package. In any case we can obtain some limits and interesting quantities for the system.</p>
+<p><a href="#">Back to top</a></p>
+<!-- estimation -->
+<div id="estimation-of-the-parameters" class="section level2">
+<h2><span class="header-section-number">4.1</span> Estimation of the Parameters</h2>
+<p>Since all the model depends on the estimation of the parameters <span class="math inline">\(R_0\)</span>, <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\gamma\)</span>, we need to understand how to do it. Note that in real situations we need a method that is able to return the information we need when the disease is in the <em>very first stages</em> of the its spreading, otherwise it may be intereseting but not useful to help to stop it.</p>
+<p><a href="#">Back to top</a></p>
+<!-- linear model -->
+<div id="linear-model" class="section level3">
+<h3><span class="header-section-number">4.1.1</span> Linear Model</h3>
+<p>If we want to work with the solutions of the equations, we need to work a bit. For example, dividing the equation for <span class="math inline">\(s(t)\)</span> by the equation for <span class="math inline">\(r(t)\)</span> we find that</p>
+<p><span class="math display">\[\begin{equation}
+\log s(t) = \log s_0 - R_0\, r(t)
+\end{equation}\]</span></p>
+<p>where we have used that <span class="math inline">\(r_0=0\)</span>, i.e. the initial recovery rate is zero. This is just a linear model we can estimate and then obtain the value of <span class="math inline">\(R_0\)</span>.</p>
+<p>On the other hand, using the previous equation, we can write that</p>
+<p><span class="math display">\[\begin{equation}
+dt = \int_0^{r(t)}\frac{dx}{1-s_0e^{R_0x}-x}
+\end{equation}\]</span></p>
+<p>This equation cannot be solve exactly for any time and that is why we will perform later a numerical integration. In the mean time, however, we can approximate for short times, in which case we obtain the following linear model</p>
+<p><span class="math display">\[\begin{equation}
+\log(i(t)) = \log\left(\frac{s_0R_0 + 1}{s_0R_0 -1}\right) + \gamma(s_0R_0 -1)t
+\end{equation}\]</span></p>
+<p>from where we obtain <span class="math inline">\(\gamma\)</span> using our previously known <span class="math inline">\(R_0\)</span>. Then with both results we find <span class="math inline">\(\beta\)</span>. Using these modeles for the covid-19 in Spain from 14th, February to 25th March, we can obtain that the values were:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Parameter</th>
+<th align="center"><span class="math inline">\(\beta\)</span></th>
+<th align="center"><span class="math inline">\(\gamma\)</span></th>
+<th align="center"><span class="math inline">\(R_0\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Value</td>
+<td align="center">0.3352</td>
+<td align="center">0.0308</td>
+<td align="center">10.89</td>
+</tr>
+</tbody>
+</table>
+<p>where we have used that</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center"><span class="math inline">\(s_0\)</span></th>
+<th align="center"><span class="math inline">\(i_0\)</span></th>
+<th align="center"><span class="math inline">\(r_0\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Initial Value</td>
+<td align="center">0.99999996</td>
+<td align="center">0.00000004</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<p>these are the values we will use later to integrate the model. Let’s now interpret what these values tell us</p>
+<ul>
+<li><span class="math inline">\(R_0 = 10.89\)</span>, this is a very high value (too high and probably overestimated, since SARS itselt has a value in the range 2-5, while in this case the 95% CI is [10.35, 11.42]). In any case it means that (as happened) since the infection rate was higher than the recovery rate (10 times), the disease was going to expand really fast (you will see below that, without intervenction, it may have infected around the 70% of the total population before it begins to decrease). At this stage the disease was endemic and difficult to control</li>
+<li><span class="math inline">\(\gamma = 0.0308\)</span>, the rate at which individuals recover from the disease per day. See that the inverse is the average time an individual will spend on the infectious state, in this case 32.48 days (note that this seems to be an overestimation). See that in this case we are assuming a continuous formulation of a Poisson process y which the probability is assumed to be constant (a not very realistic assumption that can be corrected by tracing secondary and terciary cases). In any case, what this rough approximation suggests is that the period in which any patient was able to infect any susceptible individual is of 32.48 days on average.</li>
+<li><span class="math inline">\(\beta = 0.3352\)</span>, the probability that any susceptible individual gets infected was the 33.52%.</li>
+</ul>
+<p><a href="#">Back to top</a></p>
+<!-- simple epidemics -->
+</div>
+<div id="simple-epidemics" class="section level3">
+<h3><span class="header-section-number">4.1.2</span> Simple Epidemics</h3>
+<p>The argument we have used above, needs a complete data set that contains information from each of the compartments (S, I, R). However, in some cases we do not have the recovered (for example, the public datasets from Covid-19 stoped reporting this value due to many different reasons), which proved fundamental to find the value of <span class="math inline">\(R_0\)</span>.</p>
+<p>We can use what is called a <em>fast-and-furious</em> estimate of <span class="math inline">\(R_0\)</span>, making use of the <strong>Serial Interval</strong>, <span class="math inline">\(v\)</span>, the average time between infection and reinfection. This is an experimental data which must be reported or we not be able to use it. The idea is that in the linear model for the regression of the cumulative incidence on time, the slope is the <strong>rate of exponential increase</strong>, <span class="math inline">\(r\)</span>, then the basic reproductive number is</p>
+<p><span class="math display">\[\begin{equation}
+R_0 = vr+1
+\end{equation}\]</span></p>
+<p>For covid-19 there are many different values for the estimation of the serial interval, which makes the use of this procedure a bit inaccurate, in any case, we can take the value of in the 95% CI of [3.5, 5.9] from H.Nishiura, N.M. Linton and A.R. Akhmetzhanov, considering that the slope of our model is 0.3044, then we find</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">r &lt;-<span class="st"> </span><span class="fl">0.3044</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">v &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">3.5</span>, <span class="fl">5.9</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw">cat</span>(<span class="st">&quot;R0 = &quot;</span>, v<span class="op">*</span>r<span class="op">+</span><span class="dv">1</span>)</a></code></pre></div>
+<pre><code>## R0 =  2.0654 2.79596</code></pre>
+<p>so from 2 to 3. A result that seems more in agreement with the usual SARS.</p>
+<p>There are other interesting procedures as the stocastic simulation using the Chain-binomial model, which I recommend you to look at, but we stop here since there is no more time in the course and we still need to go into the application of these models in the context of networks</p>
+<!-- numerical -->
+</div>
+</div>
+<div id="numerical-integration" class="section level2">
+<h2><span class="header-section-number">4.2</span> Numerical Integration</h2>
+<p>In this section we are going to use the <code>deSolve</code> package to estimate the curves of the SIR-model. Let’s load the package</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">library</span>(deSolve)</a></code></pre></div>
+<p>The first thing we need is to define the function of the SIR-model as a system of differential equations</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">SIRmodel &lt;-<span class="st"> </span><span class="cf">function</span>(t, y, params){</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">  S =<span class="st"> </span>y[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">  I =<span class="st"> </span>y[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">  R =<span class="st"> </span>y[<span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">  </a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">  beta =<span class="st"> </span>params[<span class="st">&quot;beta&quot;</span>]</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">  mu =<span class="st"> </span>params[<span class="st">&quot;mu&quot;</span>]</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">  gamma =<span class="st"> </span>params[<span class="st">&quot;gamma&quot;</span>]</a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">  N =<span class="st"> </span>params[<span class="st">&quot;N&quot;</span>]</a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">  </a>
+<a class="sourceLine" id="cb6-11" data-line-number="11">  dS =<span class="st"> </span>mu <span class="op">*</span><span class="st"> </span>(N <span class="op">-</span><span class="st"> </span>S) <span class="op">-</span><span class="st"> </span>beta <span class="op">*</span><span class="st"> </span>S <span class="op">*</span><span class="st"> </span>I<span class="op">/</span>N</a>
+<a class="sourceLine" id="cb6-12" data-line-number="12">  dI =<span class="st"> </span>beta <span class="op">*</span><span class="st"> </span>S <span class="op">*</span><span class="st"> </span>I<span class="op">/</span>N <span class="op">-</span><span class="st"> </span>(mu <span class="op">+</span><span class="st"> </span>gamma) <span class="op">*</span><span class="st"> </span>I</a>
+<a class="sourceLine" id="cb6-13" data-line-number="13">  dR =<span class="st"> </span>gamma <span class="op">*</span><span class="st"> </span>I <span class="op">-</span><span class="st"> </span>mu <span class="op">*</span><span class="st"> </span>R</a>
+<a class="sourceLine" id="cb6-14" data-line-number="14">  </a>
+<a class="sourceLine" id="cb6-15" data-line-number="15">  res =<span class="st"> </span><span class="kw">c</span>(dS, dI, dR)</a>
+<a class="sourceLine" id="cb6-16" data-line-number="16">  <span class="kw">list</span>(res)</a>
+<a class="sourceLine" id="cb6-17" data-line-number="17">}</a></code></pre></div>
+<p>Note that we have defined it as an open epidemics, event though now we will set <span class="math inline">\(\mu\)</span> to 0. Now, let’s define the parameters using our previous findings</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">times &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">200</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">params &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">mu =</span> <span class="dv">0</span>, <span class="dt">N =</span> <span class="dv">1</span>, <span class="dt">beta =</span> <span class="fl">0.3352</span>, <span class="dt">gamma =</span> <span class="fl">0.0308</span>)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">start &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">S =</span> <span class="fl">0.99999996</span>, <span class="dt">I =</span> <span class="fl">0.00000004</span>, <span class="dt">R =</span> <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">R0 &lt;-<span class="st"> </span>params[<span class="st">&quot;beta&quot;</span>]<span class="op">/</span>(params[<span class="st">&quot;mu&quot;</span>] <span class="op">+</span><span class="st"> </span>params[<span class="st">&quot;gamma&quot;</span>])</a></code></pre></div>
+<p>The next step is asking <code>deSolve</code> to solve the system of ordinary differential equations and storing the solution values in a dataframe</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">out &lt;-<span class="st"> </span><span class="kw">ode</span>(<span class="dt">y =</span> start, <span class="dt">times =</span> times, <span class="dt">func =</span> SIRmodel, <span class="dt">parms =</span> params)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">out &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(out)</a></code></pre></div>
+<p>with the solution we can easily make the plot as</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">5</span>))</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw">plot</span>(<span class="dt">x =</span> out<span class="op">$</span>time, <span class="dt">y =</span> out<span class="op">$</span>S, <span class="dt">ylab =</span> <span class="st">&quot;Fraction&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>,</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw">lines</span>(<span class="dt">x =</span> out<span class="op">$</span>time, <span class="dt">y =</span> out<span class="op">$</span>I, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="kw">lines</span>(<span class="dt">x =</span> out<span class="op">$</span>time, <span class="dt">y =</span> out<span class="op">$</span>R, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="kw">legend</span>(<span class="st">&quot;right&quot;</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;S&quot;</span>, <span class="st">&quot;I&quot;</span>, <span class="st">&quot;R&quot;</span>), </a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">       <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb9-10" data-line-number="10">       <span class="dt">cex =</span> <span class="fl">0.75</span>,</a>
+<a class="sourceLine" id="cb9-11" data-line-number="11">       <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>))</a></code></pre></div>
+<p><img src="18_NetEpi_files/figure-html/unnamed-chunk-11-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>See that this solution predicts a maximum fraction of infected individuals of the 0.6888 which occurs at</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">out[<span class="kw">which.max</span>(out<span class="op">$</span>I), ]</a></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["time"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["S"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["I"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["R"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"63.9","2":"0.0924606","3":"0.6887627","4":"0.2187767","_rn_":"640"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>i.e. 63.9 days after the 0-day of our model, or the 17th, April.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">as.Date</span>(<span class="st">&quot;2020-02-14&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="fl">63.9</span></a></code></pre></div>
+<pre><code>## [1] &quot;2020-04-17&quot;</code></pre>
+<p>Note that all the methods that were used to flatten the curve refer to the fraction of infected in the previous graph and refers to turn the exponential growth into something smoother. What is interesting to observe is that any flattening of the curve does it at the expense of displacing in time the location of the maximum, therefore, the maximum we have found should be thought of as the minimum time required to get to the maximum point.</p>
+<p>It is recommended to try using the fast-and-furious estimation to see when the maximum would be.</p>
+<p><a href="#">Back to top</a></p>
+<!-- final epidemic size -->
+</div>
+<div id="final-epidemic-size" class="section level2">
+<h2><span class="header-section-number">4.3</span> Final Epidemic Size</h2>
+<p>We denote as <strong>final epidemic state</strong> as the moment in which the epidemic self-extinguishes. In this moment, denoted by <span class="math inline">\((I^*, S^*, R^*)\)</span>, then <span class="math inline">\(I^*=0\)</span>, <span class="math inline">\(S^*\)</span> is the fraction of susceptibles that escape infection and <span class="math inline">\(R^*\)</span> is the <strong>final epidemic size</strong>.</p>
+<p>For the close epidemic model, Swinton found an exact formula for the final epidemic size, given by</p>
+<p><span class="math display">\[\begin{equation}
+s^* = e^{-R_0(1-s^*)}
+\end{equation}\]</span></p>
+<p>an implicit equation that can be solved numerically using <code>uniroot</code>. We can use it to see the dependency of the final epidemic size with <span class="math inline">\(R_0\)</span> as</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">impl_eq &lt;-<span class="st"> </span><span class="cf">function</span>(x, R0){</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="kw">exp</span>(<span class="op">-</span>R0<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>x))<span class="op">-</span>x</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5">R0 &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="fl">0.01</span>)</a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">root &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&#39;numeric&#39;</span>, <span class="dt">length =</span> <span class="kw">length</span>(R0))</a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(R0)){</a>
+<a class="sourceLine" id="cb13-9" data-line-number="9">  root[i] &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">uniroot</span>(impl_eq, <span class="dt">lower =</span> <span class="dv">0</span>, <span class="dt">upper =</span> <span class="dv">1</span><span class="fl">-1e-9</span>, </a>
+<a class="sourceLine" id="cb13-10" data-line-number="10">                         <span class="dt">tol =</span> <span class="fl">1e-9</span>, <span class="dt">R0 =</span> R0[i])<span class="op">$</span>root</a>
+<a class="sourceLine" id="cb13-11" data-line-number="11">}</a>
+<a class="sourceLine" id="cb13-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="kw">plot</span>(R0, root, <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>,</a>
+<a class="sourceLine" id="cb13-14" data-line-number="14">     <span class="dt">ylab =</span> <span class="st">&quot;Final Epidemic Size&quot;</span>,</a>
+<a class="sourceLine" id="cb13-15" data-line-number="15">     <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="st">&#39;R&#39;</span>[<span class="dv">0</span>]))</a>
+<a class="sourceLine" id="cb13-16" data-line-number="16"><span class="kw">segments</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a></code></pre></div>
+<p><img src="18_NetEpi_files/figure-html/unnamed-chunk-14-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>this graph should remind us of the size of the giant component in a Poisson (random) network. Let’s see what is the value in our estimated model.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">uniroot</span>(impl_eq, <span class="dt">lower =</span> <span class="dv">0</span>, <span class="dt">upper =</span> <span class="dv">1</span><span class="fl">-1e-9</span>, <span class="dt">tol =</span> <span class="fl">1e-9</span>, <span class="dt">R0 =</span> <span class="fl">10.89</span>)<span class="op">$</span>root</a></code></pre></div>
+<pre><code>## [1] 0.9999814</code></pre>
+<p>then the final epidemic size is 99.9981%, and then the fraction of population that will escape the infection is 1.910^{-5}. Again, this changes significantly when we consider the fast-and-furious approximation</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">a &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">uniroot</span>(impl_eq, <span class="dt">lower =</span> <span class="dv">0</span>, <span class="dt">upper =</span> <span class="dv">1</span><span class="fl">-1e-9</span>, </a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">                 <span class="dt">tol =</span> <span class="fl">1e-9</span>, <span class="dt">R0 =</span> <span class="fl">2.0654</span>)<span class="op">$</span>root</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">b &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">uniroot</span>(impl_eq, <span class="dt">lower =</span> <span class="dv">0</span>, <span class="dt">upper =</span> <span class="dv">1</span><span class="fl">-1e-9</span>, </a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">                 <span class="dt">tol =</span> <span class="fl">1e-9</span>, <span class="dt">R0 =</span> <span class="fl">2.79596</span>)<span class="op">$</span>root</a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="kw">cat</span>(a, b)</a></code></pre></div>
+<pre><code>## 0.8137663 0.9246188</code></pre>
+<p>and the final epidemic size goes from 81.38% to 92.43%. Close but not as extreme as the previous value.</p>
+<p><a href="#">Back to top</a></p>
+</div>
+</div>
+
+<footer>
+  <div id="rbmvFooter" class="footer">
+    <div class="footerContent">
+    
+    <p>Copyright &copy; 2020 Juanjo Manjarín, IE University. All rights reserved.</p>
+    
+    </div>
+  </div>
+</footer>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
